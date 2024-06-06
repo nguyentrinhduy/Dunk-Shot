@@ -4,7 +4,8 @@
     "main": "src/main.js",
     "scripts": {
         "dev": "webpack-dev-server --config webpack/config.dev.js --open",
-        "build": "webpack --config webpack/config.prod.js"
+        "build": "webpack --config webpack/config.prod.js",
+        "util:format": "prettier --write src/**"
     },
     "repository": {
         "type": "git",
@@ -17,6 +18,17 @@
         "url": "https://github.com/phaserjs/template-webpack/issues"
     },
     "homepage": "https://github.com/phaserjs/template-webpack#readme",
+    "prettier": {
+        "tabWidth": 4,
+        "printWidth": 100,
+        "trailingComma": "es5",
+        "semi": false,
+        "singleQuote": true,
+        "bracketSpacing": true,
+        "jsxBracketSameLine": false,
+        "arrowParens": "always",
+        "endOfLine": "lf"
+    },
     "devDependencies": {
         "@babel/core": "^7.24.5",
         "@babel/preset-env": "^7.24.5",
