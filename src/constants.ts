@@ -4,8 +4,10 @@ export const CONSTANT = {
         PATH: 'assets/sprites/',
 
         BALLS: {
+            KEY: 'balls',
             PATH: 'balls/',
-            NUMBER: 29
+            NUMBER: 78,
+            RADIUS_BOUND: 100
         },
 
         BASKETS: {
@@ -208,13 +210,18 @@ export const CONSTANT = {
         }
     },
     
-    PLAYING_SCENE: {
+    PLAYING_GAME_SCENE: {
         BALL: {
-
+            START_POSITION: {
+                X: 200,
+                Y: 500
+            },
+            SCALE: 0.5
         },
         BASKET: {
-            
-        }
+
+        },
+        GRAVITY: 1500
     },
 
     GAME_OVER_SCENE: {

@@ -1,35 +1,29 @@
 import { Scene } from 'phaser';
-
+import { Ball } from '../game-objects/Ball';
+import { CONSTANT } from '../constants';
+const { BALL, BASKET, GRAVITY } = CONSTANT.PLAYING_GAME_SCENE
 export class PlayingGameScene extends Scene
 {
     camera: Phaser.Cameras.Scene2D.Camera;
-    background: Phaser.GameObjects.Image;
-    msg_text : Phaser.GameObjects.Text;
+    private ball: Ball
 
     constructor ()
     {
         super('PlayingGameScene');
+        this.ball = new Ball(
+            BALL.START_POSITION.X,
+            BALL.START_POSITION.Y
+        )
     }
 
     create ()
     {
-        this.camera = this.cameras.main;
-        this.camera.setBackgroundColor(0x00ff00);
+        this.physics.world.gravity.y = GRAVITY
+        this.ball.draw(this, BALL.SCALE)
+        // this.input.once('pointerdown', () => {
 
-        this.background = this.add.image(512, 384, 'background');
-        this.background.setAlpha(0.5);
+        //     this.scene.start('GameOverScene');
 
-        this.msg_text = this.add.text(512, 384, 'Make something fun!\nand share it with us:\nsupport@phaser.io', {
-            fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 8,
-            align: 'center'
-        });
-        this.msg_text.setOrigin(0.5);
-
-        this.input.once('pointerdown', () => {
-
-            this.scene.start('GameOverScene');
-
-        });
+        // });
     }
 }

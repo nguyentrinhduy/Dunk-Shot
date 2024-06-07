@@ -36,6 +36,9 @@ export class PreloaderScene extends Scene {
         // Load the images
         this.load.setPath(CONSTANT.SPRITES.PATH)
         // Balls
+        for (let ballType = 0; ballType < BALLS.NUMBER; ballType ++) {
+            this.load.image(this.getBallKey(ballType), this.getBallPath(ballType))
+        }
         // Baskets
         // Effects
         // Components
@@ -53,6 +56,19 @@ export class PreloaderScene extends Scene {
         //  For example, you can define global animations here, so we can use them in other scenes.
 
         //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
-        this.scene.start('PlayingScene')
+        this.scene.start('PlayingGameScene')
+    }
+    private getBallPath(ballType: number): string {
+        if (ballType < 0 || ballType > BALLS.NUMBER) {
+            throw new Error("ball not found")
+        }
+        console.log(BALLS.PATH + Math.floor(ballType/10).toString() + (ballType%10).toString() + '.png')
+        return BALLS.PATH + Math.floor(ballType/10).toString() + (ballType%10).toString() + '.png'
+    }
+    private getBallKey(ballType: number): string {
+        if (ballType < 0 || ballType > BALLS.NUMBER) {
+            throw new Error("ball not found")
+        }
+        return BALLS.KEY + Math.floor(ballType/10).toString() + (ballType%10).toString()
     }
 }
