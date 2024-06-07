@@ -4,6 +4,7 @@ import { BootScene } from "./scenes/BootScene";
 import { PreloaderScene } from "./scenes/PreloaderScene";
 import { PlayingGameScene } from "./scenes/PlayingGameScene";
 import { GameOverScene } from "./scenes/GameOverScene";
+import { AccurateChallengeScene } from "./scenes/AccurateChallengeScene";
 
 const config: Types.Core.GameConfig = {
     type: Phaser.AUTO,
@@ -20,7 +21,9 @@ const config: Types.Core.GameConfig = {
         PreloaderScene,
         MainMenuScene,
         PlayingGameScene,
-        GameOverScene
+        GameOverScene,
+        AccurateChallengeScene,
+        
     ]
 };
 

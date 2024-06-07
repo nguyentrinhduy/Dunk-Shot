@@ -1,9 +1,12 @@
 import { GameObjects, Scene } from 'phaser'
 import { CONSTANT } from '../constants'
-
+const { PRELOAD_SCENE, SPRITES } = CONSTANT
+const { BALLS, COMPONENTS, BASKETS } = SPRITES
+const { BUTTONS, SPINS, TEXTS, ICONS } = COMPONENTS
+const { LOGO, PROGRESS_BAR, BACKGROUND } = PRELOAD_SCENE
 export class PreloaderScene extends Scene {
     private logo: GameObjects.Image
-
+    
     public constructor() {
         super('PreloaderScene')
     }
@@ -11,14 +14,14 @@ export class PreloaderScene extends Scene {
     init() {
         //  We loaded this image in our Boot Scene, so we can display it here
         this.logo = this.add.image(
-            CONSTANT.PRELOAD_SCENE.LOGO.POSITION.X, 
-            CONSTANT.PRELOAD_SCENE.LOGO.POSITION.Y,
-            CONSTANT.SPRITES.COMPONENTS.LOGO.KEY
+            LOGO.POSITION.X, 
+            LOGO.POSITION.Y,
+            LOGO.KEY
         )
-        
+
         //  A simple progress bar. This is the outline of the bar.
         this.add.rectangle(512, 384, 468, 32).setStrokeStyle(1, 0xffffff)
-
+        
         //  This is the progress bar itself. It will increase in size from the left based on the % of progress.
         const bar = this.add.rectangle(512 - 230, 384, 4, 28, 0xffffff)
 
@@ -31,6 +34,16 @@ export class PreloaderScene extends Scene {
 
     preload() {
         // Load the images
+        this.load.setPath(CONSTANT.SPRITES.PATH)
+        // Balls
+        // Baskets
+        // Effects
+        // Components
+        this.load.image(BUTTONS.CHALLENGES.KEY, BUTTONS.CHALLENGES.PATH)
+        this.load.image(TEXTS.DRAG_IT.KEY, TEXTS.DRAG_IT.PATH)
+        this.load.image(BUTTONS.ORANGE_BACKGROUND.KEY, BUTTONS.ORANGE_BACKGROUND.PATH)
+        this.load.image(BUTTONS.SETTINGS.KEY, BUTTONS.SETTINGS.PATH)
+        this.load.image(ICONS.ORANGE_BALL_ICON.KEY, ICONS.ORANGE_BALL_ICON.PATH)
         
         // Load the sounds
     }
@@ -40,6 +53,6 @@ export class PreloaderScene extends Scene {
         //  For example, you can define global animations here, so we can use them in other scenes.
 
         //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
-        this.scene.start('MainMenuScene')
+        this.scene.start('PlayingScene')
     }
 }
