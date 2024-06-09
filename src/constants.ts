@@ -10,8 +10,55 @@ export const CONSTANT = {
             RADIUS_BOUND: 100
         },
 
-        BASKETS: {
+        LOCKED_BALL: {
+            KEY: 'locked_ball',
+            PATH: 'balls/locked_ball.png'
+        },
 
+        BASKETS: {
+            COLLIDER: {
+                LEFT: {
+                    POSITION: {
+                        X: -77,
+                        Y: -41
+                    },
+                    RADIUS_BOUND: 10
+                },
+                RIGHT: {
+                    POSITION: {
+                        X: 88,
+                        Y: -41
+                    },
+                    RADIUS_BOUND: 10
+                }
+            },
+            ROUND_UP: {
+                KEY: 'round_up',
+                PATH: 'baskets/round_up.png',
+                TINT: 0xca0000,
+                POSITION: {
+                    X: 0,
+                    Y: -46,
+                }
+            },
+            ROUND_DOWN: {
+                KEY: 'round_down',
+                PATH: 'baskets/round_down.png',
+                TINT: 0xca0000,
+                POSITION: {
+                    X: 0,
+                    Y: -46
+                }
+            },
+            NET: {
+                KEY: 'net',
+                PATH: 'baskets/net.png',
+                TINT: 0xffffff,
+                POSITION: {
+                    X: 0,
+                    Y: 0
+                }
+            }
         },
 
         EFFECTS: {
@@ -213,7 +260,7 @@ export const CONSTANT = {
     PLAYING_GAME_SCENE: {
         BALL: {
             START_POSITION: {
-                X: 200,
+                X: 270,
                 Y: 500
             },
             SCALE: 0.5

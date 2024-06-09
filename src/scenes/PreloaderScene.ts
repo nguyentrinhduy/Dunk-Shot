@@ -1,7 +1,7 @@
 import { GameObjects, Scene } from 'phaser'
 import { CONSTANT } from '../constants'
 const { PRELOAD_SCENE, SPRITES } = CONSTANT
-const { BALLS, COMPONENTS, BASKETS } = SPRITES
+const { BALLS, COMPONENTS, BASKETS, LOCKED_BALL } = SPRITES
 const { BUTTONS, SPINS, TEXTS, ICONS } = COMPONENTS
 const { LOGO, PROGRESS_BAR, BACKGROUND } = PRELOAD_SCENE
 export class PreloaderScene extends Scene {
@@ -39,7 +39,11 @@ export class PreloaderScene extends Scene {
         for (let ballType = 0; ballType < BALLS.NUMBER; ballType ++) {
             this.load.image(this.getBallKey(ballType), this.getBallPath(ballType))
         }
+        this.load.image(LOCKED_BALL.KEY, LOCKED_BALL.PATH)
         // Baskets
+        this.load.image(BASKETS.ROUND_UP.KEY, BASKETS.ROUND_UP.PATH)
+        this.load.image(BASKETS.ROUND_DOWN.KEY, BASKETS.ROUND_DOWN.PATH)
+        this.load.image(BASKETS.NET.KEY, BASKETS.NET.PATH)
         // Effects
         // Components
         this.load.image(BUTTONS.CHALLENGES.KEY, BUTTONS.CHALLENGES.PATH)
@@ -47,7 +51,6 @@ export class PreloaderScene extends Scene {
         this.load.image(BUTTONS.ORANGE_BACKGROUND.KEY, BUTTONS.ORANGE_BACKGROUND.PATH)
         this.load.image(BUTTONS.SETTINGS.KEY, BUTTONS.SETTINGS.PATH)
         this.load.image(ICONS.ORANGE_BALL_ICON.KEY, ICONS.ORANGE_BALL_ICON.PATH)
-        
         // Load the sounds
     }
 
