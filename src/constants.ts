@@ -46,6 +46,16 @@ export const CONSTANT = {
                 }
             },
 
+            PANELS: {
+                GRAY_TOP_PANEL: {
+                    KEY: 'gray_top_panel',
+                    PATH: 'components/panels/gray_top_panel.png'
+                },
+                BLUE_TOP_PANEL: {
+                    KEY: 'blue_top_panel',
+                    PATH: 'components/panels/blue_top_panel.png'
+                }
+            },
             ICONS: {
                 ORANGE_BALL_ICON: {
                     KEY: 'orange_ball_icon',
@@ -54,6 +64,10 @@ export const CONSTANT = {
                 STARS: {
                     KEY: 'stars',
                     PATH: 'components/icons/stars.png'
+                },
+                CHOSEN_ROUND: {
+                    KEY: 'chosen_round',
+                    PATH: 'components/icons/chosen_round.png'
                 }
             },
             LOGO: {
@@ -224,6 +238,60 @@ export const CONSTANT = {
         GRAVITY: 1500
     },
 
+    CHALLENGE_MENU_SCENE: {
+
+    },
+    BALL_SKINS_MENU_SCENE: {
+        BALLS: {
+            NUMBER: 78,
+            KEY: 'balls'
+        },
+        UNKNOWN_BALL: {
+            KEY: 'unknown_ball'
+        },
+        TOP_PANEL: {
+            KEY: 'gray_top_panel',
+            POSITION: {
+                X: 380,
+                Y: 40
+            }
+        },
+        LIST_REGION: {
+            POSIITON: {
+                X: 150,
+                Y: 300
+            },
+            SIZE: {
+                WIDTH: 700,
+                HEIGHT: 800
+            }
+        },
+        BACK_BUTTON: {
+            POSITION: {
+                X: 0,
+                Y: 0
+            },
+            KEY: 'back'
+        },
+        STAR_OBJECT: {
+            POSITION: {
+                X: 0,
+                Y: 0
+            },
+            SIZE: 30
+        },
+        STAR_ICON: {
+            KEY: 'star_icon',
+            POSITION: {
+                X: 0,
+                Y: 0
+            }
+        },
+        CHOSEN_ROUND: {
+            KEY: 'chosen_round',
+        }
+
+    },
     GAME_OVER_SCENE: {
 
     }

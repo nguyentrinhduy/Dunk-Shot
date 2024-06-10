@@ -2,7 +2,7 @@ import { GameObjects, Scene } from 'phaser'
 import { CONSTANT } from '../constants'
 const { PRELOAD_SCENE, SPRITES } = CONSTANT
 const { BALLS, COMPONENTS, BASKETS } = SPRITES
-const { BUTTONS, SPINS, TEXTS, ICONS } = COMPONENTS
+const { BUTTONS, SPINS, TEXTS, ICONS, PANELS } = COMPONENTS
 const { LOGO, PROGRESS_BAR, BACKGROUND } = PRELOAD_SCENE
 export class PreloaderScene extends Scene {
     private logo: GameObjects.Image
@@ -47,7 +47,9 @@ export class PreloaderScene extends Scene {
         this.load.image(BUTTONS.ORANGE_BACKGROUND.KEY, BUTTONS.ORANGE_BACKGROUND.PATH)
         this.load.image(BUTTONS.SETTINGS.KEY, BUTTONS.SETTINGS.PATH)
         this.load.image(ICONS.ORANGE_BALL_ICON.KEY, ICONS.ORANGE_BALL_ICON.PATH)
-        
+        this.load.image(PANELS.BLUE_TOP_PANEL.KEY, PANELS.BLUE_TOP_PANEL.PATH)
+        this.load.image(PANELS.GRAY_TOP_PANEL.KEY, PANELS.GRAY_TOP_PANEL.PATH)
+        this.load.image(ICONS.CHOSEN_ROUND.KEY, ICONS.CHOSEN_ROUND.PATH)
         // Load the sounds
     }
 
@@ -56,7 +58,7 @@ export class PreloaderScene extends Scene {
         //  For example, you can define global animations here, so we can use them in other scenes.
 
         //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
-        this.scene.start('PlayingGameScene')
+        this.scene.start('MainMenuScene')
     }
     private getBallPath(ballType: number): string {
         if (ballType < 0 || ballType > BALLS.NUMBER) {

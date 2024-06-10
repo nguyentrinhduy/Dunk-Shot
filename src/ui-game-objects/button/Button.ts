@@ -1,4 +1,5 @@
 import { Game, GameObjects, Scene } from 'phaser'
+import { Ball } from '../../game-objects/Ball'
 
 export class Button {
     private container: GameObjects.Container
@@ -6,6 +7,7 @@ export class Button {
     private text: GameObjects.Text
     private image: GameObjects.Image
     private gameObjects: GameObjects.GameObject[]
+    private scene: Phaser.Scene
     private x: number
     private y: number
     private imageX: number
@@ -97,6 +99,7 @@ export class Button {
         this.container = currentScene.add.container(this.x, this.y, this.gameObjects)
         this.container.setSize(this.background.width, this.background.height)
         this.container.setInteractive()
+        this.scene = currentScene
     }
 
     public addBackground(currentScene: Scene, backgroundKey: string, x: number = this.backgroundX, y: number = this.backgroundY): void {
@@ -120,17 +123,32 @@ export class Button {
         this.textX = x
         this.textY = y
     }
-    public addOnClickListener(fn: Function) {
-        this.container.on('pointerup', fn)
+    public addOnClickListener(callback: (event: Phaser.Types.Input.EventData) => void, fn: Function = () => {}) {
+        this.container.on('pointerdown', (event: Phaser.Types.Input.EventData) => {
+            event.stopPropagation = fn
+            callback(event)
+        });
         this.addEventHoverListener()
     }
 
     private addEventHoverListener() {
         this.container.on('pointerover', () => {
-            this.container.setScale(1.2)
+            this.scene.add.tween({
+                targets: this.container,
+                scale: {
+                    value: 1.2,
+                    duration: 100
+                }
+            })
         })
         this.container.on('pointerout', () => {
-            this.container.setScale()
+            this.scene.add.tween({
+                targets: this.container,
+                scale: {
+                    value: 1,
+                    duration: 100
+                }
+            })
         })
     }
 }
