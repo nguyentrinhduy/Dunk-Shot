@@ -16,6 +16,7 @@ export class BallSkinsScene extends Scene {
         
     }
     create() {
+        this.input.setTopOnly(true)
         let topPanel = this.add.image(
             TOP_PANEL.POSITION.X,
             TOP_PANEL.POSITION.Y,
@@ -47,28 +48,31 @@ export class BallSkinsScene extends Scene {
             LIST_REGION.SIZE.HEIGHT
         )
         this.skinsContainer.setMask(mask.createGeometryMask())
+        this.skinsContainer.setInteractive()
         this.skinsContainer.once('pointerdown', (pointer: Phaser.Input.Pointer) => {
+            console.log(pointer.x, pointer.y)
             this.chosenRound.setX(Math.floor(pointer.x/150)*150)
             this.chosenRound.setY(Math.floor(pointer.y/150)*150)
         })
         // Add a pointer down event to start scrolling
-        this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
+        this.skinsContainer.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
             this.scrollFactor = pointer.y;
-        }, this);
+        });
         // Add a pointer move event to update the scroll
-        this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
+        this.skinsContainer.on('pointermove', (pointer: Phaser.Input.Pointer) => {
+            // console.log(pointer.y, this.skinsContainer.y)
             if (pointer.isDown) {
                 this.skinsContainer.y += pointer.y - this.scrollFactor;
                 this.skinsContainer.y = Math.min(LIST_REGION.POSIITON.Y, this.skinsContainer.y)
                 this.skinsContainer.y = Math.max(LIST_REGION.POSIITON.Y - 2500, this.skinsContainer.y)
                 this.scrollFactor = pointer.y;
             }
-        }, this);
+        });
 
-        // Add a pointer up event to stop scrolling
-        this.input.on('pointerup', () => {
+        // // Add a pointer up event to stop scrolling
+        this.skinsContainer.on('pointerup', () => {
             this.scrollFactor = 0;
-        }, this);
+        });
     }
     private getBallKey(ballType: number): string {
         if (ballType < 0 || ballType > BALLS.NUMBER) {

@@ -87,7 +87,7 @@ export class MainMenuScene extends Scene {
         this.ballSkinsButton.addOnClickListener(this.onBallSkinsButtonClicked, this.onMainScreenClicked)
         this.settingsButton.addOnClickListener(this.onSettingsButtonClicked)
         this.challengeButton.addOnClickListener(this.onChallengeButtonClicked)
-        this.input.once('pointerdown', this.onMainScreenClicked)
+        // this.input.once('pointerdown', this.onMainScreenClicked)
     }
     private onBallSkinsButtonClicked = () => {
         this.scene.start('BallSkinsScene')
