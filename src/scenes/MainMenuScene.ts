@@ -7,7 +7,6 @@ const { BUTTONS, ICONS, TEXT } = CONSTANT.MAIN_MENU_SCENE;
 // Use BUTTONS directly in the code
 
 export class MainMenuScene extends Scene {
-    private background: GameObjects.Image
     private logo: GameObjects.Image
     private starIcon: GameObjects.Image
     private starsObject: GameObjects.Text
@@ -83,11 +82,10 @@ export class MainMenuScene extends Scene {
         this.setOnClickListener()
     }
     private setOnClickListener() {
-        
+        this.input.setTopOnly(true)
         this.ballSkinsButton.addOnClickListener(this.onBallSkinsButtonClicked)
         this.settingsButton.addOnClickListener(this.onSettingsButtonClicked)
         this.challengeButton.addOnClickListener(this.onChallengeButtonClicked)
-        
     }
     private onBallSkinsButtonClicked = () => {
         this.scene.start('BallSkinsScene')

@@ -34,6 +34,9 @@ export class Ball {
         console.log(BALLS.KEY + Math.floor(this.ballType/10).toString() + (this.ballType%10).toString())
         return BALLS.KEY + Math.floor(this.ballType/10).toString() + (this.ballType%10).toString()
     }
+    public update() {
+        this.ball.rotation += 0.0005*this.ball.body.velocity.x
+    }
     public rotate() {
 
     }

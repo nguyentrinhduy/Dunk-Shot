@@ -260,10 +260,10 @@ export const CONSTANT = {
     PLAYING_GAME_SCENE: {
         BALL: {
             START_POSITION: {
-                X: 270,
+                X: 300,
                 Y: 500
             },
-            SCALE: 0.5
+            SCALE: 0.4
         },
         BASKET: {
 

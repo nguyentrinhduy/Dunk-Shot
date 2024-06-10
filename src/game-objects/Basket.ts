@@ -1,16 +1,21 @@
 import { Game, GameObjects, Scene } from "phaser";
 import { CONSTANT } from "../constants";
 import { Ball } from "./Ball";
+import { BasketState } from "./BasketState";
 const { BASKETS } = CONSTANT.SPRITES
 export class Basket {
     private round_up: GameObjects.Image
     private round_down: GameObjects.Image
     private net: GameObjects.Image
-    private container: GameObjects.Container
+    private netContainer: GameObjects.Container
+    private roundUpContainer: GameObjects.Container
+    private roundDownContainer: GameObjects.Container
     private leftCollider: Phaser.Types.Physics.Arcade.ImageWithDynamicBody
     private rightCollider: Phaser.Types.Physics.Arcade.ImageWithDynamicBody
     private netCollider: Phaser.Types.Physics.Arcade.ImageWithDynamicBody[]
+    private state: BasketState
     private scene: Phaser.Scene
+    private ball: Ball
     private x: number
     private y: number
     public constructor(x: number = 0, y: number = 0) {
@@ -57,64 +62,128 @@ export class Basket {
         });
         
         this.round_up = currentScene.add.image(
-            this.x + BASKETS.ROUND_UP.POSITION.X,
-            this.y + BASKETS.ROUND_UP.POSITION.Y,
+            BASKETS.ROUND_UP.POSITION.X,
+            BASKETS.ROUND_UP.POSITION.Y,
             BASKETS.ROUND_UP.KEY
         )
         this.round_up.setTint(BASKETS.ROUND_UP.TINT)
-        this.round_up.setDepth(1)
+        
         this.round_down = currentScene.add.image(
-            this.x + BASKETS.ROUND_DOWN.POSITION.X,
-            this.y + BASKETS.ROUND_DOWN.POSITION.Y,
+            BASKETS.ROUND_DOWN.POSITION.X,
+            BASKETS.ROUND_DOWN.POSITION.Y,
             BASKETS.ROUND_DOWN.KEY
         )
         this.round_down.setTint(BASKETS.ROUND_DOWN.TINT)
-        this.round_down.setDepth(7)
+        
         this.net = currentScene.add.image(
             BASKETS.NET.POSITION.X,
             BASKETS.NET.POSITION.Y,
             BASKETS.NET.KEY
         )
-        this.container = currentScene.add.container(this.x, this.y, [this.net, this.leftCollider, this.rightCollider])
+        this.netContainer = currentScene.add.container(this.x, this.y, [this.net, this.leftCollider, this.rightCollider])
         this.netCollider.forEach(element => {
-            this.container.add(element)
+            this.netContainer.add(element)
         });
-        this.container.setDepth(6)
+        this.roundDownContainer = currentScene.add.container(this.x, this.y, [this.round_down])
+        this.roundDownContainer.setDepth(7)
+        this.roundUpContainer = currentScene.add.container(this.x, this.y, [this.round_up])
+        this.roundUpContainer.setDepth(1)
+        this.netContainer.setDepth(6)
     }
     public getContainer() {
 
     }
     public collidesWithBall(currentScene: Scene, ball: Ball) {
+        this.ball = ball
         let ballObject = ball.getBallObject()
         currentScene.physics.add.collider(ballObject, this.leftCollider)
         currentScene.physics.add.collider(ballObject, this.rightCollider)
-        this.netCollider.forEach(collider => {
-            const netCollider = currentScene.physics.add.collider(ballObject, collider, this.onNetElastic);
-            // netCollider.collideCallback = this.onNetElastic
-        });
+        for (let i = 0; i <= 16; i ++) {
+            if (i == 9) {
+                currentScene.physics.add.collider(ballObject, this.netCollider[i], this.onBallCollider)
+            }
+            else{
+                currentScene.physics.add.collider(ballObject, this.netCollider[i])
+            }
+        }
     }
-    private onNetElastic = (ballObject: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, collider: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) => {
-        const ball = ballObject as Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
-        ball.setVelocity(0, 0)
-        this.container.y += 10
-        this.scene.tweens.add({
-            targets: this.container,
-            y: '-=10',
-            duration: 200,
-            ease: 'Bounce',
-            // onComplete: () => {
-            //     if (ball.body.velocity.x === 0 && ball.body.velocity.y === 0) {
-            //         this.scene.physics.world.colliders.remove(collider);
-            //     }
-            // }
+    public drag(pointer: Phaser.Input.Pointer) {
+        // if (this.state == BasketState.notContainBall) return
+        let direction = new Phaser.Math.Vector2(pointer.downX - pointer.x, pointer.downY - pointer.y)
+        let straignDirection = new Phaser.Math.Vector2(0, 1)
+        let angle = Phaser.Math.RadToDeg(Phaser.Math.Angle.BetweenPoints(
+            new Phaser.Math.Vector2(pointer.downX, pointer.downY),
+            new Phaser.Math.Vector2(pointer.x, pointer.y)
+        )) - 90
+        this.netContainer.setAngle(angle)
+        this.roundDownContainer.setAngle(angle)
+        this.roundUpContainer.setAngle(angle)
+        let length = Phaser.Math.Distance.Between(pointer.downX, pointer.downY, pointer.x, pointer.y)
+        this.net.scaleY = 1 + 0.5*Math.min(length, 300)/300
+    }
+    public undrag() {
+        
+    }
+    private onBallCollider = () => {
+        let ballObject = this.ball.getBallObject()
+        
+        console.log(ballObject.x, this.netCollider[8].x)
+        this.onBallentered()
+    }
+    private onBallentered() {
+        let ballObject = this.ball.getBallObject()
+        ballObject.setVelocity(0, 0)
+        let positionY = ballObject.y
+        ballObject.body.setAllowGravity(false)
+        ballObject.body.setImmovable(true)
+        ballObject.body.setEnable(false)
+        this.scene.tweens.chain({
+            targets: this.netContainer,
+            tweens: [
+                {
+                    angle: 0,
+                    duration: 20,
+                    ease: 'linear'
+                },
+                {
+                    scaleY: {
+                        value: 1.3,
+                        duration: 50
+                    },
+                    ease: 'linear'
+                },
+                {
+                    scaleY: {
+                        value: 1,
+                        duration: 50
+                    },
+                    ease: 'linear'
+                }
+            ]
+        })
+        this.scene.tweens.chain({
+            targets: ballObject,
+            tweens: [
+                {
+                    y: { value: this.netContainer.y + this.netCollider[9].y - ballObject.body.width + 35, duration: 50, ease: 'linear'},
+                    // x: { value: this.container.x + this.netCollider[8].x}
+                },
+                {
+                    y: { value: this.netContainer.y + this.netCollider[9].y - ballObject.body.width + 23, duration: 50, ease: 'linear'},
+                }
+            ],
+            onComplete: () => {
+                ballObject.body.setEnable(true)
+                
+            }
         })
     }
     public setX(x: number) {
-        this.container.setX(x)
+        this.netContainer.setX(x)
         this.x = x
     }
     public setY(y: number) {
-        this.container.setY(y)
+        this.netContainer.setY(y)
         this.y = y
     }
 }

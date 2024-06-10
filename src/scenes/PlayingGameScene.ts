@@ -15,13 +15,15 @@ export class PlayingGameScene extends Scene {
 
     create() {
         this.physics.world.gravity.y = GRAVITY
-        this.ball.draw(this, BALL.SCALE)
-        this.ball.setDepth(3)
+        // this.ball.draw(this, BALL.SCALE)
+        // this.ball.setDepth(3)
 
         this.basket.draw(this)
-        this.basket.collidesWithBall(this, this.ball)
-
-        
+        // this.basket.collidesWithBall(this, this.ball)
+        this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
+            if (pointer.isDown)
+            this.basket.drag(pointer)
+        })
         // this.input.once('pointerdown', () => {
 
         //     this.scene.start('GameOverScene');
@@ -29,6 +31,6 @@ export class PlayingGameScene extends Scene {
         // });
     }
     update() {
-        
+        // this.ball.update()
     }
 }
