@@ -1,20 +1,18 @@
 import { Scene, GameObjects, Game } from 'phaser'
+import { Button } from '../../ui-game-objects/button/Button';
+import { Stars } from '../../ui-game-objects/Stars';
 // import { Button } from '../ui-game-objects/Button';
-import { CONSTANT } from '../constants'
-import { Button } from '../ui-game-objects/button/Button'
-const { BUTTONS, ICONS, TEXT } = CONSTANT.MAIN_MENU_SCENE;
 
 // Use BUTTONS directly in the code
 
 export class MainMenuScene extends Scene {
     private logo: GameObjects.Image
-    private starIcon: GameObjects.Image
-    private starsObject: GameObjects.Text
-    private stars: number
+    private stars: Stars
 
     private challengeButton: Button
     private ballSkinsButton: Button
     private settingsButton: Button
+    
     constructor() {
         super('MainMenuScene')
         this.challengeButton = new Button(
@@ -29,9 +27,6 @@ export class MainMenuScene extends Scene {
             BUTTONS.SETTINGS.POSITION.X,
             BUTTONS.SETTINGS.POSITION.Y
         )
-    }
-    init(data: object | undefined) {
-        if (data == undefined) return
     }
     create() {
         // this.input.once('pointerup', this.onMainScreenClicked)

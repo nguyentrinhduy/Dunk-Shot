@@ -1,22 +1,9 @@
 import { GameObjects, Scene } from "phaser";
-import { CONSTANT } from "../constants";
-const { BALLS } = CONSTANT.SPRITES
-export class Ball {
+
+export class Ball extends Phaser.GameObjects.Container{
     private ballType: number
     private ball: Phaser.Types.Physics.Arcade.ImageWithDynamicBody
-    private x: number
-    private y: number
-    public constructor(x: number, y: number, ballType = 0) {
-        this.ballType = ballType
-        this.x = x
-        this.y = y
-    }
-    public setPhysics(currentScene: Scene) {
-        
-    }
-    public setDepth(depth: number) {
-        this.ball.setDepth(depth)
-    }
+    
     public setBallType(ballType: number) {
         this.ballType = ballType
     }

@@ -1,6 +1,5 @@
 import { Game, GameObjects, Scene } from "phaser";
-import { CONSTANT } from "../constants";
-import { Ball } from "./Ball";
+import { Ball } from "../Ball/Ball";
 import { BasketState } from "./BasketState";
 const { BASKETS } = CONSTANT.SPRITES
 export class Basket {

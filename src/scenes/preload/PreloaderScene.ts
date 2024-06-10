@@ -1,27 +1,24 @@
 import { GameObjects, Scene } from 'phaser'
-import { CONSTANT } from '../constants'
+import { Background } from '../../ui-game-objects/background'
+import { sprite_path } from '../../contstants/resources/Sprite'
 const { PRELOAD_SCENE, SPRITES } = CONSTANT
 const { BALLS, COMPONENTS, BASKETS, LOCKED_BALL } = SPRITES
 const { BUTTONS, SPINS, TEXTS, ICONS } = COMPONENTS
 const { LOGO, PROGRESS_BAR, BACKGROUND } = PRELOAD_SCENE
 export class PreloaderScene extends Scene {
     private logo: GameObjects.Image
-    
+    private background: Background
     public constructor() {
         super('PreloaderScene')
     }
 
     init() {
         //  We loaded this image in our Boot Scene, so we can display it here
-        this.logo = this.add.image(
-            LOGO.POSITION.X, 
-            LOGO.POSITION.Y,
-            LOGO.KEY
-        )
+        this.logo = this.add.image(LOGO.POSITION.X, LOGO.POSITION.Y, LOGO.KEY)
 
         //  A simple progress bar. This is the outline of the bar.
         this.add.rectangle(512, 384, 468, 32).setStrokeStyle(1, 0xffffff)
-        
+
         //  This is the progress bar itself. It will increase in size from the left based on the % of progress.
         const bar = this.add.rectangle(512 - 230, 384, 4, 28, 0xffffff)
 
@@ -34,9 +31,9 @@ export class PreloaderScene extends Scene {
 
     preload() {
         // Load the images
-        this.load.setPath(CONSTANT.SPRITES.PATH)
+        this.load.setPath(sprite_path)
         // Balls
-        for (let ballType = 0; ballType < BALLS.NUMBER; ballType ++) {
+        for (let ballType = 0; ballType < BALLS.NUMBER; ballType++) {
             this.load.image(this.getBallKey(ballType), this.getBallPath(ballType))
         }
         this.load.image(LOCKED_BALL.KEY, LOCKED_BALL.PATH)
@@ -63,15 +60,19 @@ export class PreloaderScene extends Scene {
     }
     private getBallPath(ballType: number): string {
         if (ballType < 0 || ballType > BALLS.NUMBER) {
-            throw new Error("ball not found")
+            throw new Error('ball not found')
         }
-        console.log(BALLS.PATH + Math.floor(ballType/10).toString() + (ballType%10).toString() + '.png')
-        return BALLS.PATH + Math.floor(ballType/10).toString() + (ballType%10).toString() + '.png'
+        console.log(
+            BALLS.PATH + Math.floor(ballType / 10).toString() + (ballType % 10).toString() + '.png'
+        )
+        return (
+            BALLS.PATH + Math.floor(ballType / 10).toString() + (ballType % 10).toString() + '.png'
+        )
     }
     private getBallKey(ballType: number): string {
         if (ballType < 0 || ballType > BALLS.NUMBER) {
-            throw new Error("ball not found")
+            throw new Error('ball not found')
         }
-        return BALLS.KEY + Math.floor(ballType/10).toString() + (ballType%10).toString()
+        return BALLS.KEY + Math.floor(ballType / 10).toString() + (ballType % 10).toString()
     }
 }
