@@ -1,6 +1,6 @@
 // import { GameObjects, Scene } from "phaser"
 
-// export class ProgressBar {
+export class ProgressBar {
 //     private box: GameObjects.Rectangle
 //     private bar: GameObjects.Rectangle
 //     private progress: number
@@ -19,4 +19,4 @@
 //     public setProgress(progress: number): void {
 //         this.progress = progress
 //     }
-// }
+}

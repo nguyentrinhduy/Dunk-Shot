@@ -2,14 +2,14 @@ import { Game, GameObjects, Scene } from 'phaser'
 
 export class Button {
     private container: GameObjects.Container
-    private background: GameObjects.Image
+    private background: GameObjects.Sprite
     private text: GameObjects.Text
-    private image: GameObjects.Image
+    private sprite: GameObjects.Sprite
     private gameObjects: GameObjects.GameObject[]
     private x: number
     private y: number
-    private imageX: number
-    private imageY: number
+    private spriteX: number
+    private spriteY: number
     private backgroundX: number
     private backgroundY: number
     private textX: number
@@ -17,8 +17,8 @@ export class Button {
     public constructor(x: number = 0, y: number = 0) {
         this.x = x
         this.y = y
-        this.imageX = 0
-        this.imageY = 0
+        this.spriteX = 0
+        this.spriteY = 0
         this.backgroundX = 0
         this.backgroundY = 0
         this.textX = 0
@@ -74,7 +74,7 @@ export class Button {
     public setY(y: number): void {
         this.y = y
     }
-    
+
     public setPosition(x: number, y: number) {
         this.x = x
         this.y = y
@@ -88,8 +88,8 @@ export class Button {
         if (this.background != undefined) {
             this.gameObjects.push(this.background)
         }
-        if (this.image != undefined) {
-            this.gameObjects.push(this.image)
+        if (this.sprite != undefined) {
+            this.gameObjects.push(this.sprite)
         }
         if (this.text != undefined) {
             this.gameObjects.push(this.text)
@@ -99,20 +99,37 @@ export class Button {
         this.container.setInteractive()
     }
 
-    public addBackground(currentScene: Scene, backgroundKey: string, x: number = this.backgroundX, y: number = this.backgroundY): void {
-        this.background = currentScene.add.image(x, y, backgroundKey)
+    public addBackground(
+        currentScene: Scene,
+        backgroundKey: string,
+        x: number = this.backgroundX,
+        y: number = this.backgroundY
+    ): void {
+        this.background = currentScene.add.sprite(x, y, backgroundKey)
         this.backgroundX = x
         this.backgroundY = y
     }
 
-    public addImage(currentScene: Scene, imageKey: string, x: number = this.imageX, y: number = this.imageY, scale: number = 1): void {
-        this.image = currentScene.add.image(x, y, imageKey)
-        this.image.setScale(scale)
-        this.imageX = x
-        this.imageY = y
+    public addSprite(
+        currentScene: Scene,
+        spriteKey: string,
+        x: number = this.spriteX,
+        y: number = this.spriteY,
+        scale: number = 1
+    ): void {
+        this.sprite = currentScene.add.sprite(x, y, spriteKey)
+        this.sprite.setScale(scale)
+        this.spriteX = x
+        this.spriteY = y
     }
 
-    public addText(currentScene: Scene, text: string, x: number = this.textX, y: number = this.textY, style?: GameObjects.TextStyle) {
+    public addText(
+        currentScene: Scene,
+        text: string,
+        x: number = this.textX,
+        y: number = this.textY,
+        style?: GameObjects.TextStyle
+    ) {
         this.text = currentScene.add.text(x, y, text)
         if (style) {
             this.text.setStyle(style)
