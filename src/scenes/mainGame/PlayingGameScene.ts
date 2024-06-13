@@ -1,36 +1,40 @@
 import { Scene } from 'phaser'
-import { Ball } from '../game-objects/Ball'
-import { CONSTANT } from '../constants'
-import { Basket } from '../game-objects/Basket'
-const { BALL, BASKET, GRAVITY } = CONSTANT.PLAYING_GAME_SCENE
+
+import { Ball } from '../../game-objects/Ball/Ball'
+import { Basket } from '../../game-objects/Basket/Basket'
+import { MapGenerator } from '../../managers/MapGenerator'
 export class PlayingGameScene extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera
     private ball: Ball
     private basket: Basket
+    private mapGenerator: MapGenerator
+    private draggingZone: Phaser.GameObjects.Zone
     constructor() {
         super('PlayingGameScene')
-        this.ball = new Ball(BALL.START_POSITION.X, BALL.START_POSITION.Y)
-        this.basket = new Basket(300, 700)
     }
-
+    init() {
+        this.mapGenerator = MapGenerator.getInstance()
+        this.draggingZone = this.add.zone(0, 0, 1000, 1000).setOrigin(0).setInteractive({ draggable: true })
+        this.createBall()
+        this.createBasket()
+        this.physics.world.gravity.y = 2000
+    }
+    private createBall() {
+        this.ball = new Ball(this, 300, 500).setDepth(1).setScale(0.4)
+        this.ball.body
+            .setCircle(100)
+            .setOffset(-100)
+            .setBounce(1)
+            .setAllowGravity(true)
+            .setImmovable(false)
+    }
+    private createBasket() {
+        this.basket = new Basket(this, 300, 700, this.ball)
+    }
     create() {
-        this.physics.world.gravity.y = GRAVITY
-        // this.ball.draw(this, BALL.SCALE)
-        // this.ball.setDepth(3)
-
-        this.basket.draw(this)
-        // this.basket.collidesWithBall(this, this.ball)
-        this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
-            if (pointer.isDown)
-            this.basket.drag(pointer)
-        })
-        // this.input.once('pointerdown', () => {
-
-        //     this.scene.start('GameOverScene');
-
-        // });
+        
     }
-    update() {
+    update(time: number, delta: number) {
         // this.ball.update()
     }
 }

@@ -1,21 +1,19 @@
-import { Scene } from 'phaser';
-
-export class BootScene extends Scene
-{
-    constructor ()
-    {
-        super('BootScene');
+import { Scene } from 'phaser'
+import { icons, sprite_path } from '../../contstants/resources/Sprite'
+export class BootScene extends Scene {
+    constructor() {
+        super('BootScene')
     }
 
-    preload ()
-    {
-        
-        this.load.setPath(CONSTANT.SPRITES.PATH)
-        this.load.image(CONSTANT.SPRITES.COMPONENTS.LOGO.KEY, CONSTANT.SPRITES.COMPONENTS.LOGO.PATH)
+    preload() {
+        this.load.setPath(sprite_path)
+        this.load.image(
+            icons.logo.key,
+            icons.logo.path
+        )
     }
 
-    create ()
-    {
-        this.scene.start('PreloaderScene');
+    create() {
+        this.scene.start('PreloaderScene')
     }
 }

@@ -1,6 +1,3 @@
-export class Background extends Phaser.GameObjects.Image{
-    public add(): void {
-        
-    }
-    
+export class Background extends Phaser.GameObjects.Sprite {
+    public add(): void {}
 }

@@ -1,15 +1,16 @@
 import { Game, Types } from 'phaser'
-import { GameOverScene } from './scenes/menu/GameOverScene'
+import { GameOverScene } from './scenes/states/menus/GameOverState'
 import { AccurateChallengeScene } from './scenes/challenges/AccurateChallengeScene'
 import { BootScene } from './scenes/preload/BootScene'
 import { PreloaderScene } from './scenes/preload/PreloaderScene'
-import { MainMenuScene } from './scenes/menu/MainMenuScene'
+import { MainMenuScene } from './scenes/states/menus/MainMenuState'
 import { PlayingGameScene } from './scenes/mainGame/PlayingGameScene'
+import { WINDOW_SIZE } from './contstants/WindowSize'
 
 const config: Types.Core.GameConfig = {
     type: Phaser.AUTO,
-    width: 768,
-    height: 1024,
+    width: WINDOW_SIZE.WIDTH,
+    height: WINDOW_SIZE.HEIGHT,
     parent: 'game-container',
     backgroundColor: '#c0c0c0',
     scale: {

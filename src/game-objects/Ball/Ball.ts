@@ -1,30 +1,56 @@
-import { GameObjects, Scene } from "phaser";
-
-export class Ball extends Phaser.GameObjects.Container{
+import { GameObjects, Scene } from 'phaser'
+import { FlameEffect } from './FlameEffect'
+import { ball } from '../../contstants/resources/Sprite'
+import { PredictionLine } from '../../managers/PredictionLine'
+export class Ball extends GameObjects.Container {
+    declare body: Phaser.Physics.Arcade.Body
     private ballType: number
-    private ball: Phaser.Types.Physics.Arcade.ImageWithDynamicBody
-    
-    public setBallType(ballType: number) {
+    private ballSprite: GameObjects.Sprite
+    private flameEffect: FlameEffect
+    private predictionLineHelper: PredictionLine
+    public shootX: number
+    public shootY: number
+    public constructor(scene: Scene, x: number = 0, y: number = 0) {
+        super(scene, x, y)
+        this.x = x
+        this.y = y
+        this.flameEffect = new FlameEffect()
+        this.predictionLineHelper = new PredictionLine(scene)
+        this.ballSprite = scene.add.sprite(0, 0, 'balls00')
+        this.add(this.ballSprite)
+        scene.add.existing(this)
+        scene.physics.add.existing(this)
+        console.log('already created ball')
+        // this.setBallType(0)
+    }
+    public setBallType(ballType: number = 0) {
         this.ballType = ballType
-    }
-    public getBallObject(): Phaser.Types.Physics.Arcade.ImageWithDynamicBody {
-        return this.ball
-    }
-    public draw(currentScene: Scene, scale: number = 1) {
-        this.ball = currentScene.physics.add.image(this.x, this.y, this.getBallKey())
-        this.ball.setScale(scale)
-        this.ball.setCircle(BALLS.RADIUS_BOUND)
-        this.ball.setCollideWorldBounds(true)
-        this.ball.setBounce(1, 1)
+        console.log(this.getBallKey())
+        this.ballSprite.setTexture(this.getBallKey())
     }
     private getBallKey(): string {
-        console.log(BALLS.KEY + Math.floor(this.ballType/10).toString() + (this.ballType%10).toString())
-        return BALLS.KEY + Math.floor(this.ballType/10).toString() + (this.ballType%10).toString()
+        return (
+            ball.key + Math.floor(this.ballType / 10).toString() + (this.ballType % 10).toString()
+        )
     }
-    public update() {
-        this.ball.rotation += 0.0005*this.ball.body.velocity.x
+    public drawPredictionLine() {
+        this.predictionLineHelper.draw(
+            this.scene,
+            this.x,
+            this.y, 
+            this.shootX,
+            this.shootY, 
+            this.scene.physics.world.gravity.y
+        )
     }
-    public rotate() {
-
+    public clearPredictionLine(): void {
+        this.predictionLineHelper.clear()
     }
+    public shoot() {
+        this.body.velocity.x = this.shootX
+        this.body.velocity.y = this.shootY
+        this.shootX = 0
+        this.shootY = 0
+    }
+    public update() {}
 }

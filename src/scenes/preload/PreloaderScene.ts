@@ -1,20 +1,19 @@
 import { GameObjects, Scene } from 'phaser'
 import { Background } from '../../ui-game-objects/background'
 import { sprite_path } from '../../contstants/resources/Sprite'
-const { PRELOAD_SCENE, SPRITES } = CONSTANT
-const { BALLS, COMPONENTS, BASKETS, LOCKED_BALL } = SPRITES
-const { BUTTONS, SPINS, TEXTS, ICONS } = COMPONENTS
-const { LOGO, PROGRESS_BAR, BACKGROUND } = PRELOAD_SCENE
+import { LoadManager } from '../../managers/LoadManager'
 export class PreloaderScene extends Scene {
-    private logo: GameObjects.Image
+    private logo: GameObjects.Sprite
     private background: Background
+    private loadManager: LoadManager
     public constructor() {
         super('PreloaderScene')
     }
 
     init() {
-        //  We loaded this image in our Boot Scene, so we can display it here
-        this.logo = this.add.image(LOGO.POSITION.X, LOGO.POSITION.Y, LOGO.KEY)
+        this.loadManager = LoadManager.getInstance(this)
+        //  We loaded this sprite in our Boot Scene, so we can display it here
+        this.logo = this.add.sprite(0, 0, 'logo')
 
         //  A simple progress bar. This is the outline of the bar.
         this.add.rectangle(512, 384, 468, 32).setStrokeStyle(1, 0xffffff)
@@ -30,49 +29,13 @@ export class PreloaderScene extends Scene {
     }
 
     preload() {
-        // Load the images
-        this.load.setPath(sprite_path)
-        // Balls
-        for (let ballType = 0; ballType < BALLS.NUMBER; ballType++) {
-            this.load.image(this.getBallKey(ballType), this.getBallPath(ballType))
-        }
-        this.load.image(LOCKED_BALL.KEY, LOCKED_BALL.PATH)
-        // Baskets
-        this.load.image(BASKETS.ROUND_UP.KEY, BASKETS.ROUND_UP.PATH)
-        this.load.image(BASKETS.ROUND_DOWN.KEY, BASKETS.ROUND_DOWN.PATH)
-        this.load.image(BASKETS.NET.KEY, BASKETS.NET.PATH)
-        // Effects
-        // Components
-        this.load.image(BUTTONS.CHALLENGES.KEY, BUTTONS.CHALLENGES.PATH)
-        this.load.image(TEXTS.DRAG_IT.KEY, TEXTS.DRAG_IT.PATH)
-        this.load.image(BUTTONS.ORANGE_BACKGROUND.KEY, BUTTONS.ORANGE_BACKGROUND.PATH)
-        this.load.image(BUTTONS.SETTINGS.KEY, BUTTONS.SETTINGS.PATH)
-        this.load.image(ICONS.ORANGE_BALL_ICON.KEY, ICONS.ORANGE_BALL_ICON.PATH)
-        // Load the sounds
+        this.loadManager.loadSprites()
+        this.loadManager.loadAudios()
+        this.loadManager.loadDatas()
     }
 
     create() {
-        //  When all the assets have loaded, it's often worth creating global objects here that the rest of the game can use.
-        //  For example, you can define global animations here, so we can use them in other scenes.
-
-        //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
         this.scene.start('PlayingGameScene')
     }
-    private getBallPath(ballType: number): string {
-        if (ballType < 0 || ballType > BALLS.NUMBER) {
-            throw new Error('ball not found')
-        }
-        console.log(
-            BALLS.PATH + Math.floor(ballType / 10).toString() + (ballType % 10).toString() + '.png'
-        )
-        return (
-            BALLS.PATH + Math.floor(ballType / 10).toString() + (ballType % 10).toString() + '.png'
-        )
-    }
-    private getBallKey(ballType: number): string {
-        if (ballType < 0 || ballType > BALLS.NUMBER) {
-            throw new Error('ball not found')
-        }
-        return BALLS.KEY + Math.floor(ballType / 10).toString() + (ballType % 10).toString()
-    }
+    
 }
