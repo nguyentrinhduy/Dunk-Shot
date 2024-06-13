@@ -27,7 +27,7 @@ export class Basket extends GameObjects.Container {
         this.scene.add.existing(this)
         this.roundDownContainer = this.scene.add.container(x, y)
         this.roundUpContainer = this.scene.add.container(x, y)
-        this.draggingAvailable = true
+        this.draggingAvailable = false
         this.containedBall = false
         this.checkOverlap = true
         this.addSprites()
@@ -40,8 +40,8 @@ export class Basket extends GameObjects.Container {
         this.roundDown = this.scene.add.sprite(0, 0, 'round_down').setTint(0xff0000)
         this.roundDownContainer.add(this.roundDown).setDepth(3)
         this.setDepth(2)
-        this.net = this.scene.add.sprite(0, 47, 'net').setDepth(0).setOrigin(0.5, 0.7)
-        this.net.scaleY = 0.7
+        this.net = this.scene.add.sprite(0, 47, 'net').setDepth(0)
+        this.net.scaleY = 1
         this.add(this.net)
     }
     private createColliders(): void {
@@ -68,10 +68,10 @@ export class Basket extends GameObjects.Container {
         this.scene.physics.add.collider(this.ball, this.rightCollider)
 
         // add net colliders
-        const startPoint = new Phaser.Math.Vector2(-70, 20)
-        const controlPoint1 = new Phaser.Math.Vector2(-25, 75)
-        const controlPoint2 = new Phaser.Math.Vector2(45, 75)
-        const endPoint = new Phaser.Math.Vector2(90, -10)
+        const startPoint = new Phaser.Math.Vector2(-70, 25)
+        const controlPoint1 = new Phaser.Math.Vector2(-25, 100)
+        const controlPoint2 = new Phaser.Math.Vector2(45, 95)
+        const endPoint = new Phaser.Math.Vector2(80, 10)
 
         const curve = new Phaser.Curves.CubicBezier(
             startPoint,
@@ -94,27 +94,70 @@ export class Basket extends GameObjects.Container {
         })
         this.add(this.netColliders)
         // create overlapper
-        this.netOverlapper = this.scene.add.circle(0, 20, 30)
+        this.netOverlapper = this.scene.add.circle(0, 50, 15)
         this.scene.physics.add.existing(this.netOverlapper)
         ;(this.netOverlapper.body as Phaser.Physics.Arcade.Body)
             .setAllowGravity(false)
             .setImmovable(true)
             .setBounce(0)
-            .setCircle(30)
+            .setCircle(15)
         this.add(this.netOverlapper)
         this.scene.physics.add.overlap(this.ball, this.netOverlapper, this.handleNetOverlapped)
     }
-    public handleNetOverlapped = () => {
+    private handleNetOverlapped = () => {
         if (this.checkOverlap && !this.containedBall) {
             this.checkOverlap = false
             this.containedBall = true
             this.ball.body
                 .setBounce(0)
                 .setAllowGravity(false)
+                .setEnable(false)
+            this.callElasticAnimation()
             this.draggingAvailable = true
         }
     }
+    private callElasticAnimation() {
+        this.scene.add.tween({
+            targets: this,
+            rotation: { value: 0, this: 100 },
+            ease: 'linear'
+        })
+        this.scene.add.tween({
+            targets: this.roundDownContainer,
+            rotation: { value: 0, this: 100 },
+            ease: 'linear'
+        })
+        this.scene.add.tween({
+            targets: this.roundUpContainer,
+            rotation: { value: 0, this: 100 },
+            ease: 'linear'
+        })
+        this.scene.add.tween({
+            targets: this.ball,
+            x: { value: this.x },
+            y: { value: this.y + 31},
+            ease: 'linear',
+            duration: 100,
+            onComplete: () => {
+                this.scene.add.tween({
+                    targets: this.ball,
+                    y: { value: this.y + 41 },
+                    ease: 'linear',
+                    yoyo: true,
+                    duration: 50
+                })
+                this.scene.add.tween({
+                    targets: this,
+                    scaleY: 1.1,
+                    duration: 50,
+                    yoyo: true,
+                    ease: 'Back.out'
+                })
+            }
+        })
+        
 
+    }
     private registerDragging() {
         this.scene.input.dragDistanceThreshold = 10
         this.scene.input.on(
@@ -145,34 +188,38 @@ export class Basket extends GameObjects.Container {
                 this.setRotation(angle)
                 this.roundDown.setRotation(angle)
                 this.roundUp.setRotation(angle)
-                this.ball.x = this.x - (length * Math.sin(angle)) / 10
-                this.ball.y = this.y + (length * Math.cos(angle)) / 10
+                this.ball.x = this.x - ((length + 500) * Math.sin(angle)) / 15
+                this.ball.y = this.y + ((length + 500) * Math.cos(angle)) / 15
                 this.ball.shootX = length * Math.sin(angle) * 8
                 this.ball.shootY = -length * Math.cos(angle) * 8
+                this.scaleY = 1 + length/1000
                 this.ball.drawPredictionLine()
             }
         )
         this.scene.input.on('dragend', () => {
             if (!this.draggingAvailable) return
-
             this.draggingAvailable = false
-            this.ball.body.setAllowGravity(true).setImmovable(false).setEnable(true).setBounce(1)
+            this.ball.body
+                .setAllowGravity(true)
+                .setImmovable(false)
+                .setEnable(true)
+                .setBounce(1)
             this.ball.clearPredictionLine()
             this.ball.shoot()
-            this.scene.add.tween({
+            this.scene.tweens.chain({
                 targets: this,
-                rotation: { value: 0, duration: 100 },
-                ease: 'Quad.out',
-            })
-            this.scene.add.tween({
-                targets: this.roundDown,
-                rotation: { value: 0, duration: 100 },
-                ease: 'Quad.out',
-            })
-            this.scene.add.tween({
-                targets: this.roundUp,
-                rotation: { value: 0, duration: 100 },
-                ease: 'Quad.out',
+                tweens: [
+                    {
+                        scaleY: { value: 1, duration: 50 },
+                        ease: 'Back.out'
+                    },
+                    {
+                        scaleY: { value: 1.1, duration: 50},
+                        ease: 'Back.out',
+                        yoyo: true
+                    }
+                ]
+                
             })
         })
     }

@@ -35,7 +35,7 @@ export class PreloaderScene extends Scene {
     }
 
     create() {
-        this.scene.start('PlayingGameScene')
+        this.scene.start('MainGameScene')
     }
     
 }

@@ -1,11 +1,11 @@
 import { Game, Types } from 'phaser'
 import { GameOverScene } from './scenes/states/menus/GameOverState'
-import { AccurateChallengeScene } from './scenes/challenges/AccurateChallengeScene'
+import { AccurateChallengeScene } from './scenes/states/games/AccurateChallengeScene'
 import { BootScene } from './scenes/preload/BootScene'
 import { PreloaderScene } from './scenes/preload/PreloaderScene'
 import { MainMenuScene } from './scenes/states/menus/MainMenuState'
-import { PlayingGameScene } from './scenes/mainGame/PlayingGameScene'
 import { WINDOW_SIZE } from './contstants/WindowSize'
+import { MainGameScene } from './scenes/main-game/MainGameScene'
 
 const config: Types.Core.GameConfig = {
     type: Phaser.AUTO,
@@ -26,10 +26,7 @@ const config: Types.Core.GameConfig = {
     scene: [
         BootScene,
         PreloaderScene,
-        MainMenuScene,
-        PlayingGameScene,
-        GameOverScene,
-        AccurateChallengeScene,
+        MainGameScene,
     ],
 }
 
