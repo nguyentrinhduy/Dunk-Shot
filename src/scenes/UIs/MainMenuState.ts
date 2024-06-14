@@ -1,6 +1,6 @@
 import { Scene, GameObjects, Game } from 'phaser'
-import { Button } from '../../../ui-game-objects/button/Button'
-import { Stars } from '../../../ui-game-objects/Stars'
+import { Button } from '../../ui-game-objects/button/Button'
+import { Stars } from '../../ui-game-objects/Stars'
 // import { Button } from '../ui-game-objects/Button';
 // Use BUTTONS directly in the code
 

@@ -1,8 +1,8 @@
-import { Scene } from "phaser";
-import { Ball } from "../../../game-objects/Ball/Ball";
-import { Basket } from "../../../game-objects/Basket/Basket";
-import { MapGenerator } from "../../../managers/MapGenerator";
-import { State } from "../State";
+import { Scene } from 'phaser'
+import { Ball } from '../../game-objects/Ball/Ball'
+import { Basket } from '../../game-objects/Basket/Basket'
+import { MapGenerator } from '../../managers/MapGenerator'
+import { State } from './State'
 
 export class NormalModeState extends State {
     camera: Phaser.Cameras.Scene2D.Camera
@@ -14,17 +14,22 @@ export class NormalModeState extends State {
         super(scene)
         this.mapGenerator = new MapGenerator(scene)
     }
-    
+
     public create(): void {
-        this.draggingZone = this.scene.add.zone(0, 0, 1000, 1000).setOrigin(0).setInteractive({ draggable: true })
+        this.draggingZone = this.scene.add
+            .zone(0, 0, 1000, 1000)
+            .setOrigin(0)
+            .setInteractive({ draggable: true })
         this.createBall()
         this.mapGenerator.setBall(this.ball)
         this.basket = this.mapGenerator.getFirstBaskets()
         this.scene.physics.world.gravity.y = 2000
+        this.createCamera()
+        this.add(this.ball)
+        this.add(this.basket)
     }
     public update(time: number, delta: number): void {
         this.ball.update(time, delta)
-        console.log(this.ball.y, this.basket[0].y)
     }
     private createBall() {
         this.ball = new Ball(this.scene, 300, 500).setDepth(1).setScale(0.4)
@@ -34,5 +39,10 @@ export class NormalModeState extends State {
             .setBounce(1)
             .setAllowGravity(true)
             .setImmovable(false)
+            .setCollideWorldBounds(true)
+    }
+    private createCamera() {
+        this.camera = this.scene.cameras.main
+        this.camera.startFollow(this.ball, true, 0, 0.02, -100, 200)
     }
 }

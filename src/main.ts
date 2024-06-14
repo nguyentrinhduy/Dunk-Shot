@@ -1,9 +1,9 @@
 import { Game, Types } from 'phaser'
-import { GameOverScene } from './scenes/states/menus/GameOverState'
-import { AccurateChallengeScene } from './scenes/states/games/AccurateChallengeScene'
+import { GameOverScene } from './scenes/UIs/GameOverState'
+import { AccurateChallengeScene } from './scenes/states/AccurateChallengeScene'
 import { BootScene } from './scenes/preload/BootScene'
 import { PreloaderScene } from './scenes/preload/PreloaderScene'
-import { MainMenuScene } from './scenes/states/menus/MainMenuState'
+import { MainMenuScene } from './scenes/UIs/MainMenuState'
 import { WINDOW_SIZE } from './contstants/WindowSize'
 import { MainGameScene } from './scenes/main-game/MainGameScene'
 
@@ -23,11 +23,7 @@ const config: Types.Core.GameConfig = {
             // debug: true
         },
     },
-    scene: [
-        BootScene,
-        PreloaderScene,
-        MainGameScene,
-    ],
+    scene: [BootScene, PreloaderScene, MainGameScene],
 }
 
 export default new Game(config)

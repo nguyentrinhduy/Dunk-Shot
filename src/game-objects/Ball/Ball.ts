@@ -53,6 +53,7 @@ export class Ball extends GameObjects.Container {
         this.shootY = 0
     }
     public update(time: number, delta: number) {
-        this.rotation += delta*this.body.velocity.x
+        
+        this.rotation += delta*this.body.velocity.x*0.00005
     }
 }

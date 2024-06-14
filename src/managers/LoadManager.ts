@@ -4,17 +4,10 @@ import { ball, basket, sprite_path } from "../contstants/resources/Sprite";
 
 export class LoadManager {
     private progressBar: ProgressBar
-    private static instance: LoadManager
     private scene: Scene
-    private constructor(scene: Scene) {
+    constructor(scene: Scene) {
         this.progressBar = new ProgressBar()
         this.scene = scene
-    }
-    public static getInstance(scene: Scene): LoadManager {
-        if (!LoadManager.instance) {
-            LoadManager.instance = new LoadManager(scene)
-        }
-        return LoadManager.instance
     }
 
     public loadSprites(): void {

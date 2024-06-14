@@ -16,7 +16,7 @@ export class Basket extends GameObjects.Container {
 
     public containedBall: boolean
     public checkOverlap: boolean
-    private draggingAvailable: boolean
+    public draggingAvailable: boolean
     private ball: Ball
 
     public constructor(scene: Scene, x: number = 0, y: number = 0, ball: Ball) {
@@ -90,17 +90,17 @@ export class Basket extends GameObjects.Container {
                 .setBounce(0)
                 .setCircle(5)
             this.scene.physics.add.collider(this.ball, collider)
+            this.add(collider)
             this.netColliders.push(collider)
         })
-        this.add(this.netColliders)
         // create overlapper
-        this.netOverlapper = this.scene.add.circle(0, 50, 15)
+        this.netOverlapper = this.scene.add.circle(0, 60, 10)
         this.scene.physics.add.existing(this.netOverlapper)
         ;(this.netOverlapper.body as Phaser.Physics.Arcade.Body)
             .setAllowGravity(false)
             .setImmovable(true)
             .setBounce(0)
-            .setCircle(15)
+            .setCircle(10)
         this.add(this.netOverlapper)
         this.scene.physics.add.overlap(this.ball, this.netOverlapper, this.handleNetOverlapped)
     }
@@ -112,6 +112,7 @@ export class Basket extends GameObjects.Container {
                 .setBounce(0)
                 .setAllowGravity(false)
                 .setEnable(false)
+                .setVelocity(0)
             this.callElasticAnimation()
             this.draggingAvailable = true
         }
@@ -119,47 +120,48 @@ export class Basket extends GameObjects.Container {
     private callElasticAnimation() {
         this.scene.add.tween({
             targets: this,
-            rotation: { value: 0, this: 100 },
-            ease: 'linear'
+            duration: 100,
+            rotation: 0,
+            ease: 'linear',
         })
         this.scene.add.tween({
             targets: this.roundDownContainer,
-            rotation: { value: 0, this: 100 },
-            ease: 'linear'
+            duration: 100,
+            rotation: 0,
+            ease: 'linear',
         })
         this.scene.add.tween({
             targets: this.roundUpContainer,
-            rotation: { value: 0, this: 100 },
-            ease: 'linear'
+            duration: 100,
+            rotation: 0,
+            ease: 'linear',
         })
         this.scene.add.tween({
             targets: this.ball,
             x: { value: this.x },
-            y: { value: this.y + 31},
-            ease: 'linear',
-            duration: 100,
+            y: { value: this.y + 31 },
+            ease: 'Back.out',
+            duration: 30,
             onComplete: () => {
                 this.scene.add.tween({
                     targets: this.ball,
                     y: { value: this.y + 41 },
                     ease: 'linear',
                     yoyo: true,
-                    duration: 50
+                    duration: 50,
                 })
                 this.scene.add.tween({
                     targets: this,
                     scaleY: 1.1,
                     duration: 50,
                     yoyo: true,
-                    ease: 'Back.out'
+                    ease: 'linear',
                 })
-            }
+            },
         })
-        
-
     }
     private registerDragging() {
-        this.scene.input.dragDistanceThreshold = 10
+        this.scene.input.dragTimeThreshold = 30
         this.scene.input.on(
             'drag',
             (
@@ -168,13 +170,6 @@ export class Basket extends GameObjects.Container {
                 dragX: number,
                 dragY: number
             ) => {
-                if (!this.draggingAvailable) return
-                const angle = -Phaser.Math.Angle.BetweenY(
-                    pointer.downX,
-                    pointer.downY,
-                    pointer.x,
-                    pointer.y
-                )
                 const length = Math.min(
                     Phaser.Math.Distance.Between(
                         pointer.downX,
@@ -184,42 +179,51 @@ export class Basket extends GameObjects.Container {
                     ),
                     200
                 )
-                // max 27
-                this.setRotation(angle)
-                this.roundDown.setRotation(angle)
-                this.roundUp.setRotation(angle)
-                this.ball.x = this.x - ((length + 500) * Math.sin(angle)) / 15
-                this.ball.y = this.y + ((length + 500) * Math.cos(angle)) / 15
-                this.ball.shootX = length * Math.sin(angle) * 8
-                this.ball.shootY = -length * Math.cos(angle) * 8
-                this.scaleY = 1 + length/1000
+                if (!this.draggingAvailable) return
+                const rotation = -Phaser.Math.Angle.BetweenY(
+                    pointer.downX,
+                    pointer.downY,
+                    pointer.x,
+                    pointer.y
+                )
+
+                this.setRotation(rotation)
+                console.log((rotation / Math.PI) * 180, length)
+                this.roundDownContainer.setRotation(rotation)
+                this.roundUpContainer.setRotation(rotation)
+                this.ball.x = this.x - ((length + 500) * Math.sin(rotation)) / 15
+                this.ball.y = this.y + ((length + 500) * Math.cos(rotation)) / 15
+                this.ball.shootX = length * Math.sin(rotation) * 8
+                this.ball.shootY = -length * Math.cos(rotation) * 8
+                this.scaleY = 1 + length / 1000
                 this.ball.drawPredictionLine()
             }
         )
         this.scene.input.on('dragend', () => {
             if (!this.draggingAvailable) return
             this.draggingAvailable = false
-            this.ball.body
-                .setAllowGravity(true)
-                .setImmovable(false)
-                .setEnable(true)
-                .setBounce(1)
+            this.containedBall = false
+            this.ball.body.setAllowGravity(true).setImmovable(false).setEnable(true).setBounce(1)
             this.ball.clearPredictionLine()
             this.ball.shoot()
             this.scene.tweens.chain({
                 targets: this,
                 tweens: [
                     {
-                        scaleY: { value: 1, duration: 50 },
-                        ease: 'Back.out'
+                        scaleY: 1,
+                        duration: 50,
+                        ease: 'linear',
                     },
                     {
-                        scaleY: { value: 1.1, duration: 50},
-                        ease: 'Back.out',
-                        yoyo: true
-                    }
-                ]
-                
+                        scaleY: 1.1,
+                        duration: 50,
+                        ease: 'linear',
+                        yoyo: true,
+                    },
+                ],
+            })
+            this.scene.time.delayedCall(100, () => {
+                this.checkOverlap = true
             })
         })
     }
@@ -228,6 +232,5 @@ export class Basket extends GameObjects.Container {
         this.roundDownContainer.y = this.y
         this.roundUpContainer.x = this.x
         this.roundUpContainer.y = this.y
-        
     }
 }
