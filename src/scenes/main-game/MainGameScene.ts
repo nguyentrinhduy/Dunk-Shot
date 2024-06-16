@@ -2,19 +2,22 @@ import { Scene } from 'phaser'
 
 import { Ball } from '../../game-objects/Ball/Ball'
 import { Basket } from '../../game-objects/Basket/Basket'
-import { MapGenerator } from '../../managers/MapGenerator'
-import { StateManager } from '../../managers/StateManager'
+import { MapGenerator } from '../../helpers/MapGenerator'
+import { SceneManager } from '../../managers/SceneManager'
+import { NormalModeState } from '../states/NormalModeState'
 export class MainGameScene extends Scene {
-    private stateManager: StateManager
+    private manager: SceneManager
     constructor() {
         super('MainGameScene')
     }
-    create() {
+    create(data: SceneManager) {
         this.input.setTopOnly(true)
-        this.stateManager = new StateManager(this)
-        this.stateManager.create()
+        this.manager = data
+        this.manager.setStateScene(this)
+        this.manager.transitionToNormalModeState()
+        console.log(this.manager)
     }
     update(time: number, delta: number) {
-        this.stateManager.update(time, delta)
+        this.manager.update(time, delta)
     }
 }

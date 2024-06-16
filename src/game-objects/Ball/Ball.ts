@@ -1,7 +1,7 @@
 import { GameObjects, Scene } from 'phaser'
 import { FlameEffect } from './FlameEffect'
 import { ball } from '../../contstants/resources/Sprite'
-import { PredictionLine } from '../../managers/PredictionLine'
+import { PredictionLine } from '../../helpers/PredictionLine'
 export class Ball extends GameObjects.Container {
     declare body: Phaser.Physics.Arcade.Body
     private ballType: number
@@ -37,9 +37,9 @@ export class Ball extends GameObjects.Container {
         this.predictionLineHelper.draw(
             this.scene,
             this.x,
-            this.y, 
+            this.y,
             this.shootX,
-            this.shootY, 
+            this.shootY,
             this.scene.physics.world.gravity.y
         )
     }
@@ -53,7 +53,6 @@ export class Ball extends GameObjects.Container {
         this.shootY = 0
     }
     public update(time: number, delta: number) {
-        
-        this.rotation += delta*this.body.velocity.x*0.00005
+        this.rotation += delta * this.body.velocity.x * 0.00005
     }
 }

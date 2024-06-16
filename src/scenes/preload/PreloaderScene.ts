@@ -2,6 +2,7 @@ import { GameObjects, Scene } from 'phaser'
 import { Background } from '../../ui-game-objects/background'
 import { sprite_path } from '../../contstants/resources/Sprite'
 import { LoadManager } from '../../managers/LoadManager'
+import { SceneManager } from '../../managers/SceneManager'
 export class PreloaderScene extends Scene {
     private logo: GameObjects.Sprite
     private background: Background
@@ -41,7 +42,10 @@ export class PreloaderScene extends Scene {
     }
 
     create() {
-        this.scene.start('MainGameScene')
+        const sceneManager = new SceneManager()
+        this.scene
+            .start('MainGameScene', sceneManager)
+            .start('UIGameScene', sceneManager)
     }
     
 }

@@ -1,0 +1,1 @@
+export const audio_path = 'assets/audios'

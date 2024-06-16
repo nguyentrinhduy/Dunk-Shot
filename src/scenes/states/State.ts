@@ -1,19 +1,18 @@
-import { GameObjects, Scene } from "phaser";
-import { StateManager } from "../../managers/StateManager";
-import { WINDOW_SIZE } from "../../contstants/WindowSize";
+import { GameObjects, Scene } from 'phaser'
+import { SceneManager } from '../../managers/SceneManager'
+import { WINDOW_SIZE } from '../../contstants/WindowSize'
 
 export abstract class State extends GameObjects.Container {
-    private stateManager: StateManager
+    protected manager: SceneManager
     public constructor(scene: Scene) {
         super(scene)
-        this.setSize(WINDOW_SIZE.WIDTH, WINDOW_SIZE.HEIGHT)
-        this.setDepth(0)
+        this.setSize(WINDOW_SIZE.WIDTH * 2, WINDOW_SIZE.HEIGHT * 2)
+        // this.setDepth(0)
         scene.add.existing(this)
     }
-    public setManager(stateManager: StateManager, uiManager: UIManager) {
-        this.stateManager = stateManager
-        this.uiManager = uiManager
+    public setManager(manager: SceneManager) {
+        this.manager = manager
     }
     public abstract update(time: number, delta: number): void
-    public abstract create(): void
+    protected abstract create(): void
 }

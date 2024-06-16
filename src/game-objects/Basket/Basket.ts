@@ -2,11 +2,17 @@ import { Game, GameObjects, Scene } from 'phaser'
 import { Ball } from '../Ball/Ball'
 import { BasketState } from './BasketState'
 import { basket } from '../../contstants/Basket'
+import { Star } from './Star'
+import { Obstacle } from '../Obstacles.ts/Obstacle'
+import { StraightObstacle } from '../Obstacles.ts/StraightObstacle'
+import { PredictionLine } from '../../helpers/PredictionLine'
+import { DataManager } from '../../managers/DataManager'
 export class Basket extends GameObjects.Container {
     private roundUp: GameObjects.Sprite
     private roundUpContainer: GameObjects.Container
     private roundDown: GameObjects.Sprite
     private roundDownContainer: GameObjects.Container
+    private effect: GameObjects.Sprite
     private net: GameObjects.Sprite
 
     private leftCollider: Phaser.GameObjects.Arc
@@ -14,12 +20,21 @@ export class Basket extends GameObjects.Container {
     private netColliders: Phaser.GameObjects.Arc[]
     public netOverlapper: Phaser.GameObjects.Arc
 
-    public containedBall: boolean
     public checkOverlap: boolean
-    public draggingAvailable: boolean
+    public containedBall: boolean
+    public containingBall: boolean
+    private firstTurn: boolean
     private ball: Ball
-
-    public constructor(scene: Scene, x: number = 0, y: number = 0, ball: Ball) {
+    private star: Star
+    private obstacle: Obstacle
+    private predictionLine: PredictionLine
+    public constructor(
+        scene: Scene,
+        x: number = 0,
+        y: number = 0,
+        ball: Ball,
+        rotation: number = 0
+    ) {
         super(scene, x, y)
         this.netColliders = []
         this.state = BasketState.notContainBall
@@ -27,22 +42,33 @@ export class Basket extends GameObjects.Container {
         this.scene.add.existing(this)
         this.roundDownContainer = this.scene.add.container(x, y)
         this.roundUpContainer = this.scene.add.container(x, y)
-        this.draggingAvailable = false
+        this.containingBall = false
         this.containedBall = false
         this.checkOverlap = true
-        this.addSprites()
+        this.addSprites(rotation)
         this.createColliders()
         this.registerDragging()
+        // this.createStar()
+        // this.createObstacle()
     }
-    private addSprites(): void {
+
+    private addSprites(rotation: number): void {
         this.roundUp = this.scene.add.sprite(0, 0, 'round_up').setTint(0xff0000)
-        this.roundUpContainer.add(this.roundUp).setDepth(0)
+        this.roundUpContainer.add(this.roundUp).setDepth(0).setRotation(rotation)
         this.roundDown = this.scene.add.sprite(0, 0, 'round_down').setTint(0xff0000)
-        this.roundDownContainer.add(this.roundDown).setDepth(3)
-        this.setDepth(2)
+        this.roundDownContainer.add(this.roundDown).setDepth(3).setRotation(rotation)
+        this.effect = this.scene.add.sprite(0, 0, 'basket_effect').setTint(0xa80707).setDepth(4).setAlpha(0)
+        this.roundDownContainer.add(this.effect)
+        this.setDepth(2).setRotation(rotation)
         this.net = this.scene.add.sprite(0, 47, 'net').setDepth(0)
         this.net.scaleY = 1
         this.add(this.net)
+    }
+    public setFirstTurn() {
+        this.firstTurn = true
+    }
+    private createPredictionLine() {
+        this.predictionLine = new PredictionLine(this.scene)
     }
     private createColliders(): void {
         // add left collider
@@ -105,19 +131,31 @@ export class Basket extends GameObjects.Container {
         this.scene.physics.add.overlap(this.ball, this.netOverlapper, this.handleNetOverlapped)
     }
     private handleNetOverlapped = () => {
-        if (this.checkOverlap && !this.containedBall) {
+        if (!this.containingBall && this.checkOverlap) {
+            this.containingBall = true
             this.checkOverlap = false
-            this.containedBall = true
-            this.ball.body
-                .setBounce(0)
-                .setAllowGravity(false)
-                .setEnable(false)
-                .setVelocity(0)
+            if (!this.containedBall) {
+                this.containedBall = true
+                if (!this.firstTurn) {
+                    this.roundDown.setTint(0x636363)
+                    this.roundUp.setTint(0x636363)
+                    DataManager.getInstance().addScore(1)
+                }
+            }
+            this.ball.body.setBounce(0).setAllowGravity(false).setEnable(false).setVelocity(0)
             this.callElasticAnimation()
-            this.draggingAvailable = true
+            this.containingBall = true
         }
     }
     private callElasticAnimation() {
+        this.effect.setAlpha(1).setScale(0.4)
+        this.scene.add.tween({
+            targets: this.effect,
+            duration: 100,
+            alpha: 0,
+            scale: 0.8,
+            ease: 'linear',
+        })
         this.scene.add.tween({
             targets: this,
             duration: 100,
@@ -136,6 +174,7 @@ export class Basket extends GameObjects.Container {
             rotation: 0,
             ease: 'linear',
         })
+        
         this.scene.add.tween({
             targets: this.ball,
             x: { value: this.x },
@@ -162,6 +201,9 @@ export class Basket extends GameObjects.Container {
     }
     private registerDragging() {
         this.scene.input.dragTimeThreshold = 30
+        this.scene.input.on('dragstart', (pointer: Phaser.Input.Pointer) => {
+            console.log('pointer down')
+        })
         this.scene.input.on(
             'drag',
             (
@@ -179,7 +221,7 @@ export class Basket extends GameObjects.Container {
                     ),
                     200
                 )
-                if (!this.draggingAvailable) return
+                if (!this.containingBall) return
                 const rotation = -Phaser.Math.Angle.BetweenY(
                     pointer.downX,
                     pointer.downY,
@@ -188,7 +230,6 @@ export class Basket extends GameObjects.Container {
                 )
 
                 this.setRotation(rotation)
-                console.log((rotation / Math.PI) * 180, length)
                 this.roundDownContainer.setRotation(rotation)
                 this.roundUpContainer.setRotation(rotation)
                 this.ball.x = this.x - ((length + 500) * Math.sin(rotation)) / 15
@@ -200,10 +241,10 @@ export class Basket extends GameObjects.Container {
             }
         )
         this.scene.input.on('dragend', () => {
-            if (!this.draggingAvailable) return
-            this.draggingAvailable = false
+            if (!this.containingBall) return
+            this.containingBall = false
             this.containedBall = false
-            this.ball.body.setAllowGravity(true).setImmovable(false).setEnable(true).setBounce(1)
+            this.ball.body.setAllowGravity(true).setImmovable(false).setEnable(true).setBounce(0.8)
             this.ball.clearPredictionLine()
             this.ball.shoot()
             this.scene.tweens.chain({
@@ -227,10 +268,45 @@ export class Basket extends GameObjects.Container {
             })
         })
     }
+    public resetRotation() : void {
+        this.scene.add.tween({
+            targets: this,
+            duration: 100,
+            rotation: 0,
+            ease: 'linear',
+        })
+        this.scene.add.tween({
+            targets: this.roundDownContainer,
+            duration: 100,
+            rotation: 0,
+            ease: 'linear',
+        })
+        this.scene.add.tween({
+            targets: this.roundUpContainer,
+            duration: 100,
+            rotation: 0,
+            ease: 'linear',
+        })
+    }
+    private createStar(): void {
+        this.star = new Star(this.scene, 0, 0, this.ball).setActive(false)
+        this.add(this.star)
+    }
+
+    private createObstacle(): void {
+        this.obstacle = new StraightObstacle(this.scene, 0, 0, this.ball).setActive(false)
+        this.add(this.obstacle)
+    }
     public update(time: number, delta: number) {
         this.roundDownContainer.x = this.x
         this.roundDownContainer.y = this.y
         this.roundUpContainer.x = this.x
         this.roundUpContainer.y = this.y
+    }
+
+    public destroy() {
+        this.roundDownContainer.destroy()
+        this.roundUpContainer.destroy()
+        super.destroy()
     }
 }

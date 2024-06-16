@@ -1,6 +1,6 @@
 import { Scene } from "phaser";
 import { ProgressBar } from "../ui-game-objects/ProgressBar";
-import { ball, basket, sprite_path } from "../contstants/resources/Sprite";
+import { ball, basket, buttons, icons, sprite_path } from "../contstants/resources/Sprite";
 
 export class LoadManager {
     private progressBar: ProgressBar
@@ -21,10 +21,20 @@ export class LoadManager {
         this.scene.load.image(basket.round_up.key, basket.round_up.path)
         this.scene.load.image(basket.round_down.key, basket.round_down.path)
         this.scene.load.image(basket.net.key, basket.net.path)
-
+        this.scene.load.image(basket.basket_effect.key, basket.basket_effect.path)
         // Effects
         // Components
-        
+        this.scene.load.image(icons.orange_ball_icon.key, icons.orange_ball_icon.path)
+        this.scene.load.image(icons.stars.key, icons.stars.path)
+        this.scene.load.image(icons.stars_ui.key, icons.stars_ui.path)
+
+        this.scene.load.image(buttons.back_button.key, buttons.back_button.path)
+        this.scene.load.image(buttons.ball_skins_button.key, buttons.ball_skins_button.path)
+        this.scene.load.image(buttons.challenge_button.key, buttons.challenge_button.path)
+        this.scene.load.image(buttons.orange_background.key, buttons.orange_background.path)
+        this.scene.load.image(buttons.settings_button.key, buttons.settings_button.path)
+        this.scene.load.image(buttons.pause_button.key, buttons.pause_button.path)
+        this.scene.load.image()
     }
     public loadAudios(): void {
 
