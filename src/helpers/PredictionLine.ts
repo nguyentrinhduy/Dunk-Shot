@@ -51,7 +51,7 @@ export class PredictionLine {
         let currentX = startX
         let currentY = startY
         this.graphicalLine.save()
-        this.graphicalLine.fillStyle(0x787878)
+        this.graphicalLine.fillStyle(0xa1a1a1)
         for (let i = 0; i < this.dotsNumber; i++) {
             this.graphicalLine.fillCircle(currentX, currentY, 10)
             currentX += dx

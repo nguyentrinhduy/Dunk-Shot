@@ -29,6 +29,10 @@ export class LoadManager {
         this.scene.load.image(icons.orange_ball_icon.key, icons.orange_ball_icon.path)
         this.scene.load.image(icons.stars.key, icons.stars.path)
         this.scene.load.image(icons.stars_ui.key, icons.stars_ui.path)
+        this.scene.load.image(icons.limit_time_icon.key, icons.limit_time_icon.path)
+        this.scene.load.image(icons.bounce_icon.key, icons.bounce_icon.path)
+        this.scene.load.image(icons.accurate_icon.key, icons.accurate_icon.path)
+        this.scene.load.image(icons.achievement_icon.key, icons.achievement_icon.path)
 
         this.scene.load.image(buttons.back_button.key, buttons.back_button.path)
         this.scene.load.image(buttons.ball_skins_button.key, buttons.ball_skins_button.path)
@@ -39,6 +43,10 @@ export class LoadManager {
         this.scene.load.image(buttons.main_menu_button.key, buttons.main_menu_button.path)
         this.scene.load.image(buttons.resume_button.key, buttons.resume_button.path)
         this.scene.load.image(buttons.play_again_button.key, buttons.play_again_button.path)
+        this.scene.load.image(buttons.bounce_button.key, buttons.bounce_button.path)
+        this.scene.load.image(buttons.achievement_button.key, buttons.achievement_button.path)
+        this.scene.load.image(buttons.limit_time_button.key, buttons.limit_time_button.path)
+        this.scene.load.image(buttons.accurate_button.key, buttons.accurate_button.path)
 
         // obstacles
         this.scene.load.image(obstacle.straight_obstacle.key, obstacle.straight_obstacle.path)

@@ -23,7 +23,6 @@ export class RoundObstacle extends Obstacle {
         this.colliders = []
         // create circle
         round_obstacle[this.obstacleType].points.forEach(point => {
-            console.log(point.x, point.y)
             const collider = this.scene.add.circle(point.x, point.y, 8)
             this.scene.physics.add.existing(collider)
             ;(collider.body as Phaser.Physics.Arcade.Body)

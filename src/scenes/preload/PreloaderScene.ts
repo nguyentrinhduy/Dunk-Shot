@@ -18,13 +18,13 @@ export class PreloaderScene extends Scene {
         this.logo = this.add.sprite(380, 450, 'logo').setScale(0.7)
 
         //  A simple progress bar. This is the outline of the bar.
-        this.add.rectangle(400, 750, 468, 32).setStrokeStyle(1, 0xffffff)
+        this.add.rectangle(400, 750, 468, 32).setStrokeStyle(1, 0xff7300)
         this.percentText = this.add.text(370, 700, '', {
             fontSize: '25px',
-            color: '#ffffff'
+            color: '#ff7300'
         })
         //  This is the progress bar itself. It will increase in size from the left based on the % of progress.
-        const bar = this.add.rectangle(400 - 230, 750, 4, 28, 0xffffff)
+        const bar = this.add.rectangle(400 - 230, 750, 4, 28, 0xff7300)
 
         //  Use the 'progress' event emitted by the LoaderPlugin to update the loading bar
         this.load.on('progress', (progress: number) => {

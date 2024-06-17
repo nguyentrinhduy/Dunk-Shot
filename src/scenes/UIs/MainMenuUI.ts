@@ -1,9 +1,8 @@
-import { Scene, GameObjects, Game } from 'phaser'
+import { Scene, GameObjects, Game, Data } from 'phaser'
 import { Button } from '../../ui-game-objects/button/Button'
 import { Stars } from '../../ui-game-objects/Stars'
 import { UI } from './UI'
-// import { Button } from '../ui-game-objects/Button';
-// Use BUTTONS directly in the code
+import { DataManager } from '../../managers/DataManager'
 
 export class MainMenuUI extends UI {
     private logo: GameObjects.Sprite
@@ -61,6 +60,7 @@ export class MainMenuUI extends UI {
 
     private addStars(): void {
         this.stars = new Stars(this.scene, 700, 40)
+        this.stars.setStars(DataManager.getInstance().getStars())
         this.add(this.stars)
     }
 

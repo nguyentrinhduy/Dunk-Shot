@@ -13,7 +13,7 @@ export class PauseUI extends UI {
         this.create()
     }
     public create(): void {
-        this.background = this.scene.add.rectangle(0, 0, WINDOW_SIZE.WIDTH, WINDOW_SIZE.HEIGHT).setOrigin(0, 0).setFillStyle(0xffffff, 0.8)
+        this.background = this.scene.add.rectangle(0, 0, WINDOW_SIZE.WIDTH, WINDOW_SIZE.HEIGHT).setOrigin(0, 0).setFillStyle(0xdbdbdb, 0.8)
         this.resume_button = new Button(this.scene, WINDOW_SIZE.WIDTH/2, 200, () => {
             this.scene.scene.resume('MainGameScene')
             this.manager.transitionToNormalModeUI()

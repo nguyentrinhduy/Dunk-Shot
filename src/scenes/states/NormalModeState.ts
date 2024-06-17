@@ -70,13 +70,24 @@ export class NormalModeState extends State {
         }
     }
     private createBall() {
-        this.ball = new Ball(this.scene, 200, 500).setDepth(2).setScale(0.4)
+        this.ball = new Ball(this.scene, 200, 500).setDepth(2).setScale(0.4).setAlpha(0).setRotation(0)
         this.ball.body
             .setCircle(100)
             .setOffset(-100)
-            .setBounce(0.8)
-            .setAllowGravity(true)
+            .setBounce(0.9)
+            .setAllowGravity(false)
             .setImmovable(false)
+            .setVelocity(0, 0)
+            this.scene.add.tween({
+                targets: this.ball,
+                alpha: 1,
+                duration: 500,
+                ease: 'Quad.easeIn',
+                onComplete: () => {
+                    this.ball.body
+                        .setAllowGravity(true)
+                }
+            })
     }
     private createCamera() {
         this.camera = this.scene.cameras.main

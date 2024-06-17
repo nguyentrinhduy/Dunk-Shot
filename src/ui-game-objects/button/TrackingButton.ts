@@ -4,6 +4,8 @@ export class TrackingButton extends GameObjects.Container {
     private background: GameObjects.Sprite
     private text: GameObjects.Text
     private sprite: GameObjects.Sprite
+    private tracking: GameObjects.Sprite
+    private progress_text: GameObjects.Text
     private onPointerUp: () => void
     public constructor(scene: Scene, x: number = 0, y: number = 0, onPointerClicked: () => void) {
         super(scene, x, y)
@@ -12,18 +14,22 @@ export class TrackingButton extends GameObjects.Container {
         this.y = y
         this.onPointerUp = onPointerClicked
         this.addHover()
+        this.setScale(0.6)
         this.on('pointerup', this.onPointerUp)
     }
 
     public addBackground(
         backgroundKey: string,
-        x: number,
-        y: number
     ): void {
-        this.background = this.scene.add.sprite(x, y, backgroundKey)
+        this.background = this.scene.add.sprite(0, 0, backgroundKey)
         this.add(this.background)
         this.setSize(this.background.width, this.background.height)
         this.setInteractive()
+    }
+    public addTracking(
+        progress: number,
+    ) {
+
     }
 
     public addSprite(
@@ -49,10 +55,10 @@ export class TrackingButton extends GameObjects.Container {
 
     private addHover() {
         this.on('pointerover', () => {
-            if (this.scale === 1.2) return
+            if (this.scale === 0.8) return
             this.scene.add.tween({
                 targets: this,
-                scale: 1.2,
+                scale: 0.8,
                 duration: 50,
                 ease: 'Linear'
             })
@@ -61,7 +67,7 @@ export class TrackingButton extends GameObjects.Container {
             if (this.scale === 1) return
             this.scene.add.tween({
                 targets: this,
-                scale: 1,
+                scale: 0.6,
                 duration: 50,
                 ease: 'Linear'
             })

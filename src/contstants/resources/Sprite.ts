@@ -40,7 +40,23 @@ export const icons = {
     stars_ui: {
         key: 'stars_ui',
         path: 'components/icons/stars_ui.png'
-    }
+    },
+    limit_time_icon: {
+        key: 'limit_time_icon',
+        path: 'components/icons/limit_time_icon.png'
+    },
+    bounce_icon: {
+        key: 'bounce_icon',
+        path: 'components/icons/bounce_icon.png'
+    },
+    accurate_icon: {
+        key: 'accurate_icon',
+        path: 'components/icons/accurate_icon.png'
+    },
+    achievement_icon: {
+        key: 'achievement_icon',
+        path: 'components/icons/achievement_icon.png'
+    },
 }
 
 export const panels = {
@@ -83,7 +99,23 @@ export const buttons = {
     pause_button: {
         key: 'pause_button',
         path: 'components/buttons/pause_button.png'
-    }
+    },
+    limit_time_button: {
+        key: 'limit_time_button',
+        path: 'components/buttons/limit_time_button.png'
+    },
+    achievement_button: {
+        key: 'achievement_button',
+        path: 'components/buttons/achievement_button.png'
+    },
+    bounce_button: {
+        key: 'bounce_button',
+        path: 'components/buttons/bounce_button.png'
+    },
+    accurate_button: {
+        key: 'accurate_button',
+        path: 'components/buttons/accurate_button.png'
+    },
 }
 
 export const text = {

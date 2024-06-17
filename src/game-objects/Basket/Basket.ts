@@ -134,13 +134,13 @@ export class Basket extends GameObjects.Container {
             this.netColliders.push(collider)
         })
         // create overlapper
-        this.netOverlapper = this.scene.add.circle(0, 60, 10)
+        this.netOverlapper = this.scene.add.circle(0, 60, 15)
         this.scene.physics.add.existing(this.netOverlapper)
         ;(this.netOverlapper.body as Phaser.Physics.Arcade.Body)
             .setAllowGravity(false)
             .setImmovable(true)
             .setBounce(0)
-            .setCircle(10)
+            .setCircle(15)
         this.add(this.netOverlapper)
         this.scene.physics.add.overlap(this.ball, this.netOverlapper, this.handleNetOverlapped)
     }
@@ -261,7 +261,7 @@ export class Basket extends GameObjects.Container {
         this.scene.input.on('dragend', () => {
             if (!this.containingBall) return
             this.containingBall = false
-            this.ball.body.setAllowGravity(true).setImmovable(false).setEnable(true).setBounce(0.8)
+            this.ball.body.setAllowGravity(true).setImmovable(false).setEnable(true).setBounce(0.9)
             this.ball.clearPredictionLine()
             this.ball.shoot()
             this.scene.tweens.chain({
