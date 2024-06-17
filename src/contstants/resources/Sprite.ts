@@ -60,6 +60,14 @@ export const buttons = {
         key: 'ball_skins_button',
         path: 'components/buttons/ball_skins_button.png'
     },
+    main_menu_button: {
+        key: 'main_menu_button',
+        path: 'components/buttons/main_menu_button.png'
+    },
+    resume_button: {
+        key: 'resume_button',
+        path: 'components/buttons/resume_button.png'
+    },
     settings_button: {
         key: 'settings_button',
         path: 'components/buttons/settings_button.png'
@@ -105,8 +113,8 @@ export const obstacle = {
             path: 'obstacles/round_obstacle_4.png'
         },
     ],
-    bouncer: {
-        key: 'bouncer',
-        path: 'obstacles/bouncer.png'
+    bouncer_obstacle: {
+        key: 'bouncer_obstacle',
+        path: 'obstacles/bouncer_obstacle.png'
     }
 }

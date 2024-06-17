@@ -8,22 +8,27 @@ import { PauseUI } from "../scenes/UIs/PauseUI";
 import { SettingsUI } from "../scenes/UIs/SettingsUI";
 import { NormalModeUI } from "../scenes/UIs/NormalModeUI";
 import { BallSkinsUI } from "../scenes/UIs/BallSkinsUI";
+import { ChallengeMenuUI } from "../scenes/UIs/ChallengeMenuUI";
 
 export class SceneManager {
     private uiScene: Scene
     private ui: UI
     private stateScene: Scene
     private state: State
+    
     public setUIScene(scene: Scene): void {
         this.uiScene = scene
     }
     public setStateScene(scene: Scene): void {
         this.stateScene = scene
     }
+
+    // game state transitions
     public transitionToNormalModeState(): void {
         this.transitionToState(new NormalModeState(this.stateScene))
-        
     }
+
+    // UI transitions
     public transitionToMainMenuUI(): void {
         this.transitionToUI(new MainMenuUI(this.uiScene))
     }
@@ -42,6 +47,11 @@ export class SceneManager {
     public transitionToBallSkinsUI(): void {
         this.transitionToUI(new BallSkinsUI(this.uiScene))
     }
+    public transitionToChallengeMenuUI(): void {
+        this.transitionToUI(new ChallengeMenuUI(this.uiScene))
+    }
+
+    
     public update(time: number, delta: number): void {
         this.state.update(time, delta)
     }

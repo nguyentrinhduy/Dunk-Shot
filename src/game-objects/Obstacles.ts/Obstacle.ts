@@ -10,7 +10,7 @@ export abstract class Obstacle extends GameObjects.Container{
         this.ball = ball
         scene.add.existing(this)
     } 
-    
+    public abstract setNotAllowPhysics(): void
     protected abstract addColliders(): void
     public abstract update(time: number, delta: number): void
 }

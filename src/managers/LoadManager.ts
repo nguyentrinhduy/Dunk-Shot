@@ -1,6 +1,7 @@
 import { Scene } from "phaser";
 import { ProgressBar } from "../ui-game-objects/ProgressBar";
-import { ball, basket, buttons, icons, sprite_path } from "../contstants/resources/Sprite";
+import { ball, basket, buttons, icons, obstacle, sprite_path } from "../contstants/resources/Sprite";
+import { audio_path } from "../contstants/resources/Audio";
 
 export class LoadManager {
     private progressBar: ProgressBar
@@ -23,6 +24,7 @@ export class LoadManager {
         this.scene.load.image(basket.net.key, basket.net.path)
         this.scene.load.image(basket.basket_effect.key, basket.basket_effect.path)
         // Effects
+        
         // Components
         this.scene.load.image(icons.orange_ball_icon.key, icons.orange_ball_icon.path)
         this.scene.load.image(icons.stars.key, icons.stars.path)
@@ -34,10 +36,19 @@ export class LoadManager {
         this.scene.load.image(buttons.orange_background.key, buttons.orange_background.path)
         this.scene.load.image(buttons.settings_button.key, buttons.settings_button.path)
         this.scene.load.image(buttons.pause_button.key, buttons.pause_button.path)
-        this.scene.load.image()
+        this.scene.load.image(buttons.main_menu_button.key, buttons.main_menu_button.path)
+        this.scene.load.image(buttons.resume_button.key, buttons.resume_button.path)
+        this.scene.load.image(buttons.play_again_button.key, buttons.play_again_button.path)
+
+        // obstacles
+        this.scene.load.image(obstacle.straight_obstacle.key, obstacle.straight_obstacle.path)
+        this.scene.load.image(obstacle.bouncer_obstacle.key, obstacle.bouncer_obstacle.path)
+        obstacle.round_obstacle.forEach(element => {
+            this.scene.load.image(element.key, element.path)
+        });
     }
     public loadAudios(): void {
-
+        this.scene.load.setPath(audio_path)
     }
     public loadDatas(): void {
 
@@ -46,9 +57,6 @@ export class LoadManager {
         if (ballType < 0 || ballType > ball.number) {
             throw new Error('ball not found')
         }
-        console.log(
-            ball.path + Math.floor(ballType / 10).toString() + (ballType % 10).toString() + '.png'
-        )
         return (
             ball.path + Math.floor(ballType / 10).toString() + (ballType % 10).toString() + '.png'
         )

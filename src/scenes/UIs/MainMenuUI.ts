@@ -54,7 +54,6 @@ export class MainMenuUI extends UI {
         this.add(this.challengeButton)
         this.add(this.ballSkinsButton)
         this.add(this.settingsButton)
-        console.log(this.width, this.height)
         this.scene.physics.add.existing(this)
         this.setInteractive()
         this.on('pointerdown', this.onMainScreenClicked)
@@ -70,16 +69,15 @@ export class MainMenuUI extends UI {
     }
 
     private onChallengeButtonClicked = () => {
-        
+        this.manager.transitionToChallengeMenuUI()
     }
     private onBallSkinsButtonClicked = () => {
-
+        this.manager.transitionToBallSkinsUI()
     }
     private onSettingsButtonClicked = () => {
-
+        this.manager.transitionToSettingsUI()
     }
     private onMainScreenClicked = () => {
-        console.log('clicked')
         this.scene.add.tween({
             targets: [this.challengeButton, this.ballSkinsButton, this.settingsButton, this.logo],
             alpha: 0,

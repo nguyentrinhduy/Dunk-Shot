@@ -20,12 +20,10 @@ export class Ball extends GameObjects.Container {
         this.add(this.ballSprite)
         scene.add.existing(this)
         scene.physics.add.existing(this)
-        console.log('already created ball')
         // this.setBallType(0)
     }
     public setBallType(ballType: number = 0) {
         this.ballType = ballType
-        console.log(this.getBallKey())
         this.ballSprite.setTexture(this.getBallKey())
     }
     private getBallKey(): string {
@@ -35,7 +33,6 @@ export class Ball extends GameObjects.Container {
     }
     public drawPredictionLine() {
         this.predictionLineHelper.draw(
-            this.scene,
             this.x,
             this.y,
             this.shootX,
@@ -54,5 +51,10 @@ export class Ball extends GameObjects.Container {
     }
     public update(time: number, delta: number) {
         this.rotation += delta * this.body.velocity.x * 0.00005
+    }
+    public destroy() {
+        this.predictionLineHelper.destroy()
+        this.flameEffect.destroy()
+        super.destroy()
     }
 }

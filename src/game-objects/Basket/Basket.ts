@@ -7,6 +7,7 @@ import { Obstacle } from '../Obstacles.ts/Obstacle'
 import { StraightObstacle } from '../Obstacles.ts/StraightObstacle'
 import { PredictionLine } from '../../helpers/PredictionLine'
 import { DataManager } from '../../managers/DataManager'
+import { Path } from '../../helpers/Path'
 export class Basket extends GameObjects.Container {
     private roundUp: GameObjects.Sprite
     private roundUpContainer: GameObjects.Container
@@ -27,7 +28,9 @@ export class Basket extends GameObjects.Container {
     private ball: Ball
     private star: Star
     private obstacle: Obstacle
-    private predictionLine: PredictionLine
+    private line: PredictionLine
+    private path: Path
+    
     public constructor(
         scene: Scene,
         x: number = 0,
@@ -48,27 +51,38 @@ export class Basket extends GameObjects.Container {
         this.addSprites(rotation)
         this.createColliders()
         this.registerDragging()
-        // this.createStar()
-        // this.createObstacle()
+        this.createLine()
+        this.setPath()
     }
 
     private addSprites(rotation: number): void {
         this.roundUp = this.scene.add.sprite(0, 0, 'round_up').setTint(0xff0000)
-        this.roundUpContainer.add(this.roundUp).setDepth(0).setRotation(rotation)
+        this.roundUpContainer.add(this.roundUp).setDepth(1).setRotation(rotation)
         this.roundDown = this.scene.add.sprite(0, 0, 'round_down').setTint(0xff0000)
-        this.roundDownContainer.add(this.roundDown).setDepth(3).setRotation(rotation)
+        this.roundDownContainer.add(this.roundDown).setDepth(4).setRotation(rotation)
         this.effect = this.scene.add.sprite(0, 0, 'basket_effect').setTint(0xa80707).setDepth(4).setAlpha(0)
         this.roundDownContainer.add(this.effect)
-        this.setDepth(2).setRotation(rotation)
+        this.setDepth(3).setRotation(rotation)
         this.net = this.scene.add.sprite(0, 47, 'net').setDepth(0)
         this.net.scaleY = 1
         this.add(this.net)
     }
+    public setPath(startPoint: Phaser.Math.Vector2 = new Phaser.Math.Vector2(this.x, this.y), endPoint: Phaser.Math.Vector2 = new Phaser.Math.Vector2(this.x, this.y)) {
+        this.path = new Path(startPoint, endPoint)
+        this.line.drawLinePath(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
+    }
     public setFirstTurn() {
         this.firstTurn = true
     }
-    private createPredictionLine() {
-        this.predictionLine = new PredictionLine(this.scene)
+    private createLine() {
+        this.line = new PredictionLine(this.scene)
+    }
+    public addStar(star: Star): void {
+        this.star = star
+        this.add(this.star)
+    }
+    public addObstacle(obstacle: Obstacle): void {
+        this.obstacle = obstacle
     }
     private createColliders(): void {
         // add left collider
@@ -136,6 +150,15 @@ export class Basket extends GameObjects.Container {
             this.checkOverlap = false
             if (!this.containedBall) {
                 this.containedBall = true
+                this.setPath(new Phaser.Math.Vector2(this.x, this.y), new Phaser.Math.Vector2(this.x, this.y))
+                if (this.star) {
+                    this.star.setVisible(false)
+                    this.star.body.setEnable(false)
+                }
+                if (this.obstacle) {
+                    this.obstacle.setVisible(false)
+                    this.obstacle.setNotAllowPhysics()
+                }
                 if (!this.firstTurn) {
                     this.roundDown.setTint(0x636363)
                     this.roundUp.setTint(0x636363)
@@ -144,7 +167,6 @@ export class Basket extends GameObjects.Container {
             }
             this.ball.body.setBounce(0).setAllowGravity(false).setEnable(false).setVelocity(0)
             this.callElasticAnimation()
-            this.containingBall = true
         }
     }
     private callElasticAnimation() {
@@ -201,9 +223,6 @@ export class Basket extends GameObjects.Container {
     }
     private registerDragging() {
         this.scene.input.dragTimeThreshold = 30
-        this.scene.input.on('dragstart', (pointer: Phaser.Input.Pointer) => {
-            console.log('pointer down')
-        })
         this.scene.input.on(
             'drag',
             (
@@ -228,7 +247,6 @@ export class Basket extends GameObjects.Container {
                     pointer.x,
                     pointer.y
                 )
-
                 this.setRotation(rotation)
                 this.roundDownContainer.setRotation(rotation)
                 this.roundUpContainer.setRotation(rotation)
@@ -243,7 +261,6 @@ export class Basket extends GameObjects.Container {
         this.scene.input.on('dragend', () => {
             if (!this.containingBall) return
             this.containingBall = false
-            this.containedBall = false
             this.ball.body.setAllowGravity(true).setImmovable(false).setEnable(true).setBounce(0.8)
             this.ball.clearPredictionLine()
             this.ball.shoot()
@@ -288,16 +305,12 @@ export class Basket extends GameObjects.Container {
             ease: 'linear',
         })
     }
-    private createStar(): void {
-        this.star = new Star(this.scene, 0, 0, this.ball).setActive(false)
-        this.add(this.star)
-    }
-
-    private createObstacle(): void {
-        this.obstacle = new StraightObstacle(this.scene, 0, 0, this.ball).setActive(false)
-        this.add(this.obstacle)
-    }
     public update(time: number, delta: number) {
+        if (this.star) this.star.update(time, delta)
+        if (this.obstacle) this.obstacle.update(time, delta)
+        const point = this.path.getNewPosition(time, delta)
+        this.x = point.x
+        this.y = point.y
         this.roundDownContainer.x = this.x
         this.roundDownContainer.y = this.y
         this.roundUpContainer.x = this.x
@@ -307,6 +320,9 @@ export class Basket extends GameObjects.Container {
     public destroy() {
         this.roundDownContainer.destroy()
         this.roundUpContainer.destroy()
+        this.line.destroy()
+        if (this.star) this.star.destroy()
+        if (this.obstacle) this.obstacle.destroy()
         super.destroy()
     }
 }

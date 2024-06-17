@@ -5,8 +5,8 @@ import { Button } from "../../ui-game-objects/button/Button";
 import { UI } from "./UI";
 
 export class NormalModeUI extends UI{
-    private pause_button: Button
-    private score_text: Phaser.GameObjects.Text
+    private pauseButton: Button
+    private scoreText: Phaser.GameObjects.Text
     private stars: Stars
     private dataManager: DataManager
     public constructor(scene: Phaser.Scene) {
@@ -14,20 +14,23 @@ export class NormalModeUI extends UI{
         this.create()
     }
     public create(): void {
+        this.dataManager = DataManager.getInstance()
         this.stars = new Stars(this.scene, 700, 40)
-        this.pause_button = new Button(this.scene, 40, 40, () => {
+        this.stars.setStars(this.dataManager.getStars())
+        this.pauseButton = new Button(this.scene, 40, 40, () => {
             this.scene.scene.pause('MainGameScene')
             this.manager.transitionToPauseUI()
         })
-        this.score_text = this.scene.add.text(WINDOW_SIZE.WIDTH/2, 200, '0', {fontSize: '100px', color: 'black', fontStyle: 'bold'})
-        this.pause_button.addBackground('pause_button', 0, 0)
-        this.add(this.pause_button)
+        this.scoreText = this.scene.add.text(WINDOW_SIZE.WIDTH/2, 200, '0', {fontSize: '100px', color: 'black', fontStyle: 'bold'}).setOrigin(0.5)
+        this.scoreText.setText(this.dataManager.getScore().toString())
+        this.pauseButton.addBackground('pause_button', 0, 0)
+        this.add(this.pauseButton)
         this.add(this.stars)
-        this.add(this.score_text)
-        this.dataManager = DataManager.getInstance()
+        this.add(this.scoreText)
+        
     }
     public update(): void {
-        this.score_text.setText(this.dataManager.getScore().toString())
+        this.scoreText.setText(this.dataManager.getScore().toString())
         this.stars.setStars(this.dataManager.getStars())
     }
 }

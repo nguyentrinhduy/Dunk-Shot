@@ -28,10 +28,9 @@ export class NormalModeState extends State {
         this.mapGenerator.setBall(this.ball)
         this.baskets = this.mapGenerator.getFirstBaskets()
         this.scene.physics.world.gravity.y = 2000
+        DataManager.getInstance().reset()
         this.createCamera()
         this.createSideWalls()
-        this.add(this.ball)
-        this.add(this.baskets)
     }
     public update(time: number, delta: number): void {
         this.ball.update(time, delta)
@@ -63,12 +62,15 @@ export class NormalModeState extends State {
             else {
                 this.camera.stopFollow()
                 this.manager.transitionToGameOverUI()
+                this.scene.scene.pause('MainGameScene')
             }
         }
-        this.mapGenerator.getNextState()
+        if (this.baskets[1].containedBall) {
+            this.mapGenerator.getNewBasket()
+        }
     }
     private createBall() {
-        this.ball = new Ball(this.scene, 200, 500).setDepth(1).setScale(0.4)
+        this.ball = new Ball(this.scene, 200, 500).setDepth(2).setScale(0.4)
         this.ball.body
             .setCircle(100)
             .setOffset(-100)
@@ -78,24 +80,32 @@ export class NormalModeState extends State {
     }
     private createCamera() {
         this.camera = this.scene.cameras.main
+        this.camera.scrollY = 300
         this.camera.startFollow(this.ball, true, 0, 0.02, 200 - WINDOW_SIZE.WIDTH / 2, 200)
     }
     private createSideWalls() {
         this.leftSideWall = this.scene.add
-            .rectangle(-10, 0, 10, WINDOW_SIZE.HEIGHT, 0x000000)
+            .rectangle(-10, 0, 10, WINDOW_SIZE.HEIGHT)
             .setOrigin(0)
         this.scene.physics.add.existing(this.leftSideWall)
         ;(this.leftSideWall.body as Phaser.Physics.Arcade.Body)
             .setAllowGravity(false)
             .setImmovable(true)
         this.scene.physics.add.collider(this.ball, this.leftSideWall)
+        this.add(this.leftSideWall)
+
         this.rightSideWall = this.scene.add
-            .rectangle(WINDOW_SIZE.WIDTH, 0, 10, WINDOW_SIZE.HEIGHT, 0x000000)
+            .rectangle(WINDOW_SIZE.WIDTH, 0, 10, WINDOW_SIZE.HEIGHT)
             .setOrigin(0)
         this.scene.physics.add.existing(this.rightSideWall)
         ;(this.rightSideWall.body as Phaser.Physics.Arcade.Body)
             .setAllowGravity(false)
             .setImmovable(true)
         this.scene.physics.add.collider(this.ball, this.rightSideWall)
+        this.add(this.rightSideWall)
+    }
+    public destroy(fromScene?: boolean | undefined): void {
+        this.ball.destroy()
+        this.baskets.forEach((basket) => basket.destroy())
     }
 }

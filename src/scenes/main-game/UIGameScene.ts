@@ -1,17 +1,11 @@
 import { Scene } from "phaser";
-import { UI } from "../UIs/UI";
 import { SceneManager } from "../../managers/SceneManager";
-import { MainMenuUI } from "../UIs/MainMenuUI";
 
 export class UIGameScene extends Scene {
     private manager: SceneManager
     public constructor() {
         super('UIGameScene')
         
-    }
-
-    init() {
-
     }
     create(data: SceneManager) {
         this.input.setTopOnly(true)

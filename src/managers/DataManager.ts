@@ -8,8 +8,6 @@ export class DataManager {
     private highScore: number
     private score: number
     private stars: number
-    private basket: Basket
-    private ball: Ball
     private static instance: DataManager
     public static getInstance(): DataManager {
         if (!DataManager.instance) {
@@ -25,6 +23,9 @@ export class DataManager {
     }
     private init() {
 
+    }
+    public reset() {
+        this.score = 0
     }
     public getScore(): number {
         return this.score
