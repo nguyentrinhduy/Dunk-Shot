@@ -27,8 +27,7 @@ export class AudioManager {
     private constructor() {
         this.settingsManager = SettingsManager.getInstance()
         this.streakSound = []
-        this.turnOn = true
-
+        this.turnOn = this.settingsManager.getSounds()
     }
     public init(scene: Scene): void {
         this.scene = scene

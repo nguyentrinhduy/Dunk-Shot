@@ -30,7 +30,7 @@ export class MainMenuUI extends UI {
             targets: this.logo,
             y: 300,
             duration: 1000,
-            ease: 'Bounce.easeOut'
+            ease: 'Bounce.easeOut',
         })
     }
 
@@ -38,13 +38,13 @@ export class MainMenuUI extends UI {
         // challenge button
         this.challengeButton = new Button(this.scene, 600, 800, this.onChallengeButtonClicked)
         this.challengeButton.addBackground('challenge_button', 0, 0)
-        this.challengeButton.addText('CHALLENGE', -55, 20, { fontSize: '20px'})
+        this.challengeButton.addText('CHALLENGE', -55, 20, { fontSize: '20px' })
 
         // ball skins button
         this.ballSkinsButton = new Button(this.scene, 400, 800, this.onBallSkinsButtonClicked)
         this.ballSkinsButton.addBackground('orange_background', 0, 0)
         this.ballSkinsButton.addSprite('orange_ball_icon', 0, -30)
-        this.ballSkinsButton.addText('CUSTOMIZE', -55, 20, { fontSize: '20px'})
+        this.ballSkinsButton.addText('CUSTOMIZE', -55, 20, { fontSize: '20px' })
 
         // settings button
         this.settingsButton = new Button(this.scene, 40, 40, this.onSettingsButtonClicked)
@@ -59,14 +59,12 @@ export class MainMenuUI extends UI {
     }
 
     private addStars(): void {
-        this.stars = new Stars(this.scene, 700, 40)
+        this.stars = new Stars(this.scene, 670, 40)
         this.stars.setStars(DataManager.getInstance().getStars())
         this.add(this.stars)
     }
 
-    public update(): void {
-
-    }
+    public update(): void {}
 
     private onChallengeButtonClicked = () => {
         this.manager.transitionToChallengeMenuUI()
@@ -85,7 +83,7 @@ export class MainMenuUI extends UI {
             ease: 'Linear',
             onComplete: () => {
                 this.manager.transitionToNormalModeUI()
-            }
+            },
         })
     }
 }

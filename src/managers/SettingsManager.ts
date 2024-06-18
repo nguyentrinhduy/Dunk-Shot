@@ -6,8 +6,29 @@ export class SettingsManager {
     private nightMode: boolean
     private static instance: SettingsManager
     private constructor() {
-        this.vibration = true
-        this.sounds = true
+        let retrievedData = localStorage.getItem('sounds')
+        if (retrievedData) {
+            this.sounds = JSON.parse(retrievedData)
+        }
+        else {
+            this.sounds = true
+        }
+
+        retrievedData = localStorage.getItem('vibration')
+        if (retrievedData) {
+            this.vibration = JSON.parse(retrievedData)
+        }
+        else {
+            this.vibration = true
+        }
+
+        retrievedData = localStorage.getItem('night_mode') 
+        if (retrievedData) {
+            this.nightMode = JSON.parse(retrievedData)
+        }
+        else {
+            this.nightMode = true
+        }
     }
     public static getInstance(): SettingsManager {
         if (!SettingsManager.instance) {
@@ -17,13 +38,16 @@ export class SettingsManager {
     }
     public toggleVibration(): void {
         this.vibration = !this.vibration
+        localStorage.setItem('vibration', JSON.stringify(this.vibration))
     }
     public toggleSounds(): void {
         this.sounds = !this.sounds
         AudioManager.getInstance().toggleSounds()
+        localStorage.setItem('sounds', JSON.stringify(this.sounds))
     }
     public toggleNightMode(): void {
         this.nightMode = !this.nightMode
+        localStorage.setItem('night_mode', JSON.stringify(this.nightMode))
     }
     public getSounds(): boolean {
         return this.sounds

@@ -21,7 +21,8 @@ export class PreloaderScene extends Scene {
         this.add.rectangle(400, 750, 468, 32).setStrokeStyle(1, 0xff7300)
         this.percentText = this.add.text(370, 700, '', {
             fontSize: '25px',
-            color: '#ff7300'
+            color: '#ff7300',
+            fontStyle: 'bold'
         })
         //  This is the progress bar itself. It will increase in size from the left based on the % of progress.
         const bar = this.add.rectangle(400 - 230, 750, 4, 28, 0xff7300)

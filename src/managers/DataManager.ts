@@ -16,12 +16,38 @@ export class DataManager {
         return DataManager.instance
     }
     private constructor() {
-        this.ballUnlocked = Array(78).fill(false)
-        this.ballUnlocked[0] = true
-        this.currentBallType = 0
-        this.score = 0
-        this.highScore = 0
-        this.stars = 300
+        let retrievedData = localStorage.getItem('ball_unlocked')
+        if (retrievedData) {
+            this.ballUnlocked = JSON.parse(retrievedData)
+        }
+        else {
+            this.ballUnlocked = Array(78).fill(false)
+            this.ballUnlocked[0] = true
+        }
+
+        retrievedData = localStorage.getItem('current_ball_type')
+        if (retrievedData) {
+            this.currentBallType = JSON.parse(retrievedData)
+        }
+        else {
+            this.currentBallType = 0
+        }
+
+        retrievedData = localStorage.getItem('high_score')
+        if (retrievedData) {
+            this.highScore = JSON.parse(retrievedData)
+        }
+        else {
+            this.highScore = 0
+        }
+
+        retrievedData = localStorage.getItem('stars')
+        if (retrievedData) {
+            this.stars = JSON.parse(retrievedData)
+        }
+        else {
+            this.stars = 300
+        }
     }
     private init() {}
     public reset() {
@@ -29,12 +55,14 @@ export class DataManager {
     }
     public setBallType(ballType: number) {
         this.currentBallType = ballType
+        localStorage.setItem('current_ball_type', JSON.stringify(this.currentBallType))
     }
     public getBallType(): number {
         return this.currentBallType
     }
     public unlockBall(ballType: number) {
         this.ballUnlocked[ballType] = true
+        localStorage.setItem('ball_unlocked', JSON.stringify(this.ballUnlocked))
     }
     public isBallUnlocked(ballType: number): boolean{
         return this.ballUnlocked[ballType]
@@ -44,6 +72,8 @@ export class DataManager {
     }
     public addScore(score: number): void {
         this.score += score
+        this.highScore = Math.max(this.score, this.highScore)
+        localStorage.setItem('high_score', JSON.stringify(this.highScore))
     }
     public getHighScore(): number {
         return this.highScore
@@ -53,5 +83,6 @@ export class DataManager {
     }
     public addStars(stars: number) {
         this.stars += stars
+        localStorage.setItem('stars', JSON.stringify(this.stars))
     }
 }

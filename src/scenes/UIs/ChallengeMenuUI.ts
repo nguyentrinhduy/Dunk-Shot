@@ -1,10 +1,10 @@
-import { Data, Scene } from "phaser";
-import { UI } from "./UI";
-import { Button } from "../../ui-game-objects/button/Button";
-import { Stars } from "../../ui-game-objects/Stars";
-import { TrackingButton } from "../../ui-game-objects/button/TrackingButton";
-import { DataManager } from "../../managers/DataManager";
-import { WINDOW_SIZE } from "../../contstants/WindowSize";
+import { Data, Scene } from 'phaser'
+import { UI } from './UI'
+import { Button } from '../../ui-game-objects/button/Button'
+import { Stars } from '../../ui-game-objects/Stars'
+import { TrackingButton } from '../../ui-game-objects/button/TrackingButton'
+import { DataManager } from '../../managers/DataManager'
+import { WINDOW_SIZE } from '../../contstants/WindowSize'
 
 export class ChallengeMenuUI extends UI {
     private backButton: Button
@@ -26,7 +26,10 @@ export class ChallengeMenuUI extends UI {
         this.createStars()
     }
     private createBackground() {
-        this.background = this.scene.add.rectangle(0, 0, WINDOW_SIZE.WIDTH, WINDOW_SIZE.HEIGHT).setOrigin(0, 0).setFillStyle(0xdbdbdb, 1)
+        this.background = this.scene.add
+            .rectangle(0, 0, WINDOW_SIZE.WIDTH, WINDOW_SIZE.HEIGHT)
+            .setOrigin(0, 0)
+            .setFillStyle(0xdbdbdb, 1)
         this.add(this.background)
     }
     private createButtons(): void {
@@ -36,44 +39,58 @@ export class ChallengeMenuUI extends UI {
         this.backButton.addBackground('back_button', 0, 0)
         this.add(this.backButton)
 
-        this.limitTimeButton = new TrackingButton(this.scene, WINDOW_SIZE.WIDTH/2, 200, () => {
+        this.limitTimeButton = new TrackingButton(this.scene, WINDOW_SIZE.WIDTH / 2, 200, () => {
             // this.manager.transitionToChallengeModeUI()
         })
         this.limitTimeButton.addBackground('limit_time_button')
         this.limitTimeButton.addSprite('limit_time_icon', -150, 0)
-        this.limitTimeButton.addText('LIMIT TIME', -70, -20, {fontSize: '45px', fontStyle: 'bold', color: 'white'})
+        this.limitTimeButton.addText('LIMIT TIME', -70, -20, {
+            fontSize: '45px',
+            fontStyle: 'bold',
+            color: 'white',
+        })
         this.add(this.limitTimeButton)
-        
-        this.achievementButton = new TrackingButton(this.scene, WINDOW_SIZE.WIDTH/2, 400, () => {
+
+        this.achievementButton = new TrackingButton(this.scene, WINDOW_SIZE.WIDTH / 2, 400, () => {
             // this.manager.transitionToChallengeModeUI()
         })
         this.achievementButton.addBackground('achievement_button')
         this.achievementButton.addSprite('achievement_icon', -150, 0)
-        this.achievementButton.addText('ACHIEVEMENT', -70, -20, {fontSize: '45px', fontStyle: 'bold', color: 'white'})
+        this.achievementButton.addText('ACHIEVEMENT', -70, -20, {
+            fontSize: '45px',
+            fontStyle: 'bold',
+            color: 'white',
+        })
         this.add(this.achievementButton)
 
-        this.bounceButton = new TrackingButton(this.scene, WINDOW_SIZE.WIDTH/2, 600, () => {
+        this.bounceButton = new TrackingButton(this.scene, WINDOW_SIZE.WIDTH / 2, 600, () => {
             // this.manager.transitionToChallengeModeUI()
         })
         this.bounceButton.addBackground('bounce_button')
         this.bounceButton.addSprite('bounce_icon', -150, 0)
-        this.bounceButton.addText('BOUNCE', -70, -20, {fontSize: '45px', fontStyle: 'bold', color: 'white'})
+        this.bounceButton.addText('BOUNCE', -70, -20, {
+            fontSize: '45px',
+            fontStyle: 'bold',
+            color: 'white',
+        })
         this.add(this.bounceButton)
-        
-        this.accurateButton = new TrackingButton(this.scene, WINDOW_SIZE.WIDTH/2, 800, () => {
+
+        this.accurateButton = new TrackingButton(this.scene, WINDOW_SIZE.WIDTH / 2, 800, () => {
             // this.manager.transitionToChallengeModeUI()
         })
         this.accurateButton.addBackground('accurate_button')
         this.accurateButton.addSprite('accurate_icon', -150, 0)
-        this.accurateButton.addText('ACCURATE', -70, -20, {fontSize: '45px', fontStyle: 'bold', color: 'white'})
+        this.accurateButton.addText('ACCURATE', -70, -20, {
+            fontSize: '45px',
+            fontStyle: 'bold',
+            color: 'white',
+        })
         this.add(this.accurateButton)
     }
     private createStars(): void {
-        this.stars = new Stars(this.scene, 700, 40)
+        this.stars = new Stars(this.scene, 670, 40)
         this.stars.setStars(DataManager.getInstance().getStars())
         this.add(this.stars)
     }
-    public update(time: number, delta: number): void {
-        
-    }
+    public update(time: number, delta: number): void {}
 }
