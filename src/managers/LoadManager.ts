@@ -1,6 +1,6 @@
 import { Scene } from "phaser";
 import { ProgressBar } from "../ui-game-objects/ProgressBar";
-import { ball, basket, buttons, icons, obstacle, sprite_path } from "../contstants/resources/Sprite";
+import { ball, basket, buttons, icons, obstacle, panels, sprite_path, text } from "../contstants/resources/Sprite";
 import { audio_path, collision, effect, max_streak, shooting } from "../contstants/resources/Audio";
 
 export class LoadManager {
@@ -13,11 +13,15 @@ export class LoadManager {
 
     public loadSprites(): void {
         // Balls
+        console.log(1)
         this.scene.load.setPath(sprite_path)
         for (let ballType = 0; ballType < ball.number; ballType++) {
             this.scene.load.image(this.getBallKey(ballType), this.getBallPath(ballType))
         }
+        this.scene.load.image(ball.locked_ball.key, ball.locked_ball.path)
+        this.scene.load.image(ball.chosen_round.key, ball.chosen_round.path)
 
+        console.log(2)
         // Baskets
         this.scene.load.image(basket.round_up.key, basket.round_up.path)
         this.scene.load.image(basket.round_down.key, basket.round_down.path)
@@ -34,7 +38,16 @@ export class LoadManager {
         this.scene.load.image(icons.accurate_icon.key, icons.accurate_icon.path)
         this.scene.load.image(icons.achievement_icon.key, icons.achievement_icon.path)
 
+        this.scene.load.image(panels.gray_top_panel.key, panels.gray_top_panel.path)
+        this.scene.load.image(panels.blue_top_panel.key, panels.blue_top_panel.path)
+        this.scene.load.image(panels.accurate_banner.key, panels.accurate_banner.path)
+        this.scene.load.image(panels.bounce_banner.key, panels.bounce_banner.path)
+        this.scene.load.image(panels.limit_time_banner.key, panels.limit_time_banner.path)
+        this.scene.load.image(panels.achievement_banner.key, panels.achievement_banner.path)
+        this.scene.load.image(panels.line.key, panels.line.path)
+
         this.scene.load.image(buttons.back_button.key, buttons.back_button.path)
+        this.scene.load.image(buttons.white_back_button.key, buttons.white_back_button.path)
         this.scene.load.image(buttons.ball_skins_button.key, buttons.ball_skins_button.path)
         this.scene.load.image(buttons.challenge_button.key, buttons.challenge_button.path)
         this.scene.load.image(buttons.orange_background.key, buttons.orange_background.path)
@@ -47,7 +60,12 @@ export class LoadManager {
         this.scene.load.image(buttons.achievement_button.key, buttons.achievement_button.path)
         this.scene.load.image(buttons.limit_time_button.key, buttons.limit_time_button.path)
         this.scene.load.image(buttons.accurate_button.key, buttons.accurate_button.path)
+        this.scene.load.image(buttons.toggle_dot.key, buttons.toggle_dot.path)
+        this.scene.load.image(buttons.toggle_space.key, buttons.toggle_space.path)
 
+        this.scene.load.image(text.toggle.on_text.key, text.toggle.on_text.path)
+        this.scene.load.image(text.toggle.off_text.key, text.toggle.off_text.path)
+        
         // obstacles
         this.scene.load.image(obstacle.straight_obstacle.key, obstacle.straight_obstacle.path)
         this.scene.load.image(obstacle.bouncer_obstacle.key, obstacle.bouncer_obstacle.path)
@@ -79,6 +97,9 @@ export class LoadManager {
         }
     }
     public loadDatas(): void {
+
+    }
+    public loadChallengeLevels(): void {
 
     }
     private getBallPath(ballType: number): string {

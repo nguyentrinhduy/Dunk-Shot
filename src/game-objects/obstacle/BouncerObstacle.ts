@@ -1,6 +1,6 @@
-import { AudioManager } from "../../managers/AudioManager";
-import { Ball } from "../Ball/Ball";
-import { Obstacle } from "./Obstacle";
+import { AudioManager } from '../../managers/AudioManager'
+import { Ball } from '../ball/Ball'
+import { Obstacle } from './Obstacle'
 
 export class BouncerObstacle extends Obstacle {
     declare body: Phaser.Physics.Arcade.Body
@@ -21,7 +21,7 @@ export class BouncerObstacle extends Obstacle {
             .setBounce(0)
             .setImmovable(true)
             .setOffset(-40)
-    
+
         this.scene.physics.add.collider(this.ball, this, () => {
             AudioManager.getInstance().getCollideWallSound()
         })
@@ -29,7 +29,5 @@ export class BouncerObstacle extends Obstacle {
     public setNotAllowPhysics(): void {
         this.body.setEnable(false)
     }
-    public update(time: number, delta: number): void {
-        
-    }
+    public update(time: number, delta: number): void {}
 }

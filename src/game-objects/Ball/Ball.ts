@@ -1,8 +1,8 @@
 import { GameObjects, Scene } from 'phaser'
-import { FlameEffect } from './FlameEffect'
 import { ball } from '../../contstants/resources/Sprite'
 import { PredictionLine } from '../../helpers/PredictionLine'
 import { AudioManager } from '../../managers/AudioManager'
+import { FlameEffect } from './FlameEffect'
 export class Ball extends GameObjects.Container {
     declare body: Phaser.Physics.Arcade.Body
     private ballType: number
@@ -26,6 +26,9 @@ export class Ball extends GameObjects.Container {
     public setBallType(ballType: number = 0) {
         this.ballType = ballType
         this.ballSprite.setTexture(this.getBallKey())
+    }
+    public getBallType(): number {
+        return this.ballType
     }
     private getBallKey(): string {
         return (

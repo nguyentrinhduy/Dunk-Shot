@@ -1,6 +1,6 @@
 import { Scene } from 'phaser'
-import { Ball } from '../../game-objects/Ball/Ball'
-import { Basket } from '../../game-objects/Basket/Basket'
+import { Ball } from '../../game-objects/ball/Ball'
+import { Basket } from '../../game-objects/basket/Basket'
 import { MapGenerator } from '../../helpers/MapGenerator'
 import { State } from './State'
 import { WINDOW_SIZE } from '../../contstants/WindowSize'
@@ -37,6 +37,9 @@ export class NormalModeState extends State {
     }
     public update(time: number, delta: number): void {
         this.ball.update(time, delta)
+        if (DataManager.getInstance().getBallType() != this.ball.getBallType()) {
+            this.ball.setBallType(DataManager.getInstance().getBallType())
+        }
         this.baskets.forEach((basket) => basket.update(time, delta))
         this.leftSideWall.y = this.camera.scrollY
         this.rightSideWall.y = this.camera.scrollY
@@ -47,23 +50,19 @@ export class NormalModeState extends State {
                 this.ball.x = 200
                 this.ball.y = 500
                 this.ball.setAlpha(0).setRotation(0)
-                this.ball.body
-                    .setVelocity(0, 0)
-                    .setAllowGravity(false)
+                this.ball.body.setVelocity(0, 0).setAllowGravity(false)
                 this.scene.add.tween({
                     targets: this.ball,
                     alpha: 1,
                     duration: 500,
                     ease: 'Quad.easeIn',
                     onComplete: () => {
-                        this.ball.body
-                            .setAllowGravity(true)
-                    }
+                        this.ball.body.setAllowGravity(true)
+                    },
                 })
                 AudioManager.getInstance().getBallRecreationSound()
                 this.baskets[0].resetRotation()
-            }
-            else {
+            } else {
                 this.camera.stopFollow()
                 this.manager.transitionToGameOverUI()
                 this.scene.scene.pause('MainGameScene')
@@ -74,11 +73,15 @@ export class NormalModeState extends State {
         }
     }
     private createBall() {
-        this.ball = new Ball(this.scene, 200, 500).setDepth(2).setScale(0.4).setAlpha(0).setRotation(0)
+        this.ball = new Ball(this.scene, 200, 500)
+            .setDepth(2)
+            .setScale(0.4)
+            .setAlpha(0)
+            .setRotation(0)
         this.ball.body
             .setCircle(100)
             .setOffset(-100)
-            .setBounce(0.9)
+            .setBounce(0.8)
             .setAllowGravity(false)
             .setImmovable(false)
             .setVelocity(0, 0)
@@ -88,10 +91,9 @@ export class NormalModeState extends State {
             duration: 500,
             ease: 'Quad.easeIn',
             onComplete: () => {
-                this.ball.body
-                    .setAllowGravity(true)
+                this.ball.body.setAllowGravity(true)
                 AudioManager.getInstance().getBallRecreationSound()
-            }
+            },
         })
     }
     private createCamera() {
@@ -100,9 +102,7 @@ export class NormalModeState extends State {
         this.camera.startFollow(this.ball, true, 0, 0.02, 200 - WINDOW_SIZE.WIDTH / 2, 200)
     }
     private createSideWalls() {
-        this.leftSideWall = this.scene.add
-            .rectangle(-10, 0, 10, WINDOW_SIZE.HEIGHT)
-            .setOrigin(0)
+        this.leftSideWall = this.scene.add.rectangle(-10, 0, 10, WINDOW_SIZE.HEIGHT).setOrigin(0)
         this.scene.physics.add.existing(this.leftSideWall)
         ;(this.leftSideWall.body as Phaser.Physics.Arcade.Body)
             .setAllowGravity(false)

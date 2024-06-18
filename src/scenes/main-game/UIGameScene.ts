@@ -11,7 +11,7 @@ export class UIGameScene extends Scene {
         this.input.setTopOnly(true)
         this.manager = data
         this.manager.setUIScene(this)
-        this.manager.transitionToMainMenuUI()
+        this.manager.transitionToBallSkinsUI()
     }
     update(time: number, delta: number) {
         this.manager.updateUI(time, delta)

@@ -1,8 +1,8 @@
-import { Scene } from "phaser";
-import { Obstacle } from "./Obstacle";
-import { Ball } from "../Ball/Ball";
-import { straight_obstacle } from "../../contstants/Obstacle";
-import { AudioManager } from "../../managers/AudioManager";
+import { Scene } from 'phaser'
+import { Obstacle } from './Obstacle'
+import { Ball } from '../ball/Ball'
+import { straight_obstacle } from '../../contstants/Obstacle'
+import { AudioManager } from '../../managers/AudioManager'
 
 export class StraightObstacle extends Obstacle {
     public constructor(scene: Scene, x: number = 0, y: number = 0, ball: Ball) {
@@ -16,7 +16,7 @@ export class StraightObstacle extends Obstacle {
     }
     protected addColliders(): void {
         this.colliders = []
-        straight_obstacle.points.forEach(point => {
+        straight_obstacle.points.forEach((point) => {
             const collider = this.scene.add.circle(point.x, point.y, 12)
             this.scene.physics.add.existing(collider)
             ;(collider.body as Phaser.Physics.Arcade.Body)
@@ -24,22 +24,20 @@ export class StraightObstacle extends Obstacle {
                 .setAllowGravity(false)
                 .setBounce(0)
                 .setImmovable(true)
-                
+
             // set debug circle to green
 
             this.scene.physics.add.collider(this.ball, collider, () => {
                 AudioManager.getInstance().getCollideWallSound()
             })
             this.colliders.push(collider)
-        });
+        })
         this.add(this.colliders)
     }
     public setNotAllowPhysics(): void {
         for (const collider of this.colliders) {
-            (collider.body as Phaser.Physics.Arcade.Body).setEnable(false)
+            ;(collider.body as Phaser.Physics.Arcade.Body).setEnable(false)
         }
     }
-    public update(time: number, delta: number): void {
-        
-    }
+    public update(time: number, delta: number): void {}
 }

@@ -2,7 +2,15 @@ export const sprite_path = 'assets/sprites'
 export const ball = {
     number: 78,
     key: 'balls',
-    path: 'balls/'
+    path: 'balls/',
+    locked_ball: {
+        key: 'locked_ball',
+        path: 'balls/locked_ball.png'
+    },
+    chosen_round: {
+        key: 'chosen_round',
+        path: 'balls/chosen_round.png'
+    }
 }
 
 export const basket = {
@@ -60,7 +68,38 @@ export const icons = {
 }
 
 export const panels = {
-
+    gray_top_panel: {
+        key: 'gray_top_panel',
+        path: 'components/panels/gray_top_panel.png'
+    },
+    blue_top_panel: {
+        key: 'blue_top_panel',
+        path: 'components/panels/blue_top_panel.png'
+    },
+    popup_panel: {
+        key: 'popup_panel',
+        path: 'components/panels/popup_panel.png'
+    },
+    accurate_banner: {
+        key: 'accurate_banner',
+        path: 'components/panels/accurate_banner.png'
+    },
+    bounce_banner: {
+        key: 'bounce_banner',
+        path: 'components/panels/bounce_banner.png'
+    },
+    limit_time_banner: {
+        key: 'limit_time_banner',
+        path: 'components/panels/limit_time_banner.png'
+    },
+    achievement_banner: {
+        key: 'achievement_banner',
+        path: 'components/panels/achievement_banner.png'
+    },
+    line: {
+        key: 'line',
+        path: 'components/panels/line.png'
+    }
 }
 
 export const buttons = {
@@ -92,6 +131,10 @@ export const buttons = {
         key: 'back_button',
         path: 'components/buttons/back_button.png'
     },
+    white_back_button: {
+        key: 'white_back_button',
+        path: 'components/buttons/white_back_button.png'
+    },
     play_again_button: {
         key: 'play_again_button',
         path: 'components/buttons/play_again_button.png'
@@ -116,10 +159,45 @@ export const buttons = {
         key: 'accurate_button',
         path: 'components/buttons/accurate_button.png'
     },
+    toggle_dot: {
+        key: 'toggle_dot',
+        path: 'components/buttons/toggle_dot.png'
+    },
+    toggle_space: {
+        key: 'toggle_space',
+        path: 'components/buttons/toggle_space.png'
+    }
 }
 
 export const text = {
-
+    drag_it: {
+        dot: {
+            key: 'drag_it_dot',
+            path: 'components/texts/hint/drag_it_dot.png'
+        },
+        text: {
+            key: 'drag_it_text',
+            path: 'components/texts/hint/drag_it_text.png'
+        },
+        arrow: {
+            key: 'drag_it_arrow',
+            path: 'components/texts/hint/drag_it_arrow.png'
+        },
+        finger: {
+            key: 'drag_it_finger',
+            path: 'components/texts/hint/drag_it_finger.png'
+        }
+    },
+    toggle: {
+        on_text: {
+            key: 'on_text',
+            path: 'components/texts/toggle/on_text.png'
+        },
+        off_text: {
+            key: 'off_text',
+            path: 'components/texts/toggle/off_text.png'
+        },
+    }
 }
 
 export const obstacle = {

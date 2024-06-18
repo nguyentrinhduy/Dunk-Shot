@@ -27,6 +27,7 @@ export class SceneManager {
     public transitionToNormalModeState(): void {
         this.transitionToState(new NormalModeState(this.stateScene))
     }
+    
 
     // UI transitions
     public transitionToMainMenuUI(): void {

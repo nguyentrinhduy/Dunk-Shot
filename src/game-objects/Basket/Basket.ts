@@ -1,15 +1,14 @@
 import { Game, GameObjects, Scene } from 'phaser'
-import { Ball } from '../Ball/Ball'
-import { BasketState } from './BasketState'
+import { Ball } from '../ball/Ball'
 import { basket } from '../../contstants/Basket'
-import { Star } from './Star'
-import { Obstacle } from '../Obstacles.ts/Obstacle'
-import { StraightObstacle } from '../Obstacles.ts/StraightObstacle'
+import { Obstacle } from '../obstacle/Obstacle'
+import { StraightObstacle } from '../obstacle/StraightObstacle'
 import { PredictionLine } from '../../helpers/PredictionLine'
 import { DataManager } from '../../managers/DataManager'
 import { Path } from '../../helpers/Path'
 import { AudioManager } from '../../managers/AudioManager'
 import { StreakManager } from '../../managers/StreakManager'
+import { Star } from './Star'
 export class Basket extends GameObjects.Container {
     private roundUp: GameObjects.Sprite
     private roundUpContainer: GameObjects.Container
@@ -32,7 +31,7 @@ export class Basket extends GameObjects.Container {
     private obstacle: Obstacle
     private line: PredictionLine
     private path: Path
-    
+
     public constructor(
         scene: Scene,
         x: number = 0,
@@ -42,7 +41,6 @@ export class Basket extends GameObjects.Container {
     ) {
         super(scene, x, y)
         this.netColliders = []
-        this.state = BasketState.notContainBall
         this.ball = ball
         this.scene.add.existing(this)
         this.roundDownContainer = this.scene.add.container(x, y)
@@ -62,14 +60,21 @@ export class Basket extends GameObjects.Container {
         this.roundUpContainer.add(this.roundUp).setDepth(1).setRotation(rotation)
         this.roundDown = this.scene.add.sprite(0, 0, 'round_down').setTint(0xff0000)
         this.roundDownContainer.add(this.roundDown).setDepth(4).setRotation(rotation)
-        this.effect = this.scene.add.sprite(0, 0, 'basket_effect').setTint(0xa80707).setDepth(4).setAlpha(0)
+        this.effect = this.scene.add
+            .sprite(0, 0, 'basket_effect')
+            .setTint(0xa80707)
+            .setDepth(4)
+            .setAlpha(0)
         this.roundDownContainer.add(this.effect)
         this.setDepth(3).setRotation(rotation)
         this.net = this.scene.add.sprite(0, 47, 'net').setDepth(0)
         this.net.scaleY = 1
         this.add(this.net)
     }
-    public setPath(startPoint: Phaser.Math.Vector2 = new Phaser.Math.Vector2(this.x, this.y), endPoint: Phaser.Math.Vector2 = new Phaser.Math.Vector2(this.x, this.y)) {
+    public setPath(
+        startPoint: Phaser.Math.Vector2 = new Phaser.Math.Vector2(this.x, this.y),
+        endPoint: Phaser.Math.Vector2 = new Phaser.Math.Vector2(this.x, this.y)
+    ) {
         this.path = new Path(startPoint, endPoint)
         this.line.drawLinePath(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
     }
@@ -96,7 +101,7 @@ export class Basket extends GameObjects.Container {
             .setBounce(0)
             .setCircle(10)
         this.add(this.leftCollider)
-        this.scene.physics.add.collider(this.ball, this.leftCollider,() => {
+        this.scene.physics.add.collider(this.ball, this.leftCollider, () => {
             AudioManager.getInstance().getCollideRoundBasketSound()
             StreakManager.getInstance().reset()
         })
@@ -158,7 +163,10 @@ export class Basket extends GameObjects.Container {
             this.checkOverlap = false
             if (!this.containedBall) {
                 this.containedBall = true
-                this.setPath(new Phaser.Math.Vector2(this.x, this.y), new Phaser.Math.Vector2(this.x, this.y))
+                this.setPath(
+                    new Phaser.Math.Vector2(this.x, this.y),
+                    new Phaser.Math.Vector2(this.x, this.y)
+                )
                 if (this.star) {
                     this.star.setVisible(false)
                     this.star.body.setEnable(false)
@@ -171,19 +179,13 @@ export class Basket extends GameObjects.Container {
                     this.roundDown.setTint(0x636363)
                     this.roundUp.setTint(0x636363)
                     const streakManager = StreakManager.getInstance()
-                    DataManager.getInstance().addScore(
-                        streakManager.getStreak()
-                    )
-                    AudioManager.getInstance().getStreakSounds(
-                        streakManager.getStreak()
-                    )
+                    DataManager.getInstance().addScore(streakManager.getStreak())
+                    AudioManager.getInstance().getStreakSounds(streakManager.getStreak())
                     streakManager.addStreak()
-                }
-                else {
+                } else {
                     AudioManager.getInstance().getBallEnterSound()
                 }
-            }
-            else {
+            } else {
                 AudioManager.getInstance().getBallEnterSound()
             }
             this.ball.body.setBounce(0).setAllowGravity(false).setEnable(false).setVelocity(0)
@@ -217,7 +219,7 @@ export class Basket extends GameObjects.Container {
             rotation: 0,
             ease: 'linear',
         })
-        
+
         this.scene.add.tween({
             targets: this.ball,
             x: { value: this.x },
@@ -282,7 +284,7 @@ export class Basket extends GameObjects.Container {
         this.scene.input.on('dragend', () => {
             if (!this.containingBall) return
             this.containingBall = false
-            this.ball.body.setAllowGravity(true).setImmovable(false).setEnable(true).setBounce(0.9)
+            this.ball.body.setAllowGravity(true).setImmovable(false).setEnable(true).setBounce(0.8)
             this.ball.clearPredictionLine()
             this.ball.shoot()
             this.scene.tweens.chain({
@@ -306,7 +308,7 @@ export class Basket extends GameObjects.Container {
             })
         })
     }
-    public resetRotation() : void {
+    public resetRotation(): void {
         this.scene.add.tween({
             targets: this,
             duration: 100,

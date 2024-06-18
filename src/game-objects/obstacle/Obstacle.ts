@@ -1,7 +1,7 @@
-import { GameObjects, Scene } from "phaser";
-import { Ball } from "../Ball/Ball";
+import { GameObjects, Scene } from 'phaser'
+import { Ball } from '../ball/Ball'
 
-export abstract class Obstacle extends GameObjects.Container{
+export abstract class Obstacle extends GameObjects.Container {
     protected colliders: GameObjects.Arc[]
     protected sprite: GameObjects.Sprite
     protected ball: Ball
@@ -9,7 +9,7 @@ export abstract class Obstacle extends GameObjects.Container{
         super(scene, x, y)
         this.ball = ball
         scene.add.existing(this)
-    } 
+    }
     public abstract setNotAllowPhysics(): void
     protected abstract addColliders(): void
     public abstract update(time: number, delta: number): void
