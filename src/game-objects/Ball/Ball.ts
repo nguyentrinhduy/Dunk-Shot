@@ -2,6 +2,7 @@ import { GameObjects, Scene } from 'phaser'
 import { FlameEffect } from './FlameEffect'
 import { ball } from '../../contstants/resources/Sprite'
 import { PredictionLine } from '../../helpers/PredictionLine'
+import { AudioManager } from '../../managers/AudioManager'
 export class Ball extends GameObjects.Container {
     declare body: Phaser.Physics.Arcade.Body
     private ballType: number
@@ -44,6 +45,16 @@ export class Ball extends GameObjects.Container {
         this.predictionLineHelper.clear()
     }
     public shoot() {
+        const power = Math.sqrt(this.shootX * this.shootX + this.shootY * this.shootY)
+        if (power <= 600) {
+            AudioManager.getInstance().getShootingWeakSound()
+        }
+        else if (power <= 1100) {
+            AudioManager.getInstance().getShootingMediumSound()
+        }
+        else {
+            AudioManager.getInstance().getShootingStrongSound()
+        }
         this.body.velocity.x = this.shootX
         this.body.velocity.y = this.shootY
         this.shootX = 0

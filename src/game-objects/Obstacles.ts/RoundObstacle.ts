@@ -4,6 +4,7 @@ import { Ball } from "../Ball/Ball";
 import { obstacle } from "../../contstants/resources/Sprite";
 import { round_obstacle } from "../../contstants/Obstacle";
 import { MathHelper } from "../../helpers/Math";
+import { AudioManager } from "../../managers/AudioManager";
 
 export class RoundObstacle extends Obstacle {
     private obstacleType: number
@@ -30,7 +31,9 @@ export class RoundObstacle extends Obstacle {
                 .setAllowGravity(false)
                 .setBounce(0)
                 .setImmovable(true)
-            this.scene.physics.add.collider(this.ball, collider)
+            this.scene.physics.add.collider(this.ball, collider, () => {
+                AudioManager.getInstance().getCollideWallSound()
+            })
             this.colliders.push(collider)
         });
         this.add(this.colliders)

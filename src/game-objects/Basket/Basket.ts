@@ -8,6 +8,8 @@ import { StraightObstacle } from '../Obstacles.ts/StraightObstacle'
 import { PredictionLine } from '../../helpers/PredictionLine'
 import { DataManager } from '../../managers/DataManager'
 import { Path } from '../../helpers/Path'
+import { AudioManager } from '../../managers/AudioManager'
+import { StreakManager } from '../../managers/StreakManager'
 export class Basket extends GameObjects.Container {
     private roundUp: GameObjects.Sprite
     private roundUpContainer: GameObjects.Container
@@ -94,7 +96,10 @@ export class Basket extends GameObjects.Container {
             .setBounce(0)
             .setCircle(10)
         this.add(this.leftCollider)
-        this.scene.physics.add.collider(this.ball, this.leftCollider)
+        this.scene.physics.add.collider(this.ball, this.leftCollider,() => {
+            AudioManager.getInstance().getCollideRoundBasketSound()
+            StreakManager.getInstance().reset()
+        })
 
         // add right collider
         this.rightCollider = this.scene.add.circle(82, 0, 10)
@@ -105,7 +110,10 @@ export class Basket extends GameObjects.Container {
             .setBounce(0)
             .setCircle(10)
         this.add(this.rightCollider)
-        this.scene.physics.add.collider(this.ball, this.rightCollider)
+        this.scene.physics.add.collider(this.ball, this.rightCollider, () => {
+            AudioManager.getInstance().getCollideRoundBasketSound()
+            StreakManager.getInstance().reset()
+        })
 
         // add net colliders
         const startPoint = new Phaser.Math.Vector2(-70, 25)
@@ -162,8 +170,21 @@ export class Basket extends GameObjects.Container {
                 if (!this.firstTurn) {
                     this.roundDown.setTint(0x636363)
                     this.roundUp.setTint(0x636363)
-                    DataManager.getInstance().addScore(1)
+                    const streakManager = StreakManager.getInstance()
+                    DataManager.getInstance().addScore(
+                        streakManager.getStreak()
+                    )
+                    AudioManager.getInstance().getStreakSounds(
+                        streakManager.getStreak()
+                    )
+                    streakManager.addStreak()
                 }
+                else {
+                    AudioManager.getInstance().getBallEnterSound()
+                }
+            }
+            else {
+                AudioManager.getInstance().getBallEnterSound()
             }
             this.ball.body.setBounce(0).setAllowGravity(false).setEnable(false).setVelocity(0)
             this.callElasticAnimation()

@@ -5,6 +5,8 @@ import { MapGenerator } from '../../helpers/MapGenerator'
 import { State } from './State'
 import { WINDOW_SIZE } from '../../contstants/WindowSize'
 import { DataManager } from '../../managers/DataManager'
+import { AudioManager } from '../../managers/AudioManager'
+import { StreakManager } from '../../managers/StreakManager'
 
 export class NormalModeState extends State {
     private camera: Phaser.Cameras.Scene2D.Camera
@@ -29,6 +31,7 @@ export class NormalModeState extends State {
         this.baskets = this.mapGenerator.getFirstBaskets()
         this.scene.physics.world.gravity.y = 2000
         DataManager.getInstance().reset()
+        StreakManager.getInstance().reset()
         this.createCamera()
         this.createSideWalls()
     }
@@ -57,6 +60,7 @@ export class NormalModeState extends State {
                             .setAllowGravity(true)
                     }
                 })
+                AudioManager.getInstance().getBallRecreationSound()
                 this.baskets[0].resetRotation()
             }
             else {
@@ -78,16 +82,17 @@ export class NormalModeState extends State {
             .setAllowGravity(false)
             .setImmovable(false)
             .setVelocity(0, 0)
-            this.scene.add.tween({
-                targets: this.ball,
-                alpha: 1,
-                duration: 500,
-                ease: 'Quad.easeIn',
-                onComplete: () => {
-                    this.ball.body
-                        .setAllowGravity(true)
-                }
-            })
+        this.scene.add.tween({
+            targets: this.ball,
+            alpha: 1,
+            duration: 500,
+            ease: 'Quad.easeIn',
+            onComplete: () => {
+                this.ball.body
+                    .setAllowGravity(true)
+                AudioManager.getInstance().getBallRecreationSound()
+            }
+        })
     }
     private createCamera() {
         this.camera = this.scene.cameras.main
@@ -102,7 +107,9 @@ export class NormalModeState extends State {
         ;(this.leftSideWall.body as Phaser.Physics.Arcade.Body)
             .setAllowGravity(false)
             .setImmovable(true)
-        this.scene.physics.add.collider(this.ball, this.leftSideWall)
+        this.scene.physics.add.collider(this.ball, this.leftSideWall, () => {
+            AudioManager.getInstance().getCollideWallSound()
+        })
         this.add(this.leftSideWall)
 
         this.rightSideWall = this.scene.add
@@ -112,7 +119,9 @@ export class NormalModeState extends State {
         ;(this.rightSideWall.body as Phaser.Physics.Arcade.Body)
             .setAllowGravity(false)
             .setImmovable(true)
-        this.scene.physics.add.collider(this.ball, this.rightSideWall)
+        this.scene.physics.add.collider(this.ball, this.rightSideWall, () => {
+            AudioManager.getInstance().getCollideWallSound()
+        })
         this.add(this.rightSideWall)
     }
     public destroy(fromScene?: boolean | undefined): void {

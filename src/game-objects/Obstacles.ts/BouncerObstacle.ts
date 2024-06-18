@@ -1,3 +1,4 @@
+import { AudioManager } from "../../managers/AudioManager";
 import { Ball } from "../Ball/Ball";
 import { Obstacle } from "./Obstacle";
 
@@ -21,7 +22,9 @@ export class BouncerObstacle extends Obstacle {
             .setImmovable(true)
             .setOffset(-40)
     
-        this.scene.physics.add.collider(this.ball, this)
+        this.scene.physics.add.collider(this.ball, this, () => {
+            AudioManager.getInstance().getCollideWallSound()
+        })
     }
     public setNotAllowPhysics(): void {
         this.body.setEnable(false)

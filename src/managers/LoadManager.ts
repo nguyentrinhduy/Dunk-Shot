@@ -1,7 +1,7 @@
 import { Scene } from "phaser";
 import { ProgressBar } from "../ui-game-objects/ProgressBar";
 import { ball, basket, buttons, icons, obstacle, sprite_path } from "../contstants/resources/Sprite";
-import { audio_path } from "../contstants/resources/Audio";
+import { audio_path, collision, effect, max_streak, shooting } from "../contstants/resources/Audio";
 
 export class LoadManager {
     private progressBar: ProgressBar
@@ -57,6 +57,26 @@ export class LoadManager {
     }
     public loadAudios(): void {
         this.scene.load.setPath(audio_path)
+        // collision
+        this.scene.load.audio(collision.collecting_star.key, collision.collecting_star.path)
+        this.scene.load.audio(collision.collide_round_basket.key, collision.collide_round_basket.path)
+        this.scene.load.audio(collision.collide_wall.key, collision.collide_wall.path)
+
+        // effect
+        this.scene.load.audio(effect.ball_enter.key, effect.ball_enter.path)
+        this.scene.load.audio(effect.ball_recreate.key, effect.ball_recreate.path)
+        
+        // shooting
+        this.scene.load.audio(shooting.shooting_weak.key, shooting.shooting_weak.path)
+        this.scene.load.audio(shooting.shooting_medium.key, shooting.shooting_medium.path)
+        this.scene.load.audio(shooting.shooting_strong.key, shooting.shooting_strong.path)
+
+        // streak
+        for (let i = 1; i <= max_streak; i++) {
+            let key = 'streak' + i.toString()
+            let path = 'streak/' + i.toString() + '.mp3'
+            this.scene.load.audio(key, path)
+        }
     }
     public loadDatas(): void {
 

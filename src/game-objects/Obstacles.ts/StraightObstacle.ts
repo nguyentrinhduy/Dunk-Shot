@@ -2,6 +2,7 @@ import { Scene } from "phaser";
 import { Obstacle } from "./Obstacle";
 import { Ball } from "../Ball/Ball";
 import { straight_obstacle } from "../../contstants/Obstacle";
+import { AudioManager } from "../../managers/AudioManager";
 
 export class StraightObstacle extends Obstacle {
     public constructor(scene: Scene, x: number = 0, y: number = 0, ball: Ball) {
@@ -26,7 +27,9 @@ export class StraightObstacle extends Obstacle {
                 
             // set debug circle to green
 
-            this.scene.physics.add.collider(this.ball, collider)
+            this.scene.physics.add.collider(this.ball, collider, () => {
+                AudioManager.getInstance().getCollideWallSound()
+            })
             this.colliders.push(collider)
         });
         this.add(this.colliders)

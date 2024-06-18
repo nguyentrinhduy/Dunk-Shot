@@ -149,6 +149,7 @@ export class MapGenerator {
         }
         this.baskets.push(new Basket(this.scene, 200, 700, this.ball))
         this.baskets.push(new Basket(this.scene, 500, 500, this.ball))
+        
         this.baskets[0].setFirstTurn()
         return this.baskets
     }

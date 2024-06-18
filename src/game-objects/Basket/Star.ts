@@ -2,6 +2,7 @@ import { GameObjects, Scene } from "phaser";
 import { Ball } from "../Ball/Ball";
 import { DataManager } from "../../managers/DataManager";
 import { Path } from "../../helpers/Path";
+import { AudioManager } from "../../managers/AudioManager";
 
 export class Star extends GameObjects.Sprite{
     declare body: Phaser.Physics.Arcade.Body
@@ -28,6 +29,7 @@ export class Star extends GameObjects.Sprite{
             this.setVisible(false)
             this.body.setEnable(false)
             this.path = new Path(new Phaser.Math.Vector2(this.x, this.y), new Phaser.Math.Vector2(this.x, this.y))
+            AudioManager.getInstance().getCollectingStarSound()
         })
         this.body
             .setAllowGravity(false)
