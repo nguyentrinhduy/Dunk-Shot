@@ -1,30 +1,28 @@
-import { Boot } from './scenes/Boot';
-import { Game as MainGame } from './scenes/Game';
-import { GameOver } from './scenes/GameOver';
-import { MainMenu } from './scenes/MainMenu';
-import { Preloader } from './scenes/Preloader';
+import { Game, Types } from 'phaser'
+import { BootScene } from './scenes/preload/BootScene'
+import { PreloaderScene } from './scenes/preload/PreloaderScene'
+import { WINDOW_SIZE } from './contstants/WindowSize'
+import { MainGameScene } from './scenes/main-game/MainGameScene'
+import { UIGameScene } from './scenes/main-game/UIGameScene'
 
-import { Game, Types } from "phaser";
-
-//  Find out more information about the Game Config at:
-//  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
 const config: Types.Core.GameConfig = {
     type: Phaser.AUTO,
-    width: 1024,
-    height: 768,
+    width: WINDOW_SIZE.WIDTH,
+    height: WINDOW_SIZE.HEIGHT,
     parent: 'game-container',
-    backgroundColor: '#028af8',
+    backgroundColor: '#dbdbdb',
     scale: {
         mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
+        autoCenter: Phaser.Scale.CENTER_BOTH,
     },
-    scene: [
-        Boot,
-        Preloader,
-        MainMenu,
-        MainGame,
-        GameOver
-    ]
-};
+    physics: {
+        default: 'arcade',
+        arcade: {
+            // debug: true,
+            
+        },
+    },
+    scene: [BootScene, PreloaderScene, MainGameScene, UIGameScene],
+}
 
-export default new Game(config);
+export default new Game(config)

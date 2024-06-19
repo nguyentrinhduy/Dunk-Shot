@@ -17,9 +17,12 @@
         /* Linting */
         "strict": true,
         "strictPropertyInitialization": false,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "noFallthroughCasesInSwitch": true
+        "noFallthroughCasesInSwitch": true,
+        "declaration": false,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "allowUnreachableCode": false,
+        "sourceMap": true,
     },
     "include": [
         "src"
