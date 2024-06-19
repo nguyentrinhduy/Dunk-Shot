@@ -166,6 +166,18 @@ export const buttons = {
     toggle_space: {
         key: 'toggle_space',
         path: 'components/buttons/toggle_space.png'
+    },
+    accurate_start_button: {
+        key: 'accurate_start_button',
+        path: 'components/buttons/accurate_start_button.png'
+    },
+    give_up_button: {
+        key: 'give_up_button',
+        path: 'components/buttons/give_up_button.png'
+    },
+    close_button: {
+        key: 'close_button',
+        path: 'components/buttons/close_button.png'
     }
 }
 

@@ -11,6 +11,7 @@ export class Ball extends GameObjects.Container {
     private predictionLineHelper: PredictionLine
     public shootX: number
     public shootY: number
+    public allowPredictionLine: boolean
     public constructor(scene: Scene, x: number = 0, y: number = 0) {
         super(scene, x, y)
         this.x = x
@@ -21,7 +22,11 @@ export class Ball extends GameObjects.Container {
         this.add(this.ballSprite)
         scene.add.existing(this)
         scene.physics.add.existing(this)
-        // this.setBallType(0)
+        this.allowPredictionLine = true
+    }
+    public setAllowPrediction(allow: boolean): void {
+        this.allowPredictionLine = allow
+        console.log(this.allowPredictionLine)
     }
     public setBallType(ballType: number = 0) {
         this.ballType = ballType
@@ -36,6 +41,8 @@ export class Ball extends GameObjects.Container {
         )
     }
     public drawPredictionLine() {
+        console.log(this.allowPredictionLine)
+        if (!this.allowPredictionLine) return
         this.predictionLineHelper.draw(
             this.x,
             this.y,

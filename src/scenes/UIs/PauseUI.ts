@@ -19,19 +19,19 @@ export class PauseUI extends UI {
             this.manager.transitionToNormalModeUI()
         })
         this.resume_button.addBackground('resume_button', 0, 0)
-        this.resume_button.addText('RESUME', -55, -25, { fontSize: '40px', fontStyle: 'bold', color: 'white'})
+        this.resume_button.addText('RESUME', -55, -25, { fontSize: '40px', fontStyle: 'bold', color: 'white', fontFamily: 'Triomphe'})
         this.main_menu_button = new Button(this.scene, WINDOW_SIZE.WIDTH/2, 400, () => {
             this.scene.scene.resume('MainGameScene')
             this.manager.transitionToNormalModeState()
             this.manager.transitionToMainMenuUI()
         })
         this.main_menu_button.addBackground('main_menu_button', 0, 0)
-        this.main_menu_button.addText('MAIN MENU', -55, -25, { fontSize: '40px', fontStyle: 'bold', color: 'white'})
+        this.main_menu_button.addText('MAIN MENU', -55, -25, { fontSize: '40px', fontStyle: 'bold', color: 'white', fontFamily: 'Triomphe'})
         this.ball_skins_button = new Button(this.scene, WINDOW_SIZE.WIDTH/2, 600, () => {
             this.manager.transitionToBallSkinsUI()
         })
         this.ball_skins_button.addBackground('ball_skins_button', 0, 0)
-        this.ball_skins_button.addText('CUSTOMIZE', -55, -25, { fontSize: '40px', fontStyle: 'bold', color: 'white'})
+        this.ball_skins_button.addText('CUSTOMIZE', -55, -25, { fontSize: '40px', fontStyle: 'bold', color: 'white', fontFamily: 'Triomphe'})
         this.settings_button = new Button(this.scene, 40, 40, () => {
             this.manager.transitionToSettingsUI()
         })

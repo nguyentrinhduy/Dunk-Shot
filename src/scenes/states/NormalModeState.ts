@@ -69,6 +69,7 @@ export class NormalModeState extends State {
             }
         }
         if (this.baskets[1].containedBall) {
+            DataManager.getInstance().addScore(StreakManager.getInstance().getStreak() - 1)
             this.mapGenerator.getNewBasket()
         }
     }
@@ -127,5 +128,6 @@ export class NormalModeState extends State {
     public destroy(fromScene?: boolean | undefined): void {
         this.ball.destroy()
         this.baskets.forEach((basket) => basket.destroy())
+        super.destroy()
     }
 }

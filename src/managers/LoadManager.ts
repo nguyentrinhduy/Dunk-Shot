@@ -2,6 +2,7 @@ import { Scene } from "phaser";
 import { ProgressBar } from "../ui-game-objects/ProgressBar";
 import { ball, basket, buttons, icons, obstacle, panels, sprite_path, text } from "../contstants/resources/Sprite";
 import { audio_path, collision, effect, max_streak, shooting } from "../contstants/resources/Audio";
+import { accurate_challenge, challenge_levels_path, limit_time_challenge } from "../contstants/resources/ChallengeLevels";
 
 export class LoadManager {
     private progressBar: ProgressBar
@@ -45,6 +46,7 @@ export class LoadManager {
         this.scene.load.image(panels.limit_time_banner.key, panels.limit_time_banner.path)
         this.scene.load.image(panels.achievement_banner.key, panels.achievement_banner.path)
         this.scene.load.image(panels.line.key, panels.line.path)
+        this.scene.load.image(panels.popup_panel.key, panels.popup_panel.path)
 
         this.scene.load.image(buttons.back_button.key, buttons.back_button.path)
         this.scene.load.image(buttons.white_back_button.key, buttons.white_back_button.path)
@@ -62,7 +64,10 @@ export class LoadManager {
         this.scene.load.image(buttons.accurate_button.key, buttons.accurate_button.path)
         this.scene.load.image(buttons.toggle_dot.key, buttons.toggle_dot.path)
         this.scene.load.image(buttons.toggle_space.key, buttons.toggle_space.path)
-
+        this.scene.load.image(buttons.give_up_button.key, buttons.give_up_button.path)
+        this.scene.load.image(buttons.accurate_start_button.key, buttons.accurate_start_button.path)
+        this.scene.load.image(buttons.close_button.key, buttons.close_button.path)
+        
         this.scene.load.image(text.toggle.on_text.key, text.toggle.on_text.path)
         this.scene.load.image(text.toggle.off_text.key, text.toggle.off_text.path)
         
@@ -100,7 +105,13 @@ export class LoadManager {
 
     }
     public loadChallengeLevels(): void {
-
+        this.scene.load.setPath(challenge_levels_path)
+        for (let i = 1; i <= limit_time_challenge.levels; i ++) {
+            this.scene.load.tilemapTiledJSON(limit_time_challenge.key + i.toString(), limit_time_challenge.path + i.toString() + '.tmj')
+        }
+        for (let i = 1; i <= accurate_challenge.levels; i ++) {
+            this.scene.load.tilemapTiledJSON(accurate_challenge.key + i.toString(), accurate_challenge.path + i.toString() + '.tmj')
+        }
     }
     private getBallPath(ballType: number): string {
         if (ballType < 0 || ballType > ball.number) {

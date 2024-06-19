@@ -4,17 +4,23 @@ export class Button extends GameObjects.Container {
     private background: GameObjects.Sprite
     private text: GameObjects.Text
     private sprite: GameObjects.Sprite
+    private initialScale: number
     private onPointerUp: () => void
     public constructor(scene: Scene, x: number = 0, y: number = 0, onPointerClicked: () => void) {
         super(scene, x, y)
         scene.add.existing(this)
         this.x = x
         this.y = y
+        this.initialScale = 1
         this.onPointerUp = onPointerClicked
         this.addHover()
         this.on('pointerup', this.onPointerUp)
     }
 
+    public setScale(x?: number | undefined, y?: number | undefined): this {
+        if (x) this.initialScale = x!
+        return super.setScale(x, y)
+    }
     public addBackground(
         backgroundKey: string,
         x: number,
@@ -49,19 +55,19 @@ export class Button extends GameObjects.Container {
 
     private addHover() {
         this.on('pointerover', () => {
-            if (this.scale === 1.2) return
+            if (this.scale === this.initialScale + 0.2) return
             this.scene.add.tween({
                 targets: this,
-                scale: 1.2,
+                scale: this.initialScale + 0.2,
                 duration: 50,
                 ease: 'Linear'
             })
         })
         this.on('pointerout', () => {
-            if (this.scale === 1) return
+            if (this.scale === this.initialScale) return
             this.scene.add.tween({
                 targets: this,
-                scale: 1,
+                scale: this.initialScale,
                 duration: 50,
                 ease: 'Linear'
             })

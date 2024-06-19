@@ -62,16 +62,19 @@ export class SettingsUI extends UI {
             fontSize: '40px',
             color: 'black',
             fontStyle: 'bold',
+            fontFamily: 'Triomphe'
         })
         this.vibrationText = this.scene.add.text(100, 390, 'VIBRATION', {
             fontSize: '40px',
             color: 'black',
             fontStyle: 'bold',
+            fontFamily: 'Triomphe'
         })
         this.nightModeText = this.scene.add.text(100, 590, 'NIGHT MODE', {
             fontSize: '40px',
             color: 'black',
             fontStyle: 'bold',
+            fontFamily: 'Triomphe'
         })
 
         this.backButton = new Button(this.scene, 40, 40, () => {

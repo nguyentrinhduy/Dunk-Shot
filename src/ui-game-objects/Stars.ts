@@ -9,7 +9,7 @@ export class Stars extends Phaser.GameObjects.Container {
         super(scene, x, y)
         this.numberOfStars = 0
         this.icon = scene.add.sprite(0, 0, 'stars_ui')
-        this.starObject = new Phaser.GameObjects.Text(scene, 30, -10, '0', { color: 'white', fontSize: '32px' })
+        this.starObject = new Phaser.GameObjects.Text(scene, 30, -10, '0', { color: 'white', fontSize: '32px', fontFamily: 'Triomphe' })
         this.add(this.icon)
         this.add(this.starObject)
         scene.add.existing(this)

@@ -26,6 +26,7 @@ export class NormalModeUI extends UI {
                 fontSize: '100px',
                 color: 'black',
                 fontStyle: 'bold',
+                fontFamily: 'Triomphe'
             })
             .setOrigin(0.5)
         this.scoreText.setText(this.dataManager.getScore().toString())

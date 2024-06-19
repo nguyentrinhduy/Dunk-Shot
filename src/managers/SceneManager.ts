@@ -9,6 +9,9 @@ import { SettingsUI } from "../scenes/UIs/SettingsUI";
 import { NormalModeUI } from "../scenes/UIs/NormalModeUI";
 import { BallSkinsUI } from "../scenes/UIs/BallSkinsUI";
 import { ChallengeMenuUI } from "../scenes/UIs/ChallengeMenuUI";
+import { LimitTimeChallengeState } from "../scenes/states/LimitTimeChallengeState";
+import { AccurateChallengeState } from "../scenes/states/AccurateChallengeState";
+import { AccurateChallengeUI } from "../scenes/UIs/AccurateChallengeUI";
 
 export class SceneManager {
     private uiScene: Scene
@@ -27,7 +30,12 @@ export class SceneManager {
     public transitionToNormalModeState(): void {
         this.transitionToState(new NormalModeState(this.stateScene))
     }
-    
+    public transitionToLimitTimeChallengeState(): void {
+        this.transitionToState(new LimitTimeChallengeState(this.stateScene))
+    }
+    public transitionToAccurateChallengeState(): void {
+        this.transitionToState(new AccurateChallengeState(this.stateScene))
+    }
 
     // UI transitions
     public transitionToMainMenuUI(): void {
@@ -51,7 +59,9 @@ export class SceneManager {
     public transitionToChallengeMenuUI(): void {
         this.transitionToUI(new ChallengeMenuUI(this.uiScene))
     }
-
+    public transitionToAccurateChallengeUI(): void {
+        this.transitionToUI(new AccurateChallengeUI(this.uiScene))
+    }
     
     public update(time: number, delta: number): void {
         this.state.update(time, delta)

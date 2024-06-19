@@ -42,6 +42,7 @@ export class Basket extends GameObjects.Container {
         super(scene, x, y)
         this.netColliders = []
         this.ball = ball
+        console.log(this.ball.allowPredictionLine)
         this.scene.add.existing(this)
         this.roundDownContainer = this.scene.add.container(x, y)
         this.roundUpContainer = this.scene.add.container(x, y)
@@ -179,7 +180,6 @@ export class Basket extends GameObjects.Container {
                     this.roundDown.setTint(0x636363)
                     this.roundUp.setTint(0x636363)
                     const streakManager = StreakManager.getInstance()
-                    DataManager.getInstance().addScore(streakManager.getStreak())
                     AudioManager.getInstance().getStreakSounds(streakManager.getStreak())
                     streakManager.addStreak()
                 } else {
@@ -279,7 +279,7 @@ export class Basket extends GameObjects.Container {
                 this.ball.shootY = -length * Math.cos(rotation) * 8
                 this.scaleY = 1 + length / 1000
                 this.ball.drawPredictionLine()
-            }
+            }, this.scene
         )
         this.scene.input.on('dragend', () => {
             if (!this.containingBall) return
@@ -306,7 +306,7 @@ export class Basket extends GameObjects.Container {
             this.scene.time.delayedCall(100, () => {
                 this.checkOverlap = true
             })
-        })
+        }, this.scene)
     }
     public resetRotation(): void {
         this.scene.add.tween({
