@@ -1,18 +1,16 @@
 import { Game, Types } from 'phaser'
-import { GameOverScene } from './scenes/states/menus/GameOverState'
-import { AccurateChallengeScene } from './scenes/challenges/AccurateChallengeScene'
 import { BootScene } from './scenes/preload/BootScene'
 import { PreloaderScene } from './scenes/preload/PreloaderScene'
-import { MainMenuScene } from './scenes/states/menus/MainMenuState'
-import { PlayingGameScene } from './scenes/mainGame/PlayingGameScene'
 import { WINDOW_SIZE } from './contstants/WindowSize'
+import { MainGameScene } from './scenes/main-game/MainGameScene'
+import { UIGameScene } from './scenes/main-game/UIGameScene'
 
 const config: Types.Core.GameConfig = {
     type: Phaser.AUTO,
     width: WINDOW_SIZE.WIDTH,
     height: WINDOW_SIZE.HEIGHT,
     parent: 'game-container',
-    backgroundColor: '#c0c0c0',
+    backgroundColor: '#dbdbdb',
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -20,17 +18,11 @@ const config: Types.Core.GameConfig = {
     physics: {
         default: 'arcade',
         arcade: {
-            // debug: true
+            // debug: true,
+            
         },
     },
-    scene: [
-        BootScene,
-        PreloaderScene,
-        MainMenuScene,
-        PlayingGameScene,
-        GameOverScene,
-        AccurateChallengeScene,
-    ],
+    scene: [BootScene, PreloaderScene, MainGameScene, UIGameScene],
 }
 
 export default new Game(config)

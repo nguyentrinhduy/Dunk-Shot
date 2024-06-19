@@ -1,7 +1,8 @@
 import { GameObjects, Scene } from 'phaser'
-import { FlameEffect } from './FlameEffect'
 import { ball } from '../../contstants/resources/Sprite'
-import { PredictionLine } from '../../managers/PredictionLine'
+import { PredictionLine } from '../../helpers/PredictionLine'
+import { AudioManager } from '../../managers/AudioManager'
+import { FlameEffect } from './FlameEffect'
 export class Ball extends GameObjects.Container {
     declare body: Phaser.Physics.Arcade.Body
     private ballType: number
@@ -10,6 +11,7 @@ export class Ball extends GameObjects.Container {
     private predictionLineHelper: PredictionLine
     public shootX: number
     public shootY: number
+    public allowPredictionLine: boolean
     public constructor(scene: Scene, x: number = 0, y: number = 0) {
         super(scene, x, y)
         this.x = x
@@ -20,13 +22,18 @@ export class Ball extends GameObjects.Container {
         this.add(this.ballSprite)
         scene.add.existing(this)
         scene.physics.add.existing(this)
-        console.log('already created ball')
-        // this.setBallType(0)
+        this.allowPredictionLine = true
+    }
+    public setAllowPrediction(allow: boolean): void {
+        this.allowPredictionLine = allow
+        console.log(this.allowPredictionLine)
     }
     public setBallType(ballType: number = 0) {
         this.ballType = ballType
-        console.log(this.getBallKey())
         this.ballSprite.setTexture(this.getBallKey())
+    }
+    public getBallType(): number {
+        return this.ballType
     }
     private getBallKey(): string {
         return (
@@ -34,12 +41,13 @@ export class Ball extends GameObjects.Container {
         )
     }
     public drawPredictionLine() {
+        console.log(this.allowPredictionLine)
+        if (!this.allowPredictionLine) return
         this.predictionLineHelper.draw(
-            this.scene,
             this.x,
-            this.y, 
+            this.y,
             this.shootX,
-            this.shootY, 
+            this.shootY,
             this.scene.physics.world.gravity.y
         )
     }
@@ -47,10 +55,27 @@ export class Ball extends GameObjects.Container {
         this.predictionLineHelper.clear()
     }
     public shoot() {
+        const power = Math.sqrt(this.shootX * this.shootX + this.shootY * this.shootY)
+        if (power <= 600) {
+            AudioManager.getInstance().getShootingWeakSound()
+        }
+        else if (power <= 1100) {
+            AudioManager.getInstance().getShootingMediumSound()
+        }
+        else {
+            AudioManager.getInstance().getShootingStrongSound()
+        }
         this.body.velocity.x = this.shootX
         this.body.velocity.y = this.shootY
         this.shootX = 0
         this.shootY = 0
     }
-    public update() {}
+    public update(time: number, delta: number) {
+        this.rotation += delta * this.body.velocity.x * 0.00005
+    }
+    public destroy() {
+        this.predictionLineHelper.destroy()
+        this.flameEffect.destroy()
+        super.destroy()
+    }
 }
