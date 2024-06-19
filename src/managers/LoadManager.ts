@@ -14,15 +14,13 @@ export class LoadManager {
 
     public loadSprites(): void {
         // Balls
-        console.log(1)
         this.scene.load.setPath(sprite_path)
         for (let ballType = 0; ballType < ball.number; ballType++) {
             this.scene.load.image(this.getBallKey(ballType), this.getBallPath(ballType))
         }
         this.scene.load.image(ball.locked_ball.key, ball.locked_ball.path)
         this.scene.load.image(ball.chosen_round.key, ball.chosen_round.path)
-
-        console.log(2)
+        
         // Baskets
         this.scene.load.image(basket.round_up.key, basket.round_up.path)
         this.scene.load.image(basket.round_down.key, basket.round_down.path)

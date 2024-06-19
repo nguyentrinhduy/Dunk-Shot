@@ -26,7 +26,6 @@ export class Ball extends GameObjects.Container {
     }
     public setAllowPrediction(allow: boolean): void {
         this.allowPredictionLine = allow
-        console.log(this.allowPredictionLine)
     }
     public setBallType(ballType: number = 0) {
         this.ballType = ballType
@@ -41,7 +40,6 @@ export class Ball extends GameObjects.Container {
         )
     }
     public drawPredictionLine() {
-        console.log(this.allowPredictionLine)
         if (!this.allowPredictionLine) return
         this.predictionLineHelper.draw(
             this.x,

@@ -42,7 +42,7 @@ export class AccurateChallengeUI extends UI {
         const startButton = new Button(this.scene, 0, 130, () => {
             this.scene.add.tween({
                 targets: [this.readyPanel, this.background],
-                duration: 200,
+                duration: 100,
                 scale: 0,
                 ease: 'linear',
                 onComplete: () => {
@@ -59,7 +59,7 @@ export class AccurateChallengeUI extends UI {
         this.scene.add.tween({
             targets: [this.background, this.readyPanel],
             scale: 1,
-            duration: 200,
+            duration: 100,
             ease: 'linear'
         })
         
@@ -75,7 +75,7 @@ export class AccurateChallengeUI extends UI {
             if (this.dataManager.getState() == PlayerState.PAUSE) {
                 this.scene.add.tween({
                     targets: [this.pausePanel, this.background],
-                    duration: 200,
+                    duration: 100,
                     scale: 0,
                     ease: 'linear',
                     onComplete: () => {
@@ -89,7 +89,7 @@ export class AccurateChallengeUI extends UI {
                 this.manager.transitionToAccurateChallengeState()
                 this.scene.add.tween({
                     targets: [this.pausePanel, this.background],
-                    duration: 200,
+                    duration: 100,
                     scale: 0,
                     ease: 'linear',
                     onComplete: () => {
@@ -97,17 +97,20 @@ export class AccurateChallengeUI extends UI {
                         this.scene.add.tween({
                             targets: [this.background, this.readyPanel],
                             scale: 1,
-                            duration: 200,
+                            duration: 100,
                             ease: 'linear'
                         })
                         this.scene.scene.resume('MainGameScene')
                     }
                 })
+                this.pausePanel.addText('Continue?')
             }
+            
         }).setScale(0.7)
         continueButton.addBackground('accurate_start_button', 0, 0)
         continueButton.addText('CONTINUE', -60, -20, { fontFamily: 'Triomphe', fontSize: '25px', color: 'white'})
         const giveUpButton = new Button(this.scene, -100, 130, () => {
+            this.scene.scene.resume('MainGameScene')
             this.manager.transitionToChallengeMenuUI()
         }).setScale(0.7)
         giveUpButton.addBackground('give_up_button', 0, 0)
@@ -124,7 +127,7 @@ export class AccurateChallengeUI extends UI {
             this.playingUI.setScale(0)
             this.scene.add.tween({
                 targets: [this.background, this.pausePanel],
-                duration: 200,
+                duration: 100,
                 scale: 1,
                 ease: 'Linear'
             })
@@ -137,18 +140,38 @@ export class AccurateChallengeUI extends UI {
         this.playingUI.add(this.pauseButton)
         this.playingUI.add(this.basketJumpsText)
         this.playingUI.setScale(0)
+        this.add(this.playingUI)
     }
     public update(): void {
         // throw new Error("Method not implemented.");
         if (this.dataManager.getState() == PlayerState.WIN) {
+            this.dataManager.setState(PlayerState.PAUSE)
             this.manager.transitionToAccurateChallengeState()
             this.playingUI.setScale(0)
             this.scene.add.tween({
                 targets: [this.background, this.readyPanel],
                 scale: 1,
-                duration: 200,
-                ease: 'linear'
+                duration: 100,
+                ease: 'linear',
+                onComplete: () => {
+                    this.scene.scene.resume('MainGameScene')
+                }
             })
+        }
+        else if (this.dataManager.getState() == PlayerState.LOSE){
+            this.dataManager.setState(PlayerState.PAUSE_LOSE)
+            this.playingUI.setScale(0)
+            this.scene.add.tween({
+                targets: [this.background, this.pausePanel],
+                duration: 100,
+                scale: 1,
+                ease: 'Linear',
+                onComplete: () => {
+                    this.scene.scene.pause('MainGameScene')
+                }
+            })
+            this.pausePanel.addText('Try again?')
+            
         }
     }
 }

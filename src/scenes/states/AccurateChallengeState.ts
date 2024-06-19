@@ -33,6 +33,7 @@ export class AccurateChallengeState extends State {
             .zone(0, 0, WINDOW_SIZE.WIDTH, WINDOW_SIZE.HEIGHT)
             .setOrigin(0)
             .setInteractive({ draggable: true })
+        this.add(this.draggingZone)
         this.dataManager = DataManager.getInstance()
         this.dataManager.reset()
         this.level = this.dataManager.getChallengeLevel(Challenge.ACCURATE)
@@ -45,7 +46,6 @@ export class AccurateChallengeState extends State {
     }
     private loadMap() {
         this.baskets = []
-        console.log(this.level)
         const map = this.scene.add.tilemap('accurate_challenge_level_' + this.level.toString())
         const objectLayer = map.getObjectLayer('Object Layer 1')
         if (!objectLayer) {
@@ -58,7 +58,6 @@ export class AccurateChallengeState extends State {
                     this.createBall()
                     this.ball.setPosition(object.x, object.y! - dy)
                     this.ball.setAllowPrediction(false)
-                    console.log(this.ball.x)
                     this.initialBallX = object.x!
                     this.initialBallY = object.y! - dy
                     break
@@ -93,10 +92,6 @@ export class AccurateChallengeState extends State {
         })
     }
     public update(time: number, delta: number): void {
-        console.log(this.ball.allowPredictionLine)
-        if (this.dataManager.getState() == PlayerState.LOSE) {
-            this.scene.scene.pause()
-        }
         this.ball.update(time, delta)
         if (this.dataManager.getBallType() != this.ball.getBallType()) {
             this.ball.setBallType(this.dataManager.getBallType())
@@ -109,7 +104,6 @@ export class AccurateChallengeState extends State {
         if (this.ball.y > this.baskets[0].y + 400) {
             if (this.dataManager.getTurns() > 0) {
                 this.dataManager.updateTurns()
-                console.log(this.initialBallX)
                 if (this.dataManager.getBasketsJumped() == 0){
                     this.ball.x = this.initialBallX
                     this.ball.y = this.initialBallY
@@ -134,7 +128,6 @@ export class AccurateChallengeState extends State {
             } else {
                 this.camera.stopFollow()
                 this.dataManager.setState(PlayerState.LOSE)
-                this.scene.scene.pause()
             }
         }
         if (this.baskets.length > 1 && this.baskets[1].containedBall) {

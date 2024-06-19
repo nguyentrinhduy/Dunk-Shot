@@ -44,6 +44,7 @@ export class BallSkinsUI extends UI {
         this.topPanel = this.scene.add.sprite(WINDOW_SIZE.WIDTH/2, 50, 'gray_top_panel').setScale(1.1)
         this.backButton = new Button(this.scene, 40, 40, () => {
             this.manager.transitionToMainMenuUI()
+            this.manager.transitionToNormalModeState()
         })
         this.backButton.addBackground('white_back_button', 0, 0)
     }

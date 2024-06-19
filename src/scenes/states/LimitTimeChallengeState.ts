@@ -45,7 +45,6 @@ export class LimitTimeChallengeState extends State {
     }
     private loadMap() {
         this.baskets = []
-        console.log(this.level)
         const map = this.scene.add.tilemap('limit_time_challenge_level_' + this.level.toString())
         const objectLayer = map.getObjectLayer('Object Layer 1')
         if (!objectLayer) {
@@ -57,7 +56,6 @@ export class LimitTimeChallengeState extends State {
                 case 'ball' : {
                     this.createBall()
                     this.ball.setPosition(object.x, object.y! - dy)
-                    console.log(this.ball.x)
                     this.initialBallX = object.x!
                     this.initialBallY = object.y! - dy
                     break
@@ -92,9 +90,7 @@ export class LimitTimeChallengeState extends State {
         })
     }
     public update(time: number, delta: number): void {
-        if (this.dataManager.getState() == PlayerState.LOSE) {
-            this.scene.scene.pause()
-        }
+
         this.ball.update(time, delta)
         if (this.dataManager.getBallType() != this.ball.getBallType()) {
             this.ball.setBallType(this.dataManager.getBallType())
@@ -106,7 +102,6 @@ export class LimitTimeChallengeState extends State {
         // lose
         if (this.ball.y > this.baskets[0].y + 400) {
             if (this.dataManager.getBasketsJumped() == 0) {
-                console.log(this.initialBallX)
 
                 this.ball.x = this.initialBallX
                 this.ball.y = this.initialBallY
@@ -126,7 +121,6 @@ export class LimitTimeChallengeState extends State {
             } else {
                 this.camera.stopFollow()
                 this.dataManager.setState(PlayerState.LOSE)
-                this.scene.scene.pause()
             }
         }
         if (this.baskets.length > 1 && this.baskets[1].containedBall) {

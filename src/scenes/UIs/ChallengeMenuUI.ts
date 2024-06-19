@@ -20,7 +20,6 @@ export class ChallengeMenuUI extends UI {
         this.create()
     }
     protected create(): void {
-        console.log('create challenges')
         this.createBackground()
         this.createButtons()
         this.createStars()

@@ -8,9 +8,6 @@ export class BallType extends Phaser.GameObjects.Sprite {
         this.ballType = ballType
         this.scene.add.existing(this)
         this.setInteractive()
-        this.on('pointerdown', () => {
-            console.log('BallType', this.ballType)
-        })
     }
     public setLocked(locked: boolean) {
         if (locked) {

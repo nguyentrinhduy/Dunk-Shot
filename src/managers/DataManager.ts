@@ -14,7 +14,8 @@ export enum PlayerState {
     PLAYING,
     WIN,
     LOSE,
-    PAUSE
+    PAUSE,
+    PAUSE_LOSE
 }
 export class DataManager {
     private currentBallType: number

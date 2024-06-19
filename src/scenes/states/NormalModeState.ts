@@ -26,6 +26,7 @@ export class NormalModeState extends State {
             .zone(0, 0, WINDOW_SIZE.WIDTH, WINDOW_SIZE.HEIGHT)
             .setOrigin(0)
             .setInteractive({ draggable: true })
+        this.add(this.draggingZone)
         this.createBall()
         this.mapGenerator.setBall(this.ball)
         this.baskets = this.mapGenerator.getFirstBaskets()

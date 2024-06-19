@@ -42,7 +42,6 @@ export class Basket extends GameObjects.Container {
         super(scene, x, y)
         this.netColliders = []
         this.ball = ball
-        console.log(this.ball.allowPredictionLine)
         this.scene.add.existing(this)
         this.roundDownContainer = this.scene.add.container(x, y)
         this.roundUpContainer = this.scene.add.container(x, y)
@@ -246,67 +245,66 @@ export class Basket extends GameObjects.Container {
     }
     private registerDragging() {
         this.scene.input.dragTimeThreshold = 30
-        this.scene.input.on(
-            'drag',
-            (
-                pointer: Phaser.Input.Pointer,
-                gameObject: GameObjects.GameObject,
-                dragX: number,
-                dragY: number
-            ) => {
-                const length = Math.min(
-                    Phaser.Math.Distance.Between(
-                        pointer.downX,
-                        pointer.downY,
-                        pointer.x,
-                        pointer.y
-                    ),
-                    200
-                )
-                if (!this.containingBall) return
-                const rotation = -Phaser.Math.Angle.BetweenY(
-                    pointer.downX,
-                    pointer.downY,
-                    pointer.x,
-                    pointer.y
-                )
-                this.setRotation(rotation)
-                this.roundDownContainer.setRotation(rotation)
-                this.roundUpContainer.setRotation(rotation)
-                this.ball.x = this.x - ((length + 500) * Math.sin(rotation)) / 15
-                this.ball.y = this.y + ((length + 500) * Math.cos(rotation)) / 15
-                this.ball.shootX = length * Math.sin(rotation) * 8
-                this.ball.shootY = -length * Math.cos(rotation) * 8
-                this.scaleY = 1 + length / 1000
-                this.ball.drawPredictionLine()
-            }, this.scene
+        this.scene.input.on('drag', this.onDraggingEvent)
+        this.scene.input.on('dragend', this.onDragEnd)
+    }
+    private onDraggingEvent = (
+        pointer: Phaser.Input.Pointer,
+        gameObject: GameObjects.GameObject,
+        dragX: number,
+        dragY: number
+    ) => {
+        const length = Math.min(
+            Phaser.Math.Distance.Between(
+                pointer.downX,
+                pointer.downY,
+                pointer.x,
+                pointer.y
+            ),
+            200
         )
-        this.scene.input.on('dragend', () => {
-            if (!this.containingBall) return
-            this.containingBall = false
-            this.ball.body.setAllowGravity(true).setImmovable(false).setEnable(true).setBounce(0.8)
-            this.ball.clearPredictionLine()
-            this.ball.shoot()
-            this.scene.tweens.chain({
-                targets: this,
-                tweens: [
-                    {
-                        scaleY: 1,
-                        duration: 50,
-                        ease: 'linear',
-                    },
-                    {
-                        scaleY: 1.1,
-                        duration: 50,
-                        ease: 'linear',
-                        yoyo: true,
-                    },
-                ],
-            })
-            this.scene.time.delayedCall(100, () => {
-                this.checkOverlap = true
-            })
-        }, this.scene)
+        if (!this.containingBall) return
+        const rotation = -Phaser.Math.Angle.BetweenY(
+            pointer.downX,
+            pointer.downY,
+            pointer.x,
+            pointer.y
+        )
+        this.setRotation(rotation)
+        this.roundDownContainer.setRotation(rotation)
+        this.roundUpContainer.setRotation(rotation)
+        this.ball.x = this.x - ((length + 500) * Math.sin(rotation)) / 15
+        this.ball.y = this.y + ((length + 500) * Math.cos(rotation)) / 15
+        this.ball.shootX = length * Math.sin(rotation) * 8
+        this.ball.shootY = -length * Math.cos(rotation) * 8
+        this.scaleY = 1 + length / 1000
+        this.ball.drawPredictionLine()
+    }
+    private onDragEnd = () => {
+        if (!this.containingBall) return
+        this.containingBall = false
+        this.ball.body.setAllowGravity(true).setImmovable(false).setEnable(true).setBounce(0.8)
+        this.ball.clearPredictionLine()
+        this.ball.shoot()
+        this.scene.tweens.chain({
+            targets: this,
+            tweens: [
+                {
+                    scaleY: 1,
+                    duration: 50,
+                    ease: 'linear',
+                },
+                {
+                    scaleY: 1.1,
+                    duration: 50,
+                    ease: 'linear',
+                    yoyo: true,
+                },
+            ],
+        })
+        this.scene.time.delayedCall(100, () => {
+            this.checkOverlap = true
+        })
     }
     public resetRotation(): void {
         this.scene.add.tween({
@@ -341,6 +339,8 @@ export class Basket extends GameObjects.Container {
     }
 
     public destroy() {
+        this.scene.input.off('drag', this.onDraggingEvent)
+        this.scene.input.off('dragend', this.onDragEnd)
         this.roundDownContainer.destroy()
         this.roundUpContainer.destroy()
         this.line.destroy()

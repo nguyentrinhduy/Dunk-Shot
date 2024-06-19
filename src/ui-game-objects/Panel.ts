@@ -34,7 +34,12 @@ export class Panel extends GameObjects.Container{
         this.add(button)
     }
     public addText(text: string): void {
-        this.text = this.scene.add.text(0, 0, text, { fontFamily: 'Triomphe', fontSize: '20px', color: 'white'}).setOrigin(0.5)
-        this.add(this.text)
+        if (!this.text) {
+            this.text = this.scene.add.text(0, 0, text, { fontFamily: 'Triomphe', fontSize: '20px', color: 'white'}).setOrigin(0.5)
+            this.add(this.text)
+        }
+        else {
+            this.text.setText(text)
+        }
     }
 }
