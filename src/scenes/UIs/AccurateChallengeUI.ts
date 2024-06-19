@@ -67,6 +67,7 @@ export class AccurateChallengeUI extends UI {
     }
     private createPausePanel(): void {
         this.pausePanel = new Panel(this.scene, WINDOW_SIZE.WIDTH / 2, WINDOW_SIZE.HEIGHT / 2, () => {
+            this.scene.scene.resume('MainGameScene')
             this.manager.transitionToChallengeMenuUI()
         });
         this.pausePanel.addBanner('accurate_banner');
