@@ -16,8 +16,6 @@ export class AccurateChallengeState extends State {
     private ball: Ball
     private baskets: Basket[]
     private level: number
-    private initialBallX: number
-    private initialBallY: number
     private mapGenerator: MapGenerator
     private draggingZone: Phaser.GameObjects.Zone
     private leftSideWall: Phaser.GameObjects.Rectangle
@@ -57,9 +55,7 @@ export class AccurateChallengeState extends State {
                 case 'ball' : {
                     this.createBall()
                     this.ball.setPosition(object.x, object.y! - dy)
-                    // this.ball.setAllowPrediction(false)
-                    this.initialBallX = object.x!
-                    this.initialBallY = object.y! - dy
+                    this.ball.setAllowPrediction(false)
                     break
                 }
                 case 'basket' : {
@@ -90,6 +86,7 @@ export class AccurateChallengeState extends State {
                 }
             }
         })
+        this.dataManager.setTotalBasket(this.baskets.length - 1)
     }
     public update(time: number, delta: number): void {
         this.ball.update(time, delta)
@@ -103,15 +100,12 @@ export class AccurateChallengeState extends State {
         // lose
         if (this.ball.y > this.baskets[0].y + 400) {
             if (this.dataManager.getTurns() > 0) {
-                this.dataManager.updateTurns()
-                if (this.dataManager.getBasketsJumped() == 0){
-                    this.ball.x = this.initialBallX
-                    this.ball.y = this.initialBallY
+                if (this.dataManager.getBasketsJumped() != 0){
+                    this.dataManager.updateTurns()
                 }
-                else {
-                    this.ball.x = this.baskets[0].x
-                    this.ball.y = this.baskets[0].y - 200
-                }
+                this.ball.x = this.baskets[0].x
+                this.ball.y = this.baskets[0].y - 200
+
                 this.ball.setAlpha(0).setRotation(0)
                 this.ball.body.setVelocity(0, 0).setAllowGravity(false)
                 this.scene.add.tween({

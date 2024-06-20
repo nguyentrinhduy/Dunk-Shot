@@ -33,6 +33,9 @@ export class ChallengeMenuUI extends UI {
     }
     private createButtons(): void {
         this.backButton = new Button(this.scene, 40, 40, () => {
+            if (this.scene.scene.isPaused('MainGameScene')){
+                this.scene.scene.resume('MainGameScene')
+            }
             this.manager.transitionToMainMenuUI()
             this.manager.transitionToNormalModeState()
         })
@@ -79,8 +82,8 @@ export class ChallengeMenuUI extends UI {
         this.add(this.bounceButton)
 
         this.accurateButton = new TrackingButton(this.scene, WINDOW_SIZE.WIDTH / 2, 800, () => {
-            this.manager.transitionToAccurateChallengeUI()
             this.manager.transitionToAccurateChallengeState()
+            this.manager.transitionToAccurateChallengeUI()
         })
         this.accurateButton.addBackground('accurate_button')
         this.accurateButton.addSprite('accurate_icon', -150, 0)

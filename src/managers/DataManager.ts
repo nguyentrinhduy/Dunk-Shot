@@ -113,6 +113,9 @@ export class DataManager {
     public setTotalBasket(totalBasket: number) {
         this.totalBasket = totalBasket
     }
+    public getTotalBasket(): number {
+        return this.totalBasket
+    }
     public setBallType(ballType: number): void {
         this.currentBallType = ballType
         localStorage.setItem('current_ball_type', JSON.stringify(this.currentBallType))

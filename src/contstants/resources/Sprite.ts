@@ -65,6 +65,10 @@ export const icons = {
         key: 'achievement_icon',
         path: 'components/icons/achievement_icon.png'
     },
+    turn: {
+        key: 'turn',
+        path: 'components/icons/turn.png'
+    }
 }
 
 export const panels = {

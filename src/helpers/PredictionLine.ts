@@ -23,7 +23,7 @@ export class PredictionLine {
         let radius = 5
         let currentX = startX
         let currentY = startY
-        let deltaTime = 0.07
+        let deltaTime = 0.05
         this.graphicalLine.save()
         this.graphicalLine.fillStyle(0xdb7d51)
         for (let i = 0; i < this.dotsNumber; i++) {

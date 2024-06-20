@@ -5,6 +5,7 @@ import { WINDOW_SIZE } from "../../contstants/WindowSize";
 import { Button } from "../../ui-game-objects/button/Button";
 import { ball } from "../../contstants/resources/Sprite";
 import { BallType } from "../../ui-game-objects/BallType";
+import { Stars } from "../../ui-game-objects/Stars";
 
 export class BallSkinsUI extends UI {
     private background: GameObjects.Rectangle
@@ -16,6 +17,7 @@ export class BallSkinsUI extends UI {
     private listBallSkin: GameObjects.Container
     private draggingZone: GameObjects.Zone
     private chosenRound: GameObjects.Sprite
+    private stars: Stars
     private dragStartY: number
     public constructor(scene: Scene) {
         super(scene)
@@ -35,6 +37,7 @@ export class BallSkinsUI extends UI {
         this.add(this.listBallSkin)
         this.add(this.backButton)
         this.add(this.line)
+        this.add(this.stars)
         this.setInteractive()
     }
     private createBackgrounds(): void {
@@ -51,6 +54,8 @@ export class BallSkinsUI extends UI {
             this.manager.transitionToMainMenuUI()
         })
         this.backButton.addBackground('white_back_button', 0, 0)
+        this.stars = new Stars(this.scene, 670, 40)
+        this.stars.setStars(this.dataManager.getStars())
     }
     private createBallSkins(): void {
         this.ballSkins = []
@@ -68,6 +73,7 @@ export class BallSkinsUI extends UI {
                 else {
                     if (this.dataManager.getStars() >= 100) {
                         this.dataManager.addStars(-100)
+                        this.stars.setStars(this.dataManager.getStars())
                         this.dataManager.unlockBall(ballType)
                         ballSkin.setLocked(false)
                     }

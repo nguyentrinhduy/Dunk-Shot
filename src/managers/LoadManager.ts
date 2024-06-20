@@ -36,6 +36,7 @@ export class LoadManager {
         this.scene.load.image(icons.bounce_icon.key, icons.bounce_icon.path)
         this.scene.load.image(icons.accurate_icon.key, icons.accurate_icon.path)
         this.scene.load.image(icons.achievement_icon.key, icons.achievement_icon.path)
+        this.scene.load.image(icons.turn.key, icons.turn.path)
 
         this.scene.load.image(panels.gray_top_panel.key, panels.gray_top_panel.path)
         this.scene.load.image(panels.blue_top_panel.key, panels.blue_top_panel.path)

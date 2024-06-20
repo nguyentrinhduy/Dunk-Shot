@@ -14,7 +14,9 @@ export class AccurateChallengeUI extends UI {
     private pauseButton: Button
     private turns: Phaser.GameObjects.Sprite[]
     private basketJumpsText: Phaser.GameObjects.Text
-    
+    private basketJumps: number
+    private totalBasket: number
+    private currentTurns: number
     public constructor(scene: Phaser.Scene) {
         super(scene);
         this.create();
@@ -65,6 +67,11 @@ export class AccurateChallengeUI extends UI {
         
         this.add(this.readyPanel)
     }
+    private reset(): void {
+        this.totalBasket = this.dataManager.getTotalBasket()
+        this.basketJumps = 0
+        this.currentTurns = 3
+    }
     private createPausePanel(): void {
         this.pausePanel = new Panel(this.scene, WINDOW_SIZE.WIDTH / 2, WINDOW_SIZE.HEIGHT / 2, () => {
             this.scene.scene.resume('MainGameScene')
@@ -88,6 +95,13 @@ export class AccurateChallengeUI extends UI {
             }
             else {
                 this.manager.transitionToAccurateChallengeState()
+                for (let i = 0; i < 3; i ++) {
+                    this.turns[i].setVisible(true)
+                }
+                this.totalBasket = this.dataManager.getTotalBasket()
+                this.basketJumps = 0
+                this.currentTurns = 3
+                this.basketJumpsText.setText(this.basketJumps.toString()+ '/' + this.totalBasket.toString())
                 this.scene.add.tween({
                     targets: [this.pausePanel, this.background],
                     duration: 100,
@@ -122,8 +136,14 @@ export class AccurateChallengeUI extends UI {
         this.add(this.pausePanel)
     }
     private createPlayingUI(): void {
+        this.reset()
         this.playingUI = this.scene.add.container(0, 0)
         this.topBar = this.scene.add.sprite(WINDOW_SIZE.WIDTH/2, 50, 'blue_top_panel').setScale(1.1)
+        this.turns = []
+        for (let i = 0; i < 3; i ++) {
+            const turnSprite = this.scene.add.sprite(150 + i * 60, 50, 'turn').setScale(0.5)
+            this.turns.push(turnSprite)
+        }
         this.pauseButton = new Button(this.scene, 40, 40, () => {
             this.playingUI.setScale(0)
             this.scene.add.tween({
@@ -136,14 +156,17 @@ export class AccurateChallengeUI extends UI {
             this.scene.scene.pause('MainGameScene')
         })
         this.pauseButton.addBackground('pause_button', 0, 0)
-        this.basketJumpsText = this.scene.add.text(650, 20, '0/0', { fontFamily: 'Triomphe', fontSize: '35px', color: 'white'})
+        this.basketJumpsText = this.scene.add.text(650, 20, '0/' + this.totalBasket.toString(), { fontFamily: 'Triomphe', fontSize: '35px', color: 'white'})
+        
         this.playingUI.add(this.topBar)
         this.playingUI.add(this.pauseButton)
         this.playingUI.add(this.basketJumpsText)
+        this.playingUI.add(this.turns)
         this.playingUI.setScale(0)
         this.add(this.playingUI)
     }
     public update(): void {
+        
         // throw new Error("Method not implemented.");
         if (this.dataManager.getState() == PlayerState.WIN) {
             this.dataManager.setState(PlayerState.PAUSE)
@@ -174,6 +197,17 @@ export class AccurateChallengeUI extends UI {
             })
             this.pausePanel.addText('Try again?')
             
+        }
+        else if (this.dataManager.getState() == PlayerState.PLAYING) {
+            if (this.dataManager.getBasketsJumped() != this.basketJumps) {
+                this.basketJumps = this.dataManager.getBasketsJumped()
+                this.basketJumpsText.setText(this.basketJumps.toString() + '/' + this.totalBasket)
+            }
+            if (this.dataManager.getTurns() < this.currentTurns) {
+                this.turns[this.currentTurns - 1].setVisible(false)
+                this.currentTurns --
+            }
+
         }
     }
 }

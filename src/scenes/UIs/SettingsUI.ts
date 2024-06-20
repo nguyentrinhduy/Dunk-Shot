@@ -78,6 +78,9 @@ export class SettingsUI extends UI {
         })
 
         this.backButton = new Button(this.scene, 40, 40, () => {
+            if (this.scene.scene.isPaused('MainGameScene')){
+                this.scene.scene.resume('MainGameScene')
+            }
             this.manager.transitionToMainMenuUI()
         })
         this.backButton.addBackground('back_button', 0, 0)
