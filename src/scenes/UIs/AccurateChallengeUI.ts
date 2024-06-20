@@ -147,6 +147,7 @@ export class AccurateChallengeUI extends UI {
         // throw new Error("Method not implemented.");
         if (this.dataManager.getState() == PlayerState.WIN) {
             this.dataManager.setState(PlayerState.PAUSE)
+            this.manager.killAllTweens()
             this.manager.transitionToAccurateChallengeState()
             this.playingUI.setScale(0)
             this.scene.add.tween({

@@ -57,7 +57,7 @@ export class AccurateChallengeState extends State {
                 case 'ball' : {
                     this.createBall()
                     this.ball.setPosition(object.x, object.y! - dy)
-                    this.ball.setAllowPrediction(false)
+                    // this.ball.setAllowPrediction(false)
                     this.initialBallX = object.x!
                     this.initialBallY = object.y! - dy
                     break

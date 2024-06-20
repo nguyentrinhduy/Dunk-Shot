@@ -22,6 +22,7 @@ export class PauseUI extends UI {
         this.resume_button.addText('RESUME', -55, -25, { fontSize: '40px', fontStyle: 'bold', color: 'white', fontFamily: 'Triomphe'})
         this.main_menu_button = new Button(this.scene, WINDOW_SIZE.WIDTH/2, 400, () => {
             this.scene.scene.resume('MainGameScene')
+            this.manager.killAllTweens()
             this.manager.transitionToNormalModeState()
             this.manager.transitionToMainMenuUI()
         })

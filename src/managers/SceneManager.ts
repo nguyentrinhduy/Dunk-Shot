@@ -79,4 +79,7 @@ export class SceneManager {
         this.state = state
         this.state.setManager(this)
     }
+    public killAllTweens(): void {
+        this.stateScene.tweens.killAll()
+    }
 }
