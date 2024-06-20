@@ -1,11 +1,11 @@
-import { Data, GameObjects, Scene } from "phaser";
-import { UI } from "./UI";
-import { DataManager } from "../../managers/DataManager";
-import { WINDOW_SIZE } from "../../contstants/WindowSize";
-import { Button } from "../../ui-game-objects/button/Button";
-import { ball } from "../../contstants/resources/Sprite";
-import { BallType } from "../../ui-game-objects/BallType";
-import { Stars } from "../../ui-game-objects/Stars";
+import { Data, GameObjects, Scene } from 'phaser'
+import { UI } from './UI'
+import { DataManager } from '../../managers/DataManager'
+import { WINDOW_SIZE } from '../../contstants/WindowSize'
+import { Button } from '../../ui-game-objects/button/Button'
+import { ball } from '../../contstants/resources/Sprite'
+import { BallType } from '../../ui-game-objects/BallType'
+import { Stars } from '../../ui-game-objects/Stars'
 
 export class BallSkinsUI extends UI {
     private background: GameObjects.Rectangle
@@ -41,16 +41,21 @@ export class BallSkinsUI extends UI {
         this.setInteractive()
     }
     private createBackgrounds(): void {
-        this.background = this.scene.add.rectangle(0, 0, WINDOW_SIZE.WIDTH, WINDOW_SIZE.HEIGHT).setOrigin(0, 0).setFillStyle(0xdbdbdb, 1)
-        this.line = this.scene.add.sprite(WINDOW_SIZE.WIDTH/2, 300, 'line')
+        this.background = this.scene.add
+            .rectangle(0, 0, WINDOW_SIZE.WIDTH, WINDOW_SIZE.HEIGHT)
+            .setOrigin(0, 0)
+            .setFillStyle(0xdbdbdb, 1)
+        this.line = this.scene.add.sprite(WINDOW_SIZE.WIDTH / 2, 300, 'line')
         this.line.scaleX = 6
-        this.topPanel = this.scene.add.sprite(WINDOW_SIZE.WIDTH/2, 50, 'gray_top_panel').setScale(1.1)
+        this.topPanel = this.scene.add
+            .sprite(WINDOW_SIZE.WIDTH / 2, 50, 'gray_top_panel')
+            .setScale(1.1)
         this.backButton = new Button(this.scene, 40, 40, () => {
-            if (this.scene.scene.isPaused('MainGameScene')){
+            if (this.scene.scene.isPaused('MainGameScene')) {
                 this.scene.scene.resume('MainGameScene')
             }
             this.manager.killAllTweens()
-            this.manager.transitionToNormalModeState()
+            this.manager.transitionToNormalMode()
             this.manager.transitionToMainMenuUI()
         })
         this.backButton.addBackground('white_back_button', 0, 0)
@@ -60,8 +65,18 @@ export class BallSkinsUI extends UI {
     private createBallSkins(): void {
         this.ballSkins = []
         this.chosenRound = this.scene.add.sprite(0, 0, 'chosen_round').setScale(0.5)
+        const currentBallType = this.dataManager.getBallType()
+        this.chosenRound.setPosition(
+            (currentBallType % 4) * 150,
+            Math.floor(currentBallType / 4) * 150
+        )
         for (let ballType = 0; ballType < ball.number; ballType++) {
-            const ballSkin = new BallType(this.scene, (ballType % 4) * 150, Math.floor(ballType / 4) * 150, ballType)
+            const ballSkin = new BallType(
+                this.scene,
+                (ballType % 4) * 150,
+                Math.floor(ballType / 4) * 150,
+                ballType
+            )
             ballSkin.setScale(0.5).setLocked(!this.dataManager.isBallUnlocked(ballType))
             ballSkin.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
                 if (pointer.y < 300) return
@@ -69,8 +84,7 @@ export class BallSkinsUI extends UI {
                     this.chosenRound.x = (ballType % 4) * 150
                     this.chosenRound.y = Math.floor(ballType / 4) * 150
                     this.dataManager.setBallType(ballType)
-                }
-                else {
+                } else {
                     if (this.dataManager.getStars() >= 100) {
                         this.dataManager.addStars(-100)
                         this.stars.setStars(this.dataManager.getStars())
@@ -78,11 +92,10 @@ export class BallSkinsUI extends UI {
                         ballSkin.setLocked(false)
                     }
                 }
-                
             })
             this.ballSkins.push(ballSkin)
         }
-        
+
         this.listBallSkin = this.scene.add.container(160, 400, this.ballSkins)
         this.listBallSkin.add(this.chosenRound)
         const graphics = this.scene.add.graphics()
@@ -90,7 +103,10 @@ export class BallSkinsUI extends UI {
         this.listBallSkin.setMask(new Phaser.Display.Masks.GeometryMask(this.scene, graphics))
     }
     private createDraggingZone(): void {
-        this.draggingZone = this.scene.add.zone(0, 300, WINDOW_SIZE.WIDTH, WINDOW_SIZE.HEIGHT).setOrigin(0).setInteractive({ draggable: true })
+        this.draggingZone = this.scene.add
+            .zone(0, 300, WINDOW_SIZE.WIDTH, WINDOW_SIZE.HEIGHT)
+            .setOrigin(0)
+            .setInteractive({ draggable: true })
         this.scene.input.dragDistanceThreshold = 16
         this.draggingZone.on('dragstart', (pointer: Phaser.Input.Pointer) => {
             this.dragStartY = pointer.y
@@ -98,16 +114,16 @@ export class BallSkinsUI extends UI {
         this.draggingZone.on('drag', (pointer: Phaser.Input.Pointer) => {
             this.listBallSkin.y += pointer.y - this.dragStartY
             this.listBallSkin.y = Math.min(this.listBallSkin.y, 400)
-            this.listBallSkin.y = Math.max(this.listBallSkin.y, 400 - Math.floor(this.ballSkins.length/4) * 150)
+            this.listBallSkin.y = Math.max(
+                this.listBallSkin.y,
+                400 - Math.floor(this.ballSkins.length / 4) * 150
+            )
             this.dragStartY = pointer.y
         })
-        
     }
     public destroy(fromScene?: boolean | undefined): void {
         this.scene.input.setTopOnly(true)
         super.destroy()
     }
-    public update(): void {
-        
-    }
+    public update(): void {}
 }

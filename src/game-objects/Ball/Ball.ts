@@ -56,11 +56,9 @@ export class Ball extends GameObjects.Container {
         const power = Math.sqrt(this.shootX * this.shootX + this.shootY * this.shootY)
         if (power <= 600) {
             AudioManager.getInstance().getShootingWeakSound()
-        }
-        else if (power <= 1100) {
+        } else if (power <= 1100) {
             AudioManager.getInstance().getShootingMediumSound()
-        }
-        else {
+        } else {
             AudioManager.getInstance().getShootingStrongSound()
         }
         this.body.velocity.x = this.shootX

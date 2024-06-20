@@ -46,14 +46,15 @@ export class PredictionLine {
         if (startX == endX && startY == endY) {
             return
         }
-        let dx = (endX - startX) / (this.dotsNumber - 1)
-        let dy = (endY - startY) / (this.dotsNumber - 1)
+        const dotsNumber = 7
+        let dx = (endX - startX) / (dotsNumber - 1)
+        let dy = (endY - startY) / (dotsNumber - 1)
         let currentX = startX
         let currentY = startY
         this.graphicalLine.save()
-        this.graphicalLine.fillStyle(0xa1a1a1)
-        for (let i = 0; i < this.dotsNumber; i++) {
-            this.graphicalLine.fillCircle(currentX, currentY, 10)
+        this.graphicalLine.fillStyle(0xbdbdbd)
+        for (let i = 0; i < dotsNumber; i++) {
+            this.graphicalLine.fillCircle(currentX, currentY, 7)
             currentX += dx
             currentY += dy
         }

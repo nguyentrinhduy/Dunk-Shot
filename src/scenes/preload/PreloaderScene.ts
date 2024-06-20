@@ -23,7 +23,7 @@ export class PreloaderScene extends Scene {
             fontSize: '25px',
             color: '#ff7300',
             fontStyle: 'bold',
-            fontFamily: 'Triomphe'
+            fontFamily: 'Triomphe',
         })
         //  This is the progress bar itself. It will increase in size from the left based on the % of progress.
         const bar = this.add.rectangle(400 - 230, 750, 4, 28, 0xff7300)
@@ -32,9 +32,8 @@ export class PreloaderScene extends Scene {
         this.load.on('progress', (progress: number) => {
             //  Update the progress bar (our bar is 464px wide, so 100% = 464px)
             bar.width = 4 + 460 * progress
-            this.percentText.setText(Math.round(progress*100).toString() + '%')
+            this.percentText.setText(Math.round(progress * 100).toString() + '%')
         })
-        
     }
 
     preload() {
@@ -46,9 +45,6 @@ export class PreloaderScene extends Scene {
 
     create() {
         const sceneManager = new SceneManager()
-        this.scene
-            .start('MainGameScene', sceneManager)
-            .start('UIGameScene', sceneManager)
+        this.scene.start('MainGameScene', sceneManager).start('UIGameScene', sceneManager)
     }
-    
 }

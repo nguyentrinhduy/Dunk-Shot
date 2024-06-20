@@ -13,8 +13,8 @@ export class MainGameScene extends Scene {
     create(data: SceneManager) {
         this.input.setTopOnly(true)
         this.manager = data
-        this.manager.setStateScene(this)
-        this.manager.transitionToNormalModeState()
+        this.manager.setModeScene(this)
+        this.manager.transitionToNormalMode()
     }
     update(time: number, delta: number) {
         this.manager.update(time, delta)

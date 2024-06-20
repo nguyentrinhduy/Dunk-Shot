@@ -7,7 +7,7 @@ export enum Challenge {
     LIMIT_TIME = 0,
     ACHIEVEMENT = 1,
     BOUNCE = 2,
-    ACCURATE = 3
+    ACCURATE = 3,
 }
 export enum PlayerState {
     READY,
@@ -15,7 +15,8 @@ export enum PlayerState {
     WIN,
     LOSE,
     PAUSE,
-    PAUSE_LOSE
+    PAUSE_LOSE,
+    PAUSE_WIN,
 }
 export class DataManager {
     private currentBallType: number
@@ -30,7 +31,6 @@ export class DataManager {
     private basketsJumped: number
     private totalBasket: number
 
-
     private static instance: DataManager
     private state: PlayerState
     public static getInstance(): DataManager {
@@ -40,45 +40,40 @@ export class DataManager {
         return DataManager.instance
     }
     private constructor() {
-        // localStorage.clear()
+        localStorage.clear()
         let retrievedData = localStorage.getItem('ball_unlocked')
         if (retrievedData) {
             this.ballUnlocked = JSON.parse(retrievedData)
-        }
-        else {
+        } else {
             this.ballUnlocked = Array(78).fill(false)
             this.ballUnlocked[0] = true
         }
-        
+
         retrievedData = localStorage.getItem('current_ball_type')
         if (retrievedData) {
             this.currentBallType = JSON.parse(retrievedData)
-        }
-        else {
+        } else {
             this.currentBallType = 0
         }
 
         retrievedData = localStorage.getItem('high_score')
         if (retrievedData) {
             this.highScore = JSON.parse(retrievedData)
-        }
-        else {
+        } else {
             this.highScore = 0
         }
 
         retrievedData = localStorage.getItem('stars')
         if (retrievedData) {
             this.stars = JSON.parse(retrievedData)
-        }
-        else {
+        } else {
             this.stars = 300
         }
-        
+
         retrievedData = localStorage.getItem('challenge_level')
         if (retrievedData) {
             this.challengeLevel = JSON.parse(retrievedData)
-        }
-        else {
+        } else {
             this.challengeLevel = Array(4).fill(1)
         }
         this.reset()
@@ -127,7 +122,7 @@ export class DataManager {
         this.ballUnlocked[ballType] = true
         localStorage.setItem('ball_unlocked', JSON.stringify(this.ballUnlocked))
     }
-    public isBallUnlocked(ballType: number): boolean{
+    public isBallUnlocked(ballType: number): boolean {
         return this.ballUnlocked[ballType]
     }
     public getScore(): number {
@@ -142,8 +137,7 @@ export class DataManager {
         if (this.challengeLevel[challengeType] < 3) {
             this.challengeLevel[challengeType]++
             localStorage.setItem('challenge_level', JSON.stringify(this.challengeLevel))
-        }
-        else {
+        } else {
             this.challengeLevel[challengeType] = 1
         }
     }

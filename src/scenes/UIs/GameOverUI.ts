@@ -15,19 +15,38 @@ export class GameOverUI extends UI {
         this.create()
     }
 
-    public update(): void {
-        
-    }
+    public update(): void {}
     public create(): void {
-        this.playAgainButton = new Button(this.scene, WINDOW_SIZE.WIDTH/2, 800, () => {
+        this.playAgainButton = new Button(this.scene, WINDOW_SIZE.WIDTH / 2, 800, () => {
             this.scene.scene.resume('MainGameScene')
-            this.manager.transitionToNormalModeState()
+            this.manager.transitionToNormalMode()
             this.manager.transitionToMainMenuUI()
         })
-        this.scoreText = this.scene.add.text(WINDOW_SIZE.WIDTH/2, 200, '0', {fontSize: '100px', color: 'black', fontStyle: 'bold', fontFamily: 'Triomphe'}).setOrigin(0.5)
+        this.scoreText = this.scene.add
+            .text(WINDOW_SIZE.WIDTH / 2, 200, '0', {
+                fontSize: '100px',
+                color: 'black',
+                fontStyle: 'bold',
+                fontFamily: 'Triomphe',
+            })
+            .setOrigin(0.5)
         this.scoreText.setText(DataManager.getInstance().getScore().toString())
-        const text = this.scene.add.text(WINDOW_SIZE.WIDTH/2, 50, 'BEST RECORD', {fontSize: '50px', color: '#ff7300', fontStyle: 'bold', fontFamily: 'Triomphe'}).setOrigin(0.5)
-        this.bestRecordsText = this.scene.add.text(WINDOW_SIZE.WIDTH/2, 100, '0', {fontSize: '60px', color: '#ff7300', fontStyle: 'bold', fontFamily: 'Triomphe'}).setOrigin(0.5)
+        const text = this.scene.add
+            .text(WINDOW_SIZE.WIDTH / 2, 50, 'BEST RECORD', {
+                fontSize: '50px',
+                color: '#ff7300',
+                fontStyle: 'bold',
+                fontFamily: 'Triomphe',
+            })
+            .setOrigin(0.5)
+        this.bestRecordsText = this.scene.add
+            .text(WINDOW_SIZE.WIDTH / 2, 100, '0', {
+                fontSize: '60px',
+                color: '#ff7300',
+                fontStyle: 'bold',
+                fontFamily: 'Triomphe',
+            })
+            .setOrigin(0.5)
         this.bestRecordsText.setText(DataManager.getInstance().getHighScore().toString())
         this.playAgainButton.addBackground('play_again_button', 0, 0)
         this.playAgainButton.setScale(0)
@@ -42,8 +61,7 @@ export class GameOverUI extends UI {
             targets: this.playAgainButton,
             scale: 1,
             duration: 200,
-            ease: 'Linear'
+            ease: 'Linear',
         })
-
     }
 }

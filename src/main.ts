@@ -19,7 +19,6 @@ const config: Types.Core.GameConfig = {
         default: 'arcade',
         arcade: {
             // debug: true,
-            
         },
     },
     scene: [BootScene, PreloaderScene, MainGameScene, UIGameScene],

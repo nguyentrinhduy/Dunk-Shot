@@ -18,15 +18,15 @@ export class MathHelper {
         return Math.atan2(y2 - y1, x2 - x1)
     }
     public static getAngleDeg(x1: number, y1: number, x2: number, y2: number): number {
-        return Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI
+        return (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI
     }
     public static getAngle360(x1: number, y1: number, x2: number, y2: number): number {
-        return (Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI + 360) % 360
+        return ((Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI + 360) % 360
     }
     public static getAngleDeg360(x1: number, y1: number, x2: number, y2: number): number {
-        return (Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI + 360) % 360
+        return ((Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI + 360) % 360
     }
     public static getAngleDeg180(x1: number, y1: number, x2: number, y2: number): number {
-        return (Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI + 180) % 360
+        return ((Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI + 180) % 360
     }
 }

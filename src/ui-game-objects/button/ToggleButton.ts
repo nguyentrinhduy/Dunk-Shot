@@ -1,5 +1,5 @@
-import { Game, GameObjects, Scene } from "phaser";
-import { Button } from "./Button";
+import { Game, GameObjects, Scene } from 'phaser'
+import { Button } from './Button'
 
 export class ToggleButton extends GameObjects.Container {
     private space: GameObjects.Sprite
@@ -9,7 +9,13 @@ export class ToggleButton extends GameObjects.Container {
     private onText: GameObjects.Sprite
     private offText: GameObjects.Sprite
     private onPointerUp: () => void
-    public constructor(scene: Scene, x: number, y: number, isOn: boolean = true, onPointerUp: () => void) {
+    public constructor(
+        scene: Scene,
+        x: number,
+        y: number,
+        isOn: boolean = true,
+        onPointerUp: () => void
+    ) {
         super(scene, x, y)
         this.isOn = isOn
         this.setScale(0.8)
@@ -56,8 +62,7 @@ export class ToggleButton extends GameObjects.Container {
                 this.onText.setVisible(true)
                 this.color.setTint(0x00ff00)
                 this.dot.setX(90)
-            }
-            else {
+            } else {
                 this.offText.setVisible(true)
                 this.onText.setVisible(false)
                 this.color.setTint(0xffa500)

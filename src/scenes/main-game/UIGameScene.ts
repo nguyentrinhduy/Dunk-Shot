@@ -1,11 +1,10 @@
-import { Scene } from "phaser";
-import { SceneManager } from "../../managers/SceneManager";
+import { Scene } from 'phaser'
+import { SceneManager } from '../../managers/SceneManager'
 
 export class UIGameScene extends Scene {
     private manager: SceneManager
     public constructor() {
         super('UIGameScene')
-        
     }
     create(data: SceneManager) {
         this.input.setTopOnly(true)

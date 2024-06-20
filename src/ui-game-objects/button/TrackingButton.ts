@@ -1,4 +1,4 @@
-import { GameObjects, Scene } from "phaser";
+import { GameObjects, Scene } from 'phaser'
 
 export class TrackingButton extends GameObjects.Container {
     private background: GameObjects.Sprite
@@ -18,26 +18,15 @@ export class TrackingButton extends GameObjects.Container {
         this.on('pointerup', this.onPointerUp)
     }
 
-    public addBackground(
-        backgroundKey: string,
-    ): void {
+    public addBackground(backgroundKey: string): void {
         this.background = this.scene.add.sprite(0, 0, backgroundKey)
         this.add(this.background)
         this.setSize(this.background.width, this.background.height)
         this.setInteractive()
     }
-    public addTracking(
-        progress: number,
-    ) {
+    public addTracking(progress: number) {}
 
-    }
-
-    public addSprite(
-        spriteKey: string,
-        x: number,
-        y: number,
-        scale: number = 1
-    ): void {
+    public addSprite(spriteKey: string, x: number, y: number, scale: number = 1): void {
         this.sprite = this.scene.add.sprite(x, y, spriteKey)
         this.sprite.setScale(scale)
         this.add(this.sprite)
@@ -60,7 +49,7 @@ export class TrackingButton extends GameObjects.Container {
                 targets: this,
                 scale: 0.8,
                 duration: 50,
-                ease: 'Linear'
+                ease: 'Linear',
             })
         })
         this.on('pointerout', () => {
@@ -69,7 +58,7 @@ export class TrackingButton extends GameObjects.Container {
                 targets: this,
                 scale: 0.6,
                 duration: 50,
-                ease: 'Linear'
+                ease: 'Linear',
             })
         })
     }

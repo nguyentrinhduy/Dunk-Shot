@@ -1,7 +1,7 @@
-import { GameObjects, Scene } from "phaser";
-import { Button } from "./button/Button";
+import { GameObjects, Scene } from 'phaser'
+import { Button } from './button/Button'
 
-export class Panel extends GameObjects.Container{
+export class Panel extends GameObjects.Container {
     private buttons: Button[]
     private closeButton: Button
     private text: GameObjects.Text
@@ -16,7 +16,15 @@ export class Panel extends GameObjects.Container{
         this.buttons = []
         this.add(this.panel)
         this.add(this.closeButton)
-        this.add(this.scene.add.text(0, -150, 'CHALLENGES', { fontFamily: 'Triomphe', fontSize: '35px', color: 'black'}).setOrigin(0.5))
+        this.add(
+            this.scene.add
+                .text(0, -150, 'CHALLENGES', {
+                    fontFamily: 'Triomphe',
+                    fontSize: '35px',
+                    color: 'black',
+                })
+                .setOrigin(0.5)
+        )
         // this.setScale(0)
         // this.scene.add.tween({
         //     targets: this,
@@ -35,10 +43,11 @@ export class Panel extends GameObjects.Container{
     }
     public addText(text: string): void {
         if (!this.text) {
-            this.text = this.scene.add.text(0, 0, text, { fontFamily: 'Triomphe', fontSize: '20px', color: 'white'}).setOrigin(0.5)
+            this.text = this.scene.add
+                .text(0, 0, text, { fontFamily: 'Triomphe', fontSize: '20px', color: 'white' })
+                .setOrigin(0.5)
             this.add(this.text)
-        }
-        else {
+        } else {
             this.text.setText(text)
         }
     }

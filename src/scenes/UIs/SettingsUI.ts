@@ -62,23 +62,23 @@ export class SettingsUI extends UI {
             fontSize: '40px',
             color: 'black',
             fontStyle: 'bold',
-            fontFamily: 'Triomphe'
+            fontFamily: 'Triomphe',
         })
         this.vibrationText = this.scene.add.text(100, 390, 'VIBRATION', {
             fontSize: '40px',
             color: 'black',
             fontStyle: 'bold',
-            fontFamily: 'Triomphe'
+            fontFamily: 'Triomphe',
         })
         this.nightModeText = this.scene.add.text(100, 590, 'NIGHT MODE', {
             fontSize: '40px',
             color: 'black',
             fontStyle: 'bold',
-            fontFamily: 'Triomphe'
+            fontFamily: 'Triomphe',
         })
 
         this.backButton = new Button(this.scene, 40, 40, () => {
-            if (this.scene.scene.isPaused('MainGameScene')){
+            if (this.scene.scene.isPaused('MainGameScene')) {
                 this.scene.scene.resume('MainGameScene')
             }
             this.manager.transitionToMainMenuUI()

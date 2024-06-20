@@ -21,23 +21,14 @@ export class Button extends GameObjects.Container {
         if (x) this.initialScale = x!
         return super.setScale(x, y)
     }
-    public addBackground(
-        backgroundKey: string,
-        x: number,
-        y: number
-    ): void {
+    public addBackground(backgroundKey: string, x: number, y: number): void {
         this.background = this.scene.add.sprite(x, y, backgroundKey)
         this.add(this.background)
         this.setSize(this.background.width, this.background.height)
         this.setInteractive()
     }
 
-    public addSprite(
-        spriteKey: string,
-        x: number,
-        y: number,
-        scale: number = 1
-    ): void {
+    public addSprite(spriteKey: string, x: number, y: number, scale: number = 1): void {
         this.sprite = this.scene.add.sprite(x, y, spriteKey)
         this.sprite.setScale(scale)
         this.add(this.sprite)
@@ -60,7 +51,7 @@ export class Button extends GameObjects.Container {
                 targets: this,
                 scale: this.initialScale + 0.2,
                 duration: 50,
-                ease: 'Linear'
+                ease: 'Linear',
             })
         })
         this.on('pointerout', () => {
@@ -69,7 +60,7 @@ export class Button extends GameObjects.Container {
                 targets: this,
                 scale: this.initialScale,
                 duration: 50,
-                ease: 'Linear'
+                ease: 'Linear',
             })
         })
     }

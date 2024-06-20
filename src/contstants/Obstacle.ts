@@ -1,10 +1,9 @@
 export const straight_obstacle = {
     key: 'straight_obstacle',
-    points: [] =  
-    [
+    points: ([] = [
         // add 10 points to the array with 18px distance between them
-        new Phaser.Math.Vector2(0, -142), 
-        new Phaser.Math.Vector2(0, -130), 
+        new Phaser.Math.Vector2(0, -142),
+        new Phaser.Math.Vector2(0, -130),
         new Phaser.Math.Vector2(0, -118),
         new Phaser.Math.Vector2(0, -106),
         new Phaser.Math.Vector2(0, -94),
@@ -28,58 +27,56 @@ export const straight_obstacle = {
         new Phaser.Math.Vector2(0, 122),
         new Phaser.Math.Vector2(0, 134),
         new Phaser.Math.Vector2(0, 143),
-    ]
+    ]),
 }
 export const round_obstacle = [
     {
         key: 'round_obstacle_1',
-        points: [] =  
-        [
-            new Phaser.Math.Vector2(0, -125), 
-            new Phaser.Math.Vector2(16, -124), 
-            new Phaser.Math.Vector2(31, -121), 
-            new Phaser.Math.Vector2(46, -116), 
-            new Phaser.Math.Vector2(60, -110), 
-            new Phaser.Math.Vector2(73, -101), 
-            new Phaser.Math.Vector2(86, -91), 
-            new Phaser.Math.Vector2(96, -80), 
-            new Phaser.Math.Vector2(106, -67), 
-            new Phaser.Math.Vector2(113, -53), 
-            new Phaser.Math.Vector2(119, -39), 
-            new Phaser.Math.Vector2(123, -23), 
-            new Phaser.Math.Vector2(125, -8), 
-            new Phaser.Math.Vector2(125, 8), 
-            new Phaser.Math.Vector2(123, 23), 
-            new Phaser.Math.Vector2(119, 39), 
-            new Phaser.Math.Vector2(113, 53), 
-            new Phaser.Math.Vector2(106, 67), 
-            new Phaser.Math.Vector2(96, 80), 
-            new Phaser.Math.Vector2(86, 91), 
-            new Phaser.Math.Vector2(73, 101), 
-            new Phaser.Math.Vector2(60, 110), 
-            new Phaser.Math.Vector2(46, 116), 
-            new Phaser.Math.Vector2(31, 121), 
-            new Phaser.Math.Vector2(16, 124), 
-            new Phaser.Math.Vector2(0, 125), 
-            new Phaser.Math.Vector2(-16, 124), 
-            new Phaser.Math.Vector2(-31, 121), 
-            new Phaser.Math.Vector2(-46, 116), 
-            new Phaser.Math.Vector2(-60, 110), 
-            new Phaser.Math.Vector2(-73, 101), 
-            new Phaser.Math.Vector2(-86, 91), 
-            new Phaser.Math.Vector2(-96, 80), 
-            new Phaser.Math.Vector2(-106, 67), 
-            new Phaser.Math.Vector2(-113, 53), 
-            new Phaser.Math.Vector2(-119, 39), 
-            new Phaser.Math.Vector2(-123, 23), 
+        points: ([] = [
+            new Phaser.Math.Vector2(0, -125),
+            new Phaser.Math.Vector2(16, -124),
+            new Phaser.Math.Vector2(31, -121),
+            new Phaser.Math.Vector2(46, -116),
+            new Phaser.Math.Vector2(60, -110),
+            new Phaser.Math.Vector2(73, -101),
+            new Phaser.Math.Vector2(86, -91),
+            new Phaser.Math.Vector2(96, -80),
+            new Phaser.Math.Vector2(106, -67),
+            new Phaser.Math.Vector2(113, -53),
+            new Phaser.Math.Vector2(119, -39),
+            new Phaser.Math.Vector2(123, -23),
+            new Phaser.Math.Vector2(125, -8),
+            new Phaser.Math.Vector2(125, 8),
+            new Phaser.Math.Vector2(123, 23),
+            new Phaser.Math.Vector2(119, 39),
+            new Phaser.Math.Vector2(113, 53),
+            new Phaser.Math.Vector2(106, 67),
+            new Phaser.Math.Vector2(96, 80),
+            new Phaser.Math.Vector2(86, 91),
+            new Phaser.Math.Vector2(73, 101),
+            new Phaser.Math.Vector2(60, 110),
+            new Phaser.Math.Vector2(46, 116),
+            new Phaser.Math.Vector2(31, 121),
+            new Phaser.Math.Vector2(16, 124),
+            new Phaser.Math.Vector2(0, 125),
+            new Phaser.Math.Vector2(-16, 124),
+            new Phaser.Math.Vector2(-31, 121),
+            new Phaser.Math.Vector2(-46, 116),
+            new Phaser.Math.Vector2(-60, 110),
+            new Phaser.Math.Vector2(-73, 101),
+            new Phaser.Math.Vector2(-86, 91),
+            new Phaser.Math.Vector2(-96, 80),
+            new Phaser.Math.Vector2(-106, 67),
+            new Phaser.Math.Vector2(-113, 53),
+            new Phaser.Math.Vector2(-119, 39),
+            new Phaser.Math.Vector2(-123, 23),
             new Phaser.Math.Vector2(-125, 8),
-            new Phaser.Math.Vector2(-125, 2) 
-        ]
+            new Phaser.Math.Vector2(-125, 2),
+        ]),
     },
     {
         key: 'round_obstacle_2',
-        points: [] =  
-        [
+        points: ([] = [
             // add these pairs following new Phaser.Math.Vector2(x, y)
             new Phaser.Math.Vector2(0, -125),
             new Phaser.Math.Vector2(16, -124),
@@ -106,13 +103,12 @@ export const round_obstacle = [
             new Phaser.Math.Vector2(46, 116),
             new Phaser.Math.Vector2(31, 121),
             new Phaser.Math.Vector2(16, 124),
-            new Phaser.Math.Vector2(0, 125)
-        ]
+            new Phaser.Math.Vector2(0, 125),
+        ]),
     },
     {
         key: 'round_obstacle_3',
-        points: [] =  
-        [
+        points: ([] = [
             new Phaser.Math.Vector2(0, -125),
             new Phaser.Math.Vector2(16, -124),
             new Phaser.Math.Vector2(31, -121),
@@ -140,12 +136,12 @@ export const round_obstacle = [
             new Phaser.Math.Vector2(-119, 39),
             new Phaser.Math.Vector2(-123, 23),
             new Phaser.Math.Vector2(-125, 8),
-            new Phaser.Math.Vector2(-125, 2)
-        ]
+            new Phaser.Math.Vector2(-125, 2),
+        ]),
     },
     {
         key: 'round_obstacle_4',
-        points: [] =  [
+        points: ([] = [
             new Phaser.Math.Vector2(0, 125),
             new Phaser.Math.Vector2(-16, 124),
             new Phaser.Math.Vector2(-31, 121),
@@ -159,8 +155,7 @@ export const round_obstacle = [
             new Phaser.Math.Vector2(-119, 39),
             new Phaser.Math.Vector2(-123, 23),
             new Phaser.Math.Vector2(-125, 8),
-            new Phaser.Math.Vector2(-125, 2)
-        ]
-
+            new Phaser.Math.Vector2(-125, 2),
+        ]),
     },
 ]

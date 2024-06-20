@@ -1,6 +1,6 @@
-import { Scene } from "phaser";
-import { SettingsManager } from "./SettingsManager";
-import { collision, effect, max_streak, shooting } from "../contstants/resources/Audio";
+import { Scene } from 'phaser'
+import { SettingsManager } from './SettingsManager'
+import { collision, effect, max_streak, shooting } from '../contstants/resources/Audio'
 
 export class AudioManager {
     private scene: Scene
@@ -32,24 +32,40 @@ export class AudioManager {
     public init(scene: Scene): void {
         this.scene = scene
         // streak
-        for (let i = 1; i <= max_streak; i ++) {
+        for (let i = 1; i <= max_streak; i++) {
             let key = 'streak' + i.toString()
             this.streakSound.push(this.scene.sound.add(key) as Phaser.Sound.WebAudioSound)
         }
 
         // collision
-        this.collectingStarSound = this.scene.sound.add(collision.collecting_star.key) as Phaser.Sound.WebAudioSound
-        this.collideRoundBasketSound = this.scene.sound.add(collision.collide_round_basket.key) as Phaser.Sound.WebAudioSound
-        this.collideWallSound = this.scene.sound.add(collision.collide_wall.key) as Phaser.Sound.WebAudioSound
+        this.collectingStarSound = this.scene.sound.add(
+            collision.collecting_star.key
+        ) as Phaser.Sound.WebAudioSound
+        this.collideRoundBasketSound = this.scene.sound.add(
+            collision.collide_round_basket.key
+        ) as Phaser.Sound.WebAudioSound
+        this.collideWallSound = this.scene.sound.add(
+            collision.collide_wall.key
+        ) as Phaser.Sound.WebAudioSound
 
         // effect
-        this.ballEnterSound = this.scene.sound.add(effect.ball_enter.key) as Phaser.Sound.WebAudioSound
-        this.ballRecreateSound = this.scene.sound.add(effect.ball_recreate.key) as Phaser.Sound.WebAudioSound
+        this.ballEnterSound = this.scene.sound.add(
+            effect.ball_enter.key
+        ) as Phaser.Sound.WebAudioSound
+        this.ballRecreateSound = this.scene.sound.add(
+            effect.ball_recreate.key
+        ) as Phaser.Sound.WebAudioSound
 
         // shooting
-        this.shootingWeakSound = this.scene.sound.add(shooting.shooting_weak.key) as Phaser.Sound.WebAudioSound
-        this.shootingMediumSound = this.scene.sound.add(shooting.shooting_medium.key) as Phaser.Sound.WebAudioSound
-        this.shootingStrongSound = this.scene.sound.add(shooting.shooting_strong.key) as Phaser.Sound.WebAudioSound
+        this.shootingWeakSound = this.scene.sound.add(
+            shooting.shooting_weak.key
+        ) as Phaser.Sound.WebAudioSound
+        this.shootingMediumSound = this.scene.sound.add(
+            shooting.shooting_medium.key
+        ) as Phaser.Sound.WebAudioSound
+        this.shootingStrongSound = this.scene.sound.add(
+            shooting.shooting_strong.key
+        ) as Phaser.Sound.WebAudioSound
     }
     public toggleSounds(): void {
         this.turnOn = !this.turnOn
@@ -84,11 +100,11 @@ export class AudioManager {
         this.shootingWeakSound.play()
     }
     public getShootingMediumSound(): void {
-        if (!this.turnOn) return 
+        if (!this.turnOn) return
         this.shootingMediumSound.play()
     }
     public getShootingStrongSound(): void {
-        if (!this.turnOn) return 
+        if (!this.turnOn) return
         this.shootingStrongSound.play()
     }
     public getCollectingStarSound(): void {
@@ -96,7 +112,7 @@ export class AudioManager {
         this.collectingStarSound.play()
     }
     public getCollideWallSound(): void {
-        if (!this.turnOn) return 
+        if (!this.turnOn) return
         this.collideWallSound.play()
     }
     public getCollideRoundBasketSound(): void {

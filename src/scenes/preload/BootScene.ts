@@ -7,10 +7,7 @@ export class BootScene extends Scene {
 
     preload() {
         this.load.setPath(sprite_path)
-        this.load.image(
-            icons.logo.key,
-            icons.logo.path
-        )
+        this.load.image(icons.logo.key, icons.logo.path)
     }
 
     create() {

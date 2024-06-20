@@ -1,40 +1,40 @@
-import { Game, Scene } from "phaser";
-import { State } from "../scenes/states/State";
-import { NormalModeState } from "../scenes/states/NormalModeState";
-import { UI } from "../scenes/UIs/UI";
-import { MainMenuUI } from "../scenes/UIs/MainMenuUI";
-import { GameOverUI } from "../scenes/UIs/GameOverUI";
-import { PauseUI } from "../scenes/UIs/PauseUI";
-import { SettingsUI } from "../scenes/UIs/SettingsUI";
-import { NormalModeUI } from "../scenes/UIs/NormalModeUI";
-import { BallSkinsUI } from "../scenes/UIs/BallSkinsUI";
-import { ChallengeMenuUI } from "../scenes/UIs/ChallengeMenuUI";
-import { LimitTimeChallengeState } from "../scenes/states/LimitTimeChallengeState";
-import { AccurateChallengeState } from "../scenes/states/AccurateChallengeState";
-import { AccurateChallengeUI } from "../scenes/UIs/AccurateChallengeUI";
+import { Game, Scene } from 'phaser'
+import { UI } from '../scenes/UIs/UI'
+import { MainMenuUI } from '../scenes/UIs/MainMenuUI'
+import { GameOverUI } from '../scenes/UIs/GameOverUI'
+import { PauseUI } from '../scenes/UIs/PauseUI'
+import { SettingsUI } from '../scenes/UIs/SettingsUI'
+import { NormalModeUI } from '../scenes/UIs/NormalModeUI'
+import { BallSkinsUI } from '../scenes/UIs/BallSkinsUI'
+import { ChallengeMenuUI } from '../scenes/UIs/ChallengeMenuUI'
+import { AccurateChallengeUI } from '../scenes/UIs/AccurateChallengeUI'
+import { Mode } from '../scenes/modes/Mode'
+import { NormalMode } from '../scenes/modes/NormalMode'
+import { LimitTimeChallengeMode } from '../scenes/modes/LimitTimeChallengeMode'
+import { AccurateChallengeMode } from '../scenes/modes/AccurateChallengeMode'
 
 export class SceneManager {
     private uiScene: Scene
     private ui: UI
-    private stateScene: Scene
-    private state: State
+    private modeScene: Scene
+    private mode: Mode
     
     public setUIScene(scene: Scene): void {
         this.uiScene = scene
     }
-    public setStateScene(scene: Scene): void {
-        this.stateScene = scene
+    public setModeScene(scene: Scene): void {
+        this.modeScene = scene
     }
 
-    // game state transitions
-    public transitionToNormalModeState(): void {
-        this.transitionToState(new NormalModeState(this.stateScene))
+    // game mode transitions
+    public transitionToNormalMode(): void {
+        this.transitionToMode(new NormalMode(this.modeScene))
     }
-    public transitionToLimitTimeChallengeState(): void {
-        this.transitionToState(new LimitTimeChallengeState(this.stateScene))
+    public transitionToLimitTimeChallengeMode(): void {
+        this.transitionToMode(new LimitTimeChallengeMode(this.modeScene))
     }
-    public transitionToAccurateChallengeState(): void {
-        this.transitionToState(new AccurateChallengeState(this.stateScene))
+    public transitionToAccurateChallengeMode(): void {
+        this.transitionToMode(new AccurateChallengeMode(this.modeScene))
     }
 
     // UI transitions
@@ -62,9 +62,9 @@ export class SceneManager {
     public transitionToAccurateChallengeUI(): void {
         this.transitionToUI(new AccurateChallengeUI(this.uiScene))
     }
-    
+
     public update(time: number, delta: number): void {
-        this.state.update(time, delta)
+        this.mode.update(time, delta)
     }
     public updateUI(time: number, delta: number): void {
         this.ui.update(time, delta)
@@ -74,12 +74,12 @@ export class SceneManager {
         this.ui = ui
         this.ui.setManager(this)
     }
-    private transitionToState(state: State): void {
-        if (this.state) this.state.destroy()
-        this.state = state
-        this.state.setManager(this)
+    private transitionToMode(mode: Mode): void {
+        if (this.mode) this.mode.destroy()
+        this.mode = mode
+        this.mode.setManager(this)
     }
     public killAllTweens(): void {
-        this.stateScene.tweens.killAll()
+        this.modeScene.tweens.killAll()
     }
 }

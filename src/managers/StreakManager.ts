@@ -1,4 +1,4 @@
-export class StreakManager{
+export class StreakManager {
     private static instance: StreakManager
     private streak: number
     private constructor() {
@@ -19,5 +19,4 @@ export class StreakManager{
     public reset(): void {
         this.streak = 1
     }
-
 }

@@ -1,18 +1,18 @@
-import { CANVAS, GameObjects, Scene } from 'phaser'
+import { GameObjects, Scene } from 'phaser'
 import { SceneManager } from '../../managers/SceneManager'
 import { WINDOW_SIZE } from '../../contstants/WindowSize'
 
-export abstract class UI extends GameObjects.Container {
+export abstract class Mode extends GameObjects.Container {
     protected manager: SceneManager
-    public constructor(scene: Scene, x: number = 0, y: number = 0) {
-        super(scene, x, y)
+    public constructor(scene: Scene) {
+        super(scene)
         this.setSize(WINDOW_SIZE.WIDTH * 2, WINDOW_SIZE.HEIGHT * 2)
-        // this.setDepth(1)
+        // this.setDepth(0)
         scene.add.existing(this)
     }
-    public setManager(manager: SceneManager): void {
+    public setManager(manager: SceneManager) {
         this.manager = manager
     }
-    protected abstract create(): void
     public abstract update(time: number, delta: number): void
+    protected abstract create(): void
 }

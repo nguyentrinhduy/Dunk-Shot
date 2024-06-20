@@ -255,12 +255,7 @@ export class Basket extends GameObjects.Container {
         dragY: number
     ) => {
         const length = Math.min(
-            Phaser.Math.Distance.Between(
-                pointer.downX,
-                pointer.downY,
-                pointer.x,
-                pointer.y
-            ),
+            Phaser.Math.Distance.Between(pointer.downX, pointer.downY, pointer.x, pointer.y),
             200
         )
         if (!this.containingBall) return

@@ -1,4 +1,4 @@
-import { AudioManager } from "./AudioManager"
+import { AudioManager } from './AudioManager'
 
 export class SettingsManager {
     private vibration: boolean
@@ -9,24 +9,21 @@ export class SettingsManager {
         let retrievedData = localStorage.getItem('sounds')
         if (retrievedData) {
             this.sounds = JSON.parse(retrievedData)
-        }
-        else {
+        } else {
             this.sounds = true
         }
 
         retrievedData = localStorage.getItem('vibration')
         if (retrievedData) {
             this.vibration = JSON.parse(retrievedData)
-        }
-        else {
+        } else {
             this.vibration = true
         }
 
-        retrievedData = localStorage.getItem('night_mode') 
+        retrievedData = localStorage.getItem('night_mode')
         if (retrievedData) {
             this.nightMode = JSON.parse(retrievedData)
-        }
-        else {
+        } else {
             this.nightMode = true
         }
     }

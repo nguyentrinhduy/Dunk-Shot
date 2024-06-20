@@ -33,11 +33,11 @@ export class ChallengeMenuUI extends UI {
     }
     private createButtons(): void {
         this.backButton = new Button(this.scene, 40, 40, () => {
-            if (this.scene.scene.isPaused('MainGameScene')){
+            if (this.scene.scene.isPaused('MainGameScene')) {
                 this.scene.scene.resume('MainGameScene')
             }
             this.manager.transitionToMainMenuUI()
-            this.manager.transitionToNormalModeState()
+            this.manager.transitionToNormalMode()
         })
         this.backButton.addBackground('back_button', 0, 0)
         this.add(this.backButton)
@@ -51,7 +51,7 @@ export class ChallengeMenuUI extends UI {
             fontSize: '45px',
             fontStyle: 'bold',
             color: 'white',
-            fontFamily: 'Triomphe'
+            fontFamily: 'Triomphe',
         })
         this.add(this.limitTimeButton)
 
@@ -64,7 +64,7 @@ export class ChallengeMenuUI extends UI {
             fontSize: '45px',
             fontStyle: 'bold',
             color: 'white',
-            fontFamily: 'Triomphe'
+            fontFamily: 'Triomphe',
         })
         this.add(this.achievementButton)
 
@@ -77,12 +77,12 @@ export class ChallengeMenuUI extends UI {
             fontSize: '45px',
             fontStyle: 'bold',
             color: 'white',
-            fontFamily: 'Triomphe'
+            fontFamily: 'Triomphe',
         })
         this.add(this.bounceButton)
 
         this.accurateButton = new TrackingButton(this.scene, WINDOW_SIZE.WIDTH / 2, 800, () => {
-            this.manager.transitionToAccurateChallengeState()
+            this.manager.transitionToAccurateChallengeMode()
             this.manager.transitionToAccurateChallengeUI()
         })
         this.accurateButton.addBackground('accurate_button')
@@ -91,7 +91,7 @@ export class ChallengeMenuUI extends UI {
             fontSize: '45px',
             fontStyle: 'bold',
             color: 'white',
-            fontFamily: 'Triomphe'
+            fontFamily: 'Triomphe',
         })
         this.add(this.accurateButton)
     }

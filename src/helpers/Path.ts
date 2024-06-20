@@ -7,8 +7,14 @@ export class Path {
     public constructor(startPoint: Phaser.Math.Vector2, endPoint: Phaser.Math.Vector2) {
         this.startPoint = startPoint
         this.endPoint = endPoint
-        this.midPoint = new Phaser.Math.Vector2((startPoint.x + endPoint.x) / 2, (startPoint.y + endPoint.y) / 2)
-        this.radius = new Phaser.Math.Vector2(-(endPoint.x - startPoint.x) / 2, (endPoint.y - startPoint.y) / 2)
+        this.midPoint = new Phaser.Math.Vector2(
+            (startPoint.x + endPoint.x) / 2,
+            (startPoint.y + endPoint.y) / 2
+        )
+        this.radius = new Phaser.Math.Vector2(
+            -(endPoint.x - startPoint.x) / 2,
+            (endPoint.y - startPoint.y) / 2
+        )
     }
     public getNewPosition(time: number, delta: number): Phaser.Math.Vector2 {
         this.currentAngle += 0.001 * delta

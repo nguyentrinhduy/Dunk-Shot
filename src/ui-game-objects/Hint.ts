@@ -1,4 +1,4 @@
-import { GameObjects, Scene } from "phaser";
+import { GameObjects, Scene } from 'phaser'
 
 export class Hint extends GameObjects.Container {
     private dot: GameObjects.Sprite
@@ -8,12 +8,7 @@ export class Hint extends GameObjects.Container {
     public constructor(scene: Scene, x: number, y: number) {
         super(scene, x, y)
         scene.add.existing(this)
-
     }
-    private addSprites(): void {
-
-    }
-    private addTweens(): void {
-
-    }
+    private addSprites(): void {}
+    private addTweens(): void {}
 }
