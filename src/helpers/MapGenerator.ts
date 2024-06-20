@@ -1,13 +1,13 @@
 import { Scene } from 'phaser'
 import { Ball } from '../game-objects/ball/Ball'
-import { Basket } from '../game-objects/basket/Basket'
 import { WINDOW_SIZE } from '../contstants/WindowSize'
 import { Obstacle } from '../game-objects/obstacle/Obstacle'
 import { MathHelper } from './Math'
 import { StraightObstacle } from '../game-objects/obstacle/StraightObstacle'
 import { BouncerObstacle } from '../game-objects/obstacle/BouncerObstacle'
 import { RoundObstacle } from '../game-objects/obstacle/RoundObstacle'
-import { Star } from '../game-objects/basket/Star'
+import { Star } from '../game-objects/baskets/Star'
+import { Basket } from '../game-objects/baskets/Basket'
 
 export class MapGenerator {
     private baskets: Basket[]

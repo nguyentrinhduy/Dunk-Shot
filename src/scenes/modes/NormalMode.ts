@@ -1,12 +1,12 @@
 import { Scene } from 'phaser'
 import { Ball } from '../../game-objects/ball/Ball'
-import { Basket } from '../../game-objects/basket/Basket'
 import { MapGenerator } from '../../helpers/MapGenerator'
 import { Mode } from './Mode'
 import { WINDOW_SIZE } from '../../contstants/WindowSize'
 import { DataManager } from '../../managers/DataManager'
 import { AudioManager } from '../../managers/AudioManager'
 import { StreakManager } from '../../managers/StreakManager'
+import { Basket } from '../../game-objects/baskets/Basket'
 
 export class NormalMode extends Mode {
     private camera: Phaser.Cameras.Scene2D.Camera

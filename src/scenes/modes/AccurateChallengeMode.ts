@@ -1,6 +1,5 @@
 import { Data, Scene } from 'phaser'
 import { Ball } from '../../game-objects/ball/Ball'
-import { Basket } from '../../game-objects/basket/Basket'
 import { MapGenerator } from '../../helpers/MapGenerator'
 import { Mode } from './Mode'
 import { WINDOW_SIZE } from '../../contstants/WindowSize'
@@ -10,6 +9,7 @@ import { AudioManager } from '../../managers/AudioManager'
 import { StraightObstacle } from '../../game-objects/obstacle/StraightObstacle'
 import { RoundObstacle } from '../../game-objects/obstacle/RoundObstacle'
 import { BouncerObstacle } from '../../game-objects/obstacle/BouncerObstacle'
+import { Basket } from '../../game-objects/baskets/Basket'
 
 export class AccurateChallengeMode extends Mode {
     private camera: Phaser.Cameras.Scene2D.Camera
@@ -57,7 +57,7 @@ export class AccurateChallengeMode extends Mode {
                 case 'ball': {
                     this.createBall()
                     this.ball.setPosition(object.x, object.y! - dy)
-                    // this.ball.setAllowPrediction(false)
+                    this.ball.setAllowPrediction(false)
                     break
                 }
                 case 'basket': {

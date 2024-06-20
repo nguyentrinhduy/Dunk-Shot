@@ -1,8 +1,3 @@
-import { Data } from 'phaser'
-import { Basket } from '../game-objects/basket/Basket'
-import { Ball } from '../game-objects/ball/Ball'
-import { LoadManager } from './LoadManager'
-
 export enum Challenge {
     LIMIT_TIME = 0,
     ACHIEVEMENT = 1,
@@ -40,7 +35,6 @@ export class DataManager {
         return DataManager.instance
     }
     private constructor() {
-        localStorage.clear()
         let retrievedData = localStorage.getItem('ball_unlocked')
         if (retrievedData) {
             this.ballUnlocked = JSON.parse(retrievedData)
