@@ -142,7 +142,6 @@ export class AccurateChallengeUI extends UI {
                             duration: 100,
                             ease: 'linear',
                         })
-                        console.log(this.dataManager.getState())
                     },
                 })
             }
@@ -228,9 +227,7 @@ export class AccurateChallengeUI extends UI {
             })
             this.pausePanel.addText('Next level?')
         } else if (this.dataManager.getState() == PlayerState.LOSE) {
-            console.log(this.dataManager.getState())
             this.dataManager.setState(PlayerState.PAUSE_LOSE)
-            console.log(this.dataManager.getState())
             this.manager.killAllTweens()
             this.playingUI.setScale(0)
             this.scene.add.tween({
