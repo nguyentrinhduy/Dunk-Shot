@@ -1,0 +1,8 @@
+- full screen
+- object pool 
+- flame effect
+- bounce, achievement, limit time challenges
+- night mode
+- vibration
+- ball enter notification
+- state stack
